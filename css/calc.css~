@@ -1,0 +1,140 @@
+body {
+}
+
+td {
+	vertical-align: 	top;
+}
+
+/*стиль рабочей области (меню, плашки,...)*/
+.ws {
+	display: 			block;
+	width: 				-0.4em;
+	padding: 			0.2em;
+	margin: 				0.2em;
+}
+
+/*Стиль для плашки параметров*/	
+.plt {
+	margin-top: 		0.1em;	
+	width: 				100%;
+	display: 			block;
+	border:				1px solid;
+	border-radius:		0.4em;
+}
+/*Заголовок пплашки параметров */	
+.pltHead {
+	width: 				100%;
+	display: 			block;  
+/*	display: 			block;
+	float:				left;
+	width:				100px;
+	overflow: 			hidden;*/
+
+	font-style: 		oblique;
+	font-weight: 		bold;
+	color: 				#000B55;
+
+}	
+/*Подпись текста заголовка плашки*/
+.pltHeadTitle{
+	font-size:			1em;
+	width: 				15em;
+	display:				inline-block;
+}
+/*текст заголовка плашки*/
+.pltHeadText{
+	font-size:			1em;
+	margin-top: 		auto;
+	vertical-align: 	bottom;
+	display:				inline-block;
+}
+
+.pltClue{
+	display: 			block;
+	float:				left;
+	width:				100px;
+	overflow: 			hidden;
+}
+
+/*Тело плашки*/
+
+.pltBody {
+/*	width: 				100%;
+	display: 			block; 
+	margin-left: 		100px;  */
+
+	display: 			block;
+	margin-left: 		100px; 
+}	
+.pltBodyHalf {
+	margin: 				0.1em;	
+	width: 				49%;
+	display: 			inline-block;
+}	
+.pltBodyFull {
+	margin: 				0.1em;	
+	width: 				98%;
+	display: 			inline-block;
+}	
+
+/*Блок поля ввода*/
+.if {
+	
+}
+/*Название поля ввода*/
+.ifCaption{
+	display: 			inline-block;
+	width:				8em;
+	margin:				auto;
+}
+/*поле ввода текста*/		
+.ifText{
+	display: 			inline;
+	margin-top: 		1px;
+}
+/*подпись единиц измерения поля ввода*/
+.ifUnit{
+	display: 			inline-block;
+	width:				4em;
+}
+/*контейнер для слайдера*/
+.ifSlide{
+	display: 			inline;
+}
+/*контейнер общего назначения*/
+.ifContainer{
+	display: 			inline-block;
+}
+
+
+/*Багет       */
+.bagetProfil{
+	display: 			inline-block;
+	height: 				100px;
+	width:				100px;
+	vertical-align: 	middle;
+}
+.bagetFas{
+	display: 			inline-block;
+	height: 				100px;
+	width:				300px;
+	vertical-align: 	middle;
+}
+.bagetText{
+	display: 			inline-block;
+	height: 				100px;
+	vertical-align: 	middle;
+}
+
+
+
+
+
+.wide{
+	width: 				100%;
+}	
+
+	
+.hidden {
+  display: 				none;
+}	

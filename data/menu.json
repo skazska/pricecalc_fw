@@ -1,0 +1,60 @@
+{"items":
+	[
+		{ 
+			"idx"			:0,
+			"id"			:"main",
+			"title"		:"База",
+			"imgURL"		:"img/gmpc.png"
+		},		
+		{ 
+			"idx"			:1,
+			"id"			:"paspartu",
+			"title"		:"Паспарту",
+			"imgURL"		:"img/gmpc.png"
+		},		
+		{
+			"idx"			:2,
+			"id"			:"baget",	
+			"title"		:"Багет",
+			"imgURL"		:"img/gmpc.png"
+		},		
+		{
+			"idx"			:3,
+			"id"			:"glas",	
+			"title"		:"Стекло",
+			"imgURL"		:"img/gmpc.png"
+		},		
+		{
+			"idx"			:4,
+			"id"			:"furniture",	
+			"title"		:"Фурнитура",
+			"imgURL"		:"img/gmpc.png"
+		},		
+		{
+			"idx"			:5,
+			"id"			:"backside",	
+			"title"		:"Задник",
+			"imgURL"		:"img/gmpc.png"
+		},		
+		{
+			"idx"			:6,
+			"id"			:"handwork",	
+			"title"		:"Работа мастера",
+			"imgURL"		:"img/gmpc.png"
+		},		
+		{
+			"idx"			:7,
+			"id"			:"underram",	
+			"title"		:"Подрамник",
+			"imgURL"		:"img/gmpc.png"
+		},		
+		{
+			"idx"			:8,
+			"id"			:"clean",	
+			"title"		:"Стирка/Глажка",
+			"imgURL"		:"img/gmpc.png"
+		}		
+	],
+	"selected":[0,1,3],		
+	"disabled":[0]
+}

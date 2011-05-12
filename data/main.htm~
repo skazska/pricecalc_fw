@@ -1,0 +1,17 @@
+
+<script type="text/javascript" >
+	$('imgWidthSlide1').on('change', function(){
+		$('imgWidth').value(this.getValue()*10+$('imgWidthSlide0').getValue()); 	
+	});	
+	$('imgWidthSlide0').on('change', function(){
+		$('imgWidth').value(this.getValue()+$('imgWidthSlide1').getValue()*10); 	
+	});
+	$('imgWidth').on('change', function(){
+		var imgWidth = this.value();
+		$('imgWidthSlide0').setValue(imgWidth % 10);
+		$('imgWidthSlide1').setValue(Math.floor(imgWidth / 10));
+	});
+
+	$('imgWidth').fire('change');
+
+</script>
