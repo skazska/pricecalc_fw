@@ -12,7 +12,7 @@ function isDataChanged() {
 }
 
 function getCurrentAppMode() {
-	return 'appModeCalc';
+	return 'calc';
 }
 
 

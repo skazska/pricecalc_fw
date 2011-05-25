@@ -93,6 +93,7 @@ function refreshAppMode(appMode) {
 //Инициализация приложения
 //app - элемент приложения
 function refreshApp(app) {
+
 	$$('#'+app._.id+' .appMode').each('hide');	
 
 	var appMode = getCurrentAppMode(app);
@@ -160,7 +161,7 @@ var initMainPlt = function() {
 
 var init = function () {
 //app
-	$$('.app').each('on', 'refresh', onRefresh); 
+//	$$('.app').each('on', 'refresh', onRefresh); 
 	$$('.appMode').each('on', 'refresh', onRefresh); 
 	
 //Plates
