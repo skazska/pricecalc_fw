@@ -1,46 +1,103 @@
 {	
-	"menu":{	
-		"options":{ 
-			"main": "База", "paspartu": "Паспарту", "baget": "Багет", "glas": "Стекло", "furniture": "Фурнитура", 
-			"backside": "Задник", "handwork": "Работа мастера", "underram": "Подрамник", "clean": "Стирка/Глажка"
-		},		
-		"selected":[0,1,2,3],		
-		"disabled":[0]
-	},
-	"plates":{
-		"main":{"id":"pltMain"},
-		"paspartu":{"id":"pltPaspartu"}, 
-		"baget":{
-			"id":"pltBaget",
-			"menu":{
-				"options":{"0":"","1":""},
-				"selected":[0]
-			}			
-		}, 
-		"glas":{
-			"id":"pltGlas",
-			"menu":{
-				"options":{"prost":"Простое","mat":"Матовое","plast":"Пластик"},
-				"selected":[0]
+	"templates":{
+		"menuItem":
+			{"tag":"div","attrs":{"class":"menuItem"},"content":"@ui.nm@"}
+		,
+		"plate":
+			{"tag":"div","attrs":{"class":"plt"},
+				"content":[
+					{"tag":"div","attrs":{"class":"pltHead"},
+						"content":[
+							{"tag":"div","attrs":{"class":"pltHeadTitle"},"content":"@ui.nm@"},
+							{"tag":"div","attrs":{"class":"pltHeadText"},"content":"@text@"},
+							{"tag":"div","attrs":{"class":"pltHeadCost"},"content":"@cost@р."}
+						]
+					},
+					{"tag":"div","attrs":{"class":"pltBody"},
+						"content":"@content@"
+					}
+				]
 			}
-		}, 
-		"furniture":{"id":"pltFurniture"}, 
-		"backside":{"id":"pltBackside"}, 
-		"handwork":{"id":"pltHandwork"}, 
-		"underram":{"id":"pltUnderram"}, 
-		"clean":{"id":"pltClean"}
+		
 	},
-	"data":{
-		"baget":{
-			"spr":{
-				"0":{"fas":"008-001.jpg", "profil":"img/gmpc.png","name":"008-001","cost":"100"},
-				"1":{"fas":"qwerty.jpg", "profil":"qwerty.gif","name":"qwerty","cost":"200"}
+	"units":[
+		{	
+			"id":"base",
+			"ui":{
+				"nm":"Основные",
+				"is_opt":"false",
 			}
 		},
-		"glas":{
-			"spr":{"prost":"0.085","mat":"0.180","plast":"0.060"}			
+		{	
+			"id":"paspartu",
+			"ui":{
+				"nm":"Паспарту",
+				"is_opt":"true",
+			}
+		},
+		{	
+			"id":"baget",
+			"ui":{
+				"nm":"Багет",
+				"is_opt":"true",
+			},
+			"data":{
+				"mat_spr":[
+					{"id":"1","fas":"008-001.jpg", "profil":"img/gmpc.png","name":"008-001","cost":"100"},
+					{"id":"2","fas":"qwerty.jpg", "profil":"qwerty.gif","name":"qwerty","cost":"200"}
+				]
+			}						
+		},
+		{	
+			"id":"glas",
+			"ui":{
+				"nm":"Стекло",
+				"is_opt":"true",
+			},
+			"data":{
+				"mat_spr":[
+					{"id":"1","nm":"Простое","cost":"0.085"},
+					{"id":"2","nm":"Матовое","cost":"0.180"},
+					{"id":"3","nm":"Пластик","cost":"0.060"}
+				]
+			}						
+		},
+		{	
+			"id":"furniture",
+			"ui":{
+				"nm":"Фурнитура",
+				"is_opt":"true",
+			}
+		},
+		{	
+			"id":"backside",
+			"ui":{
+				"nm":"Задник",
+				"is_opt":"true",
+			}
+		},
+		{	
+			"id":"handwork",
+			"ui":{
+				"nm":"Работа мастера",
+				"is_opt":"true",
+			}
+		},
+		{	
+			"id":"underram",
+			"ui":{
+				"nm":"Подрамник",
+				"is_opt":"true",
+			}
+		},
+		{	
+			"id":"clean",
+			"ui":{
+				"nm":"Стирка/Глажка",
+				"is_opt":"true",
+			}
 		}
-	},
+	],
 	"functions":{
 		"glas":{
 			"init":"Calcs.calcByName('glasInit')"
@@ -50,3 +107,4 @@
 		}
 	}	
 }
+

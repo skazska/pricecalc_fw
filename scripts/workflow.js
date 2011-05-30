@@ -94,11 +94,13 @@ function refreshAppMode(appMode) {
 //app - элемент приложения
 function refreshApp(app) {
 
-	$$('#'+app._.id+' .appMode').each('hide');	
+//	$$('#'+app._.id+' .appMode').each('hide');	
+
+	$(document).children().each('hide');
 
 	var appMode = getCurrentAppMode(app);
-	
-	$(appMode).fire('refresh');
+		
+	$$(appMode).fire('refresh');
 	$(appMode).show();	
 
 }
@@ -155,19 +157,118 @@ var initMainPlt = function() {
 }
 
 
+
+
+
+//рекурсивно берем поля из вложенных объектов
+var getField = function(obj, field) {
+	var idx = field.indexOf('.');
+	if (idx == -1) {
+		if (defined(obj[field])) return obj[field]; else return '';
+	} else {
+		var o = obj[field.substring(0,idx)];
+		return getField(o,field.substring(idx+1));
+	}
+}
+
+//Заменяем @field@ значениями полей из структуры - контекста
+var tplReplace = function(txt, context) {
+	if (!isString(txt)){
+		alert('wtf?');
+		return '';
+	}	
+	return txt.replace(
+		/@([\w\.]+)@/g,
+		function(a,b){
+			return getField(context,b);
+		}
+	);
+}
+//Создаем элемент
+var makeElt = function(template, context){
+	if (isArray(template)) {
+		return template.map(function(elt){return makeElt(elt, context);});
+	}	else {
+		//подставляем значения в аттрибуты шаблона
+		Object.each(template.attrs, function(key, val){
+			template.attrs[key] = tplReplace(val, context);
+		});
+		//создаем элемент
+		var elt = new Element(template.tag,template.attrs);
+		//содержимое
+		if (isArray(template.content)) {
+			//шаблон содержит подшаблон
+			template.content.each(function(chld){
+				elt.insert(makeElt(chld, context));
+			});
+		} else {
+			//шаблон содкржит текст
+			elt.text(tplReplace(template.content, context));
+		}
+		return elt;
+	}
+}
+//активация плашки
+var activateUnit = function(evt, unit, itmData, etc){
+	this.hide();
+	itmData[unit.id][is_on] = "true";
+	etc.show();
+}
+//активация плашки
+var deactivateUnit = function(evt, unit, itmData, etc){
+	this.hide();
+	itmData[unit.id].is_on = "false";
+	etc.show();
+	
+}
+//Инициация интерфейса
+var initUI = function(appData, itmData){
+	if (itmData.mode == "calc") {
+		//Формируем меню и плашки
+		var mc = $("wsMenu");
+		var pc = $("wsPlates");
+		var etь, etз;
+		mc.clean();	pc.clean();
+		appData.units.each(function(unit){
+			etm = makeElt(appData.templates.menuItem,unit);
+			mc.insert(etm);
+			etp = makeElt(appData.templates.plate,unit);
+			pc.insert(etp);
+			if (itmData[unit.id].is_on == "true") {
+				etm.hide(); etp.show();
+			} else {
+				etp.hide(); etm.show();
+			} 
+			if (unit.ui.is_opt == "true"){
+				etm.onClick(activateUnit, unit, itmData, etp);
+				etp.onClick(deactivateUnit, unit, itmData, etm);
+			} else {
+				
+			}
+		});
+
+
+		//показываем приложение
+		$$('.'+itmData.mode).each('show');	
+	} else {
+	}
+}
+
+
 ////////////////////////////////////
 //  	INIT 
 ////////////////////////////////////
 
-var init = function () {
-//app
-//	$$('.app').each('on', 'refresh', onRefresh); 
-	$$('.appMode').each('on', 'refresh', onRefresh); 
-	
-//Plates
-	initMainPlt();	
-//start	
-	$('app1').fire('refresh');
+var init = function (itemId) {	
+	$$(".layer").each('hide');
+
+	getJSONData('data/data.json', function(appData){
+		getJSONData('data/data1.json', function(itmData){
+			initUI(appData, itmData);
+
+		});
+	});
+
 
 }
 

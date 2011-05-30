@@ -1,72 +1,67 @@
-html, body{
-margin:0px; padding:0px; height:100%; width:100%;
+body{
+margin: 0;
+padding: 0;
+border: 0;
+overflow: hidden;/*Disable scroll for all doc*/
+height: 100%;
+max-height: 100%;
+}
+#header, #footer{
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 130px; /*Height of top frame div*/
+overflow: hidden; /*Disable scrollbars. Set to "scroll" to enable*/
+background-color: #ccc;
+color: black;
+}
+#footer{
+top: auto;
+bottom: 0;
+height: 110px; /*Height of bottom frame div*/
+overflow: hidden; /*Disable scrollbars. Set to "scroll" to enable*/
+background-color: #ccc;
+color: black;
+}
+#content{
+top: 130px; /*Set top value to header*/
+bottom: 110px; /*Set bottom value to footer*/
+position: fixed;
+left: 0;
+right: 0;
+background: #fff;
+}
+* html body{ <!--*IE6 hack*/<br /--> padding: 130px 0 110px 0;
+}
+* html #content{ /*IE6 hack*/
+height: 100%;
+width: 100%;
 }
 
-div.appMode {
-	position:			relative;
-	margin:				auto 0 -50px; \*ставим блок по середине и отсчитываем -50px высоты футтера*\
-	height:				100%;
-	min-height:			100%;
-	height:				auto !important;
+
+div.cColumn {
+	top: 130px; /*Set top value to header*/
+	bottom: 110px; /*Set bottom value to footer*/
+	position: fixed;
+	background: #fff;
+
+	overflow: auto;
 }
 
-div.ltLeftFloatBlock {
-	position:relative;
-	width:30px;
-	height:100%;
-	min-height:100%;
-	height:auto !important;
 
-	float:left;
-
-	padding:				1px;
-}
-
-div.ltRightFloatBlock {
-	position:relative;
-	width:250px;
-	height:100%;
-	min-height:100%;
-	height:auto !important;
-
-	float:right;
-
-	padding:				1px;
-}
-
-div.ltFitBlock {
-
-	height:100%;
-	min-height:100%;
-	height:auto !important;
-	width:auto;
-
-	margin-right: 		250px; 
-	margin-left:  		30px; 
+#wsMenu {
+	width: 250px;
+	right: 0px;
 	
-	padding:				1px;
-
+}
+	
+#wsPlates {
+	left: 0px;
+	right: 260px;
+	
 }
 
-
-div.ltBlockHead {
-	height: 100px;
-	background-color: green;
-}
-
-div.ltBlockBody {
-	overflow-y: 			scroll;	
-}	
-
-div.ltFootBlock {
-	position:relative;
-	clear:both;\*очистка от float с обеих сторон*\
-	width:100%;
-	height:50px;
-	background-color:#9999CC;
-	border-top:1px solid #333333;
-
-}
 
 
 /*стиль рабочей области (меню, плашки,...)*/
@@ -80,7 +75,7 @@ div.ltFootBlock {
 /*Стиль для плашки параметров*/	
 .plt {
 	margin-top: 		0.1em;	
-	width: 				100%;
+	width: 				99%;
 	display: 			block;
 	border:				1px solid;
 	border-radius:		0.4em;
@@ -102,12 +97,21 @@ div.ltFootBlock {
 /*Подпись текста заголовка плашки*/
 .pltHeadTitle{
 	font-size:			1em;
-	width: 				15em;
+	width: 				10em;
 	display:				inline-block;
 }
 /*текст заголовка плашки*/
 .pltHeadText{
 	font-size:			1em;
+	margin-top: 		auto;
+	vertical-align: 	bottom;
+	display:				inline-block;
+}
+/*стоимость в заголовке плашки*/
+.pltHeadCost{
+	float: 				right;
+	font-size:			1em;
+	width: 				7em;
 	margin-top: 		auto;
 	vertical-align: 	bottom;
 	display:				inline-block;

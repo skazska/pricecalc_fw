@@ -1,0 +1,37 @@
+{
+	"id":"1",
+	"mode":"calc",
+	"base":		{
+				"is_on":"true"
+				"height":"10",
+				"width":"10",
+	},
+	"paspartu":	{	
+				"is_on":"true"
+				"thin":"10",
+				"is_double":"false",
+				"adwork":"0",
+	},
+	"baget":		{	
+				"is_on":"true"
+				"bgt_id":"1"
+	},
+	"glas":		{	
+				"is_on":"false"
+	},
+	"furniture":{	
+				"is_on":"false"
+	},
+	"backside":	{	
+				"is_on":"false"
+	},
+	"handwork":	{	
+				"is_on":"false"
+	},
+	"underram":	{	
+				"is_on":"false"
+	},
+	"clean":		{	
+				"is_on":"true"
+	}
+}

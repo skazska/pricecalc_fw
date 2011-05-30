@@ -5,6 +5,7 @@
 <meta name="generator" content="Bluefish 2.0.3" >
 <link href="css/calc.css" rel="stylesheet" type="text/css" />
 <head>
+
 	<script type='text/javascript' src="scripts/rightjs/right-src.js"></script>
 	<script type='text/javascript' src="scripts/rightjs/right-json-src.js"></script> 
 	<script type='text/javascript' src="scripts/rightjs/ui/right-selectable-src.js"></script>
@@ -15,6 +16,7 @@
 
 	<script type='text/javascript'  src="scripts/data.js"></script> 
 	<script type='text/javascript'  src="scripts/workflow.js"></script> 
+
 	<style type="text/css"><!--
 		div.rui-slider{
 			height: 				0.2em;
@@ -29,220 +31,35 @@
 	--></style>
 </head>
 <body>
-	<div class="appMode calc" >
 
-		<div class="ltLeftFloatBlock" >		
-			<div class="ltBlockHead" >		
-				<div class="ws" id="wsModule">
-				</div>
-			</div>
-			<div class="ltBlockBody" >		
-					<div class="ws" id="wsMenu">
-	
-					</div> 		
-			</div>
-
-		</div>
-
-		<div class="ltRightFloatBlock" >		
-			<div class="ltBlockHead" >		
-				<div class="ws" id="wsModule">
-				</div>
-			</div>
-			<div class="ltBlockBody" >		
-					<div class="ws" id="wsMenu">
-					
-					</div> 		
-			</div>
-		</div>
-
-
-		<div class="ltFitBlock" >		
-			<div class="ltBlockHead" >		
+	<div id="header" class="calc layer">
+		<div class="cLeft" id="headerLeft">
 				<div class="ws" id="wsTotal">
 				</div>
-			</div>
-			<div class="ltBlockBody" >		
-			
-
-					
-					<form id="calcForm">
-					<div class="ws" id="wsPlates">
-<!--Main Plate-->
-						<div class="plt" id="pltMain">
-							<div class="pltHead" >
-								<div class="pltHeadTitle">Изображение</div>
-								<div class="pltHeadText">0р.</div>
-							</div> 
-							<div class="pltClue"></div>
-							<div class="pltBody" >
-								<div class="pltBodyHalf">
-									<div class="ifCaption">Ширина</div>
-									<input type="text" id="imgWidth" name="imgWidth" class="ifText" size="5" />
-									<div class="ifUnit">см</div>
-									<div class="ifSlide wide" id="imgWidthSlide">
-												<div id="imgWidthSlide1" class="rui-slider" data-slider="{min:0,max:9}">
-													<div class="level"></div>
-													<div class="handle"></div>
-												</div>	
-												<div id="imgWidthSlide0" class="rui-slider" data-slider="{min:0,max:9}">
-													<div class="level"></div>
-													<div class="handle"></div>
-												</div>	
-									</div>
-								</div>
-								<div class="pltBodyHalf">
-									<div class="ifCaption">Высота</div>
-									<input type="text" id="imgHeight" name="imgHeight" class="ifText" size="5" />
-									<div class="ifUnit">см</div>
-									<div class="ifSlide" id="imgHeightSlide">
-												<div id="imgHeightSlide1" class="rui-slider" data-slider="{min:0,max:9}">
-													<div class="level"></div>
-													<div class="handle"></div>
-												</div>	
-												<div id="imgHeightSlide0" class="rui-slider" data-slider="{min:0,max:9}">
-													<div class="level"></div>
-													<div class="handle"></div>
-												</div>	
-									</div>
-								</div>
-							</div> 
-						</div>
-<!--Paspartu Plate-->
-						<div class="plt" id="pltPaspartu">
-							<div class="pltHead" >
-								<div class="pltHeadTitle">Паспарту</div>
-								<div class="pltHeadText">0р.</div>
-							</div> 
-							<div class="pltBody" >
-								<div class="pltBodyHalf">
-									<input type="text" id="pptWidth" name="pptWidth" class="ifText" size="5" />
-									<div class="ifUnit">см</div>
-									<input type="checkbox" id="pptDouble" name="pptDouble" class="ifCheckBox" />
-									<div class="ifCaption">Двойное</div>
-								</div>
-								<div class="pltBodyHalf">
-										<div class="ifSlide" id="pptWidthSlide">
-												<div id="pptWidthSlide1" class="rui-slider" data-slider="{min:0,max:20,update:'pptWidth'}">
-													<div class="level"></div>
-													<div class="handle"></div>
-												</div>	
-										</div>
-								</div>
-								<div class="pltBodyHalf">
-									<div class="ifCaption">Сложность</div>
-									<input type="text" id="pptAdwork" name="pptAdwork" class="ifText" size="5" />
-									<div class="ifUnit">%</div>
-								</div>
-								<div class="pltBodyHalf">
-									<div class="ifSlide" id="pptAdworkSlide">
-												<div id="pptAdworkSlide1" class="rui-slider" data-slider="{min:0,max:100,snap:10,update:'pptAdwork'}">
-													<div class="level"></div>
-													<div class="handle"></div>
-												</div>	
-									</div>
-								</div>
-							</div> 
-						</div>
-<!--Baget Plate-->
-						<div class="plt" id="pltBaget">
-							<div class="pltHead" >
-								<div class="pltHeadTitle">Багет</div>
-								<div class="pltHeadText">0р.</div>
-							</div> 
-							<div class="pltBody" style="padding-bottom:3px">
-								<div class="pltBodyFull">
-									<div id="pltBagetSel" class="ifContainer" >
-									</div>
-								</div>
-							</div>
-						</div>
-<!--Glas  Plate-->
-						<div class="plt" id="pltGlas">
-							<div class="pltHead" >
-								<div class="pltHeadTitle">Стекло</div>
-								<div class="pltHeadText">0р.</div>
-							</div> 
-							<div class="pltBody" style="padding-bottom:3px">
-								<div class="pltBodyFull">
-									<div id="pltGlasMatSel" class="ifContainer">
-									</div>
-								</div>
-							</div> 
-						</div>
-
-<!--Furniture Plate-->
-						<div class="plt" id="pltFurniture">
-							<div class="pltHead" >
-								<div class="pltHeadTitle">Фурнитура</div>
-								<div class="pltHeadText">0р.</div>
-							</div> 
-							<div class="pltBody" >
-
-							</div> 
-						</div>
-
-<!--Backside Plate-->
-						<div class="plt" id="pltBackside">
-							<div class="pltHead" >
-								<div class="pltHeadTitle">Задник</div>
-								<div class="pltHeadText">0р.</div>
-							</div> 
-							<div class="pltBody" >
-
-							</div> 
-						</div>
-
-<!--Handwork Plate-->
-						<div class="plt" id="pltHandwork">
-							<div class="pltHead" >
-								<div class="pltHeadTitle">Работа мастера</div>
-								<div class="pltHeadText">0р.</div>
-							</div> 
-							<div class="pltBody" >
-
-							</div> 
-						</div>
-
-<!--Underram Plate-->
-						<div class="plt" id="pltUnderram">
-							<div class="pltHead" >
-								<div class="pltHeadTitle">Подрамник</div>
-								<div class="pltHeadText">0р.</div>
-							</div> 
-							<div class="pltBody" >
-
-							</div> 
-						</div>
-
-<!--Clean Plate-->
-						<div class="plt" id="pltClean">
-							<div class="pltHead" >
-								<div class="pltHeadTitle">Стирка/Глажка</div>
-								<div class="pltHeadText">0р.</div>
-							</div> 
-							<div class="pltBody" >
-
-							</div> 
-						</div>
-
-<!--End Plats-->
-					</div>
-					</form>
-
-
+		</div>
+		<div class="cRight" id="headerRight">
+			<div class="ws" id="wsModule">
 			</div>
 		</div>
 	</div>
+	<div id="content"	 class="calc layer">
+
+		<div class="cColumn" id="wsPlates">
+
+
+
+		</div>
+		<div class="cColumn" id="wsMenu">
+
+
+		</div>
 	
-	<div class="ltFootBlock calc" >
-		<div id="spinner">Loading...</div>
-
-
-			<div id="appModePrint" class="appMode print">
-				printform
-			</div>
-
 	</div>
+
+
+	<div id="footer"  class="calc layer">
+	
+	</div>
+	
 </body>
 </html>
