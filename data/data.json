@@ -26,20 +26,23 @@
 			"ui":{
 				"nm":"Основные",
 				"is_opt":"false",
+				"content_url":"data/fwplt/base"
 			}
 		},
 		{	
 			"id":"paspartu",
 			"ui":{
 				"nm":"Паспарту",
-				"is_opt":"true",
+				"is_opt":"true"
+				,"content_url":"data/fwplt/stub"
 			}
 		},
 		{	
 			"id":"baget",
 			"ui":{
 				"nm":"Багет",
-				"is_opt":"true",
+				"is_opt":"true"
+				,"content_url":"data/fwplt/stub"
 			},
 			"data":{
 				"mat_spr":[
@@ -52,7 +55,8 @@
 			"id":"glas",
 			"ui":{
 				"nm":"Стекло",
-				"is_opt":"true",
+				"is_opt":"true"
+				,"content_url":"data/fwplt/stub"
 			},
 			"data":{
 				"mat_spr":[
@@ -66,35 +70,40 @@
 			"id":"furniture",
 			"ui":{
 				"nm":"Фурнитура",
-				"is_opt":"true",
+				"is_opt":"true"
+				,"content_url":"data/fwplt/stub"
 			}
 		},
 		{	
 			"id":"backside",
 			"ui":{
 				"nm":"Задник",
-				"is_opt":"true",
+				"is_opt":"true"
+				,"content_url":"data/fwplt/stub"
 			}
 		},
 		{	
 			"id":"handwork",
 			"ui":{
 				"nm":"Работа мастера",
-				"is_opt":"true",
+				"is_opt":"true"
+				,"content_url":"data/fwplt/stub"
 			}
 		},
 		{	
 			"id":"underram",
 			"ui":{
 				"nm":"Подрамник",
-				"is_opt":"true",
+				"is_opt":"true"
+				,"content_url":"data/fwplt/stub"
 			}
 		},
 		{	
 			"id":"clean",
 			"ui":{
 				"nm":"Стирка/Глажка",
-				"is_opt":"true",
+				"is_opt":"true"
+				,"content_url":"data/fwplt/stub"
 			}
 		}
 	],

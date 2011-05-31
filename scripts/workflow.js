@@ -209,16 +209,16 @@ var makeElt = function(template, context){
 	}
 }
 //активация плашки
-var activateUnit = function(evt, unit, itmData, etc){
-	this.hide();
-	itmData[unit.id][is_on] = "true";
-	etc.show();
+var activateUnit = function(evt, unit, itmData){
+	unit.etm.hide();
+	itmData[unit.id].is_on = "true";
+	unit.etp.show();
 }
 //активация плашки
-var deactivateUnit = function(evt, unit, itmData, etc){
-	this.hide();
+var deactivateUnit = function(evt, unit, itmData){
+	unit.etp.hide();
 	itmData[unit.id].is_on = "false";
-	etc.show();
+	unit.etm.show();
 	
 }
 //Инициация интерфейса
@@ -227,29 +227,68 @@ var initUI = function(appData, itmData){
 		//Формируем меню и плашки
 		var mc = $("wsMenu");
 		var pc = $("wsPlates");
-		var etь, etз;
 		mc.clean();	pc.clean();
 		appData.units.each(function(unit){
-			etm = makeElt(appData.templates.menuItem,unit);
-			mc.insert(etm);
-			etp = makeElt(appData.templates.plate,unit);
-			pc.insert(etp);
+			//элемент меню
+			unit.etm = makeElt(appData.templates.menuItem,unit);
+			mc.insert(unit.etm);
+			//плашка
+			unit.etp = makeElt(appData.templates.plate,unit);
+			pc.insert(unit.etp);
+			//актив/инактив
+			//инициализация
 			if (itmData[unit.id].is_on == "true") {
-				etm.hide(); etp.show();
+				unit.etm.hide(); unit.etp.show();
 			} else {
-				etp.hide(); etm.show();
+				unit.etp.hide(); unit.etm.show();
 			} 
+			//обработка
 			if (unit.ui.is_opt == "true"){
-				etm.onClick(activateUnit, unit, itmData, etp);
-				etp.onClick(deactivateUnit, unit, itmData, etm);
+				unit.etm.onClick(activateUnit, unit, itmData);
+				unit.etp.first('.pltHead').onClick(deactivateUnit, unit, itmData);
 			} else {
 				
 			}
+	 		appData.formTmp = ''; appData.form = ''; 
+	 		//Тело подгрузка и инициация контента плашек
+			getHTMLData(unit.ui.content_url, function(pltData,elt){
+				var e = elt.first(".pltBody").html(pltData).hide();
+				//отображение тела
+				elt.on("mouseover", function(evt, e){
+					var callback = function(e) {
+						if (e == appData.formTmp) {
+							e.show('slide',{duration:'short'});
+							if ((appData.form != e)&&(appData.form!='')) {
+								appData.form.hide('slide',{duration:'normal'});
+							}
+							appData.form = e;
+						}
+					};
+					appData.formTmp = e;
+					callback.delay(900,e);
+				}, e);
+				//сокрытие тела
+				elt.on("mouseout", function(){
+					var callback = function() {
+						if ((appData.formTmp == '')&&(appData.form != '' )) {
+							appData.form.hide('slide',{duration:'normal'});
+							appData.form = '';
+						}
+					};
+					if (appData.formTmp != '') {
+						appData.formTmp = '';
+						callback.delay(1300);
+					}
+				});
+				
+			}.rcurry(unit.etp));
+			
 		});
 
-
+		//обработка mouseover
 		//показываем приложение
 		$$('.'+itmData.mode).each('show');	
+
 	} else {
 	}
 }

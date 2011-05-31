@@ -8,6 +8,7 @@
 							</div> 
 							<div class="pltClue"></div>
 							<div class="pltBody" >
+
 								<div class="pltBodyHalf">
 									<div class="ifCaption">Ширина</div>
 									<input type="text" id="imgWidth" name="imgWidth" class="ifText" size="5" />
@@ -38,6 +39,7 @@
 												</div>	
 									</div>
 								</div>
+							
 							</div> 
 						</div>
 <!--Paspartu Plate-->

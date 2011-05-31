@@ -1,0 +1,30 @@
+								<div class="pltBodyHalf">
+									<div class="ifCaption">Ширина</div>
+									<input type="text" id="imgWidth" name="imgWidth" class="ifText" size="5" />
+									<div class="ifUnit">см</div>
+									<div class="ifSlide wide" id="imgWidthSlide">
+												<div id="imgWidthSlide1" class="rui-slider" data-slider="{min:0,max:9}">
+													<div class="level"></div>
+													<div class="handle"></div>
+												</div>	
+												<div id="imgWidthSlide0" class="rui-slider" data-slider="{min:0,max:9}">
+													<div class="level"></div>
+													<div class="handle"></div>
+												</div>	
+									</div>
+								</div>
+								<div class="pltBodyHalf">
+									<div class="ifCaption">Высота</div>
+									<input type="text" id="imgHeight" name="imgHeight" class="ifText" size="5" />
+									<div class="ifUnit">см</div>
+									<div class="ifSlide" id="imgHeightSlide">
+												<div id="imgHeightSlide1" class="rui-slider" data-slider="{min:0,max:9}">
+													<div class="level"></div>
+													<div class="handle"></div>
+												</div>	
+												<div id="imgHeightSlide0" class="rui-slider" data-slider="{min:0,max:9}">
+													<div class="level"></div>
+													<div class="handle"></div>
+												</div>	
+									</div>
+								</div>
