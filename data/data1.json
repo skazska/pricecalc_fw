@@ -1,6 +1,6 @@
 {
-	"id":"1",
 	"mode":"calc",
+	"id":"1",
 	"base":		{
 				"is_on":"true",
 				"height":"10",
@@ -10,7 +10,9 @@
 				"is_on":"true",
 				"thin":"10",
 				"is_double":"false",
-				"adwork":"0"
+				"adwork":"0",
+				"price":"0.070",
+				"double_pct":"99"				
 	},
 	"baget":		{	
 				"is_on":"true",

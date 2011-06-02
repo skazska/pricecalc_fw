@@ -1,16 +1,16 @@
 {	
 	"templates":{
 		"menuItem":
-			{"tag":"div","attrs":{"class":"menuItem"},"content":"@ui.nm@"}
+			{"tag":"div","attrs":{"class":"menuItem"},"content":"@[ui.nm]@"}
 		,
 		"plate":
 			{"tag":"div","attrs":{"class":"plt"},
 				"content":[
 					{"tag":"div","attrs":{"class":"pltHead"},
 						"content":[
-							{"tag":"div","attrs":{"class":"pltHeadTitle"},"content":"@ui.nm@"},
-							{"tag":"div","attrs":{"class":"pltHeadText"},"content":"@text@"},
-							{"tag":"div","attrs":{"class":"pltHeadCost"},"content":"@cost@р."}
+							{"tag":"div","attrs":{"class":"pltHeadTitle"},"content":"@[ui.nm]@"},
+							{"tag":"div","attrs":{"class":"pltHeadText"},"content":"#[text]#"},
+							{"tag":"div","attrs":{"class":"pltHeadCost"},"content":"#[cost]#р."}
 						]
 					},
 					{"tag":"div","attrs":{"class":"pltBody"},
@@ -25,8 +25,9 @@
 			"id":"base",
 			"ui":{
 				"nm":"Основные",
-				"is_opt":"false",
-				"content_url":"data/fwplt/base"
+				"is_opt":"false"
+				,"content_url":"data/fwplt/base.htm"
+				,"init":"baseInit"
 			}
 		},
 		{	
@@ -34,7 +35,8 @@
 			"ui":{
 				"nm":"Паспарту",
 				"is_opt":"true"
-				,"content_url":"data/fwplt/stub"
+				,"content_url":"data/fwplt/stub.htm"
+				,"init":"stubInit"
 			}
 		},
 		{	
@@ -42,7 +44,8 @@
 			"ui":{
 				"nm":"Багет",
 				"is_opt":"true"
-				,"content_url":"data/fwplt/stub"
+				,"content_url":"data/fwplt/stub.htm"
+				,"init":"stubInit"
 			},
 			"data":{
 				"mat_spr":[
@@ -56,7 +59,8 @@
 			"ui":{
 				"nm":"Стекло",
 				"is_opt":"true"
-				,"content_url":"data/fwplt/stub"
+				,"content_url":"data/fwplt/stub.htm"
+				,"init":"stubInit"
 			},
 			"data":{
 				"mat_spr":[
@@ -71,7 +75,8 @@
 			"ui":{
 				"nm":"Фурнитура",
 				"is_opt":"true"
-				,"content_url":"data/fwplt/stub"
+				,"content_url":"data/fwplt/stub.htm"
+				,"init":"stubInit"
 			}
 		},
 		{	
@@ -79,7 +84,8 @@
 			"ui":{
 				"nm":"Задник",
 				"is_opt":"true"
-				,"content_url":"data/fwplt/stub"
+				,"content_url":"data/fwplt/stub.htm"
+				,"init":"stubInit"
 			}
 		},
 		{	
@@ -87,7 +93,8 @@
 			"ui":{
 				"nm":"Работа мастера",
 				"is_opt":"true"
-				,"content_url":"data/fwplt/stub"
+				,"content_url":"data/fwplt/stub.htm"
+				,"init":"stubInit"
 			}
 		},
 		{	
@@ -95,7 +102,8 @@
 			"ui":{
 				"nm":"Подрамник",
 				"is_opt":"true"
-				,"content_url":"data/fwplt/stub"
+				,"content_url":"data/fwplt/stub.htm"
+				,"init":"stubInit"
 			}
 		},
 		{	
@@ -103,17 +111,10 @@
 			"ui":{
 				"nm":"Стирка/Глажка",
 				"is_opt":"true"
-				,"content_url":"data/fwplt/stub"
+				,"content_url":"data/fwplt/stub.htm"
+				,"init":"stubInit"
 			}
 		}
-	],
-	"functions":{
-		"glas":{
-			"init":"Calcs.calcByName('glasInit')"
-		},
-		"baget":{
-			"init":"Calcs.calcByName('bagetInit')"
-		}
-	}	
+	]
 }
 
