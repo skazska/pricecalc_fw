@@ -16,7 +16,7 @@
 	},
 	"baget":		{	
 				"is_on":"true",
-				"bgt_id":"1"
+				"bgt":{"id":"1","cat":"main","fas":"008-001.jpg","profil":"img/gmpc.png","name":"008-001","cost":100}
 	},
 	"glas":		{	
 				"is_on":"false"

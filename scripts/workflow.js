@@ -95,18 +95,18 @@ var initUI = function(appData, itmData){
 		var pc = $("wsPlates");
 		mc.clean();	pc.clean();
 		//загрузим функцию расчета recalc
-		appData.units.each(function(unit){
+		Object.each(appData.units,function(ukey,unit){
 			//даталинк
-			Calcs.datalink[unit.id] = new Array();
+			Calcs.datalink[ukey] = new Array();
 			//элемент меню
-			unit.etm = makeElt(appData.templates.menuItem,unit,Calcs.datalink[unit.id]);
+			unit.etm = makeElt(appData.templates.menuItem,unit,Calcs.datalink[ukey]);
 			mc.insert(unit.etm);
 			//плашка
-			unit.etp = makeElt(appData.templates.plate,unit,Calcs.datalink[unit.id]);
+			unit.etp = makeElt(appData.templates.plate,unit,Calcs.datalink[ukey]);
 			pc.insert(unit.etp);
 			//актив/инактив
 			//инициализация
-			if (itmData[unit.id].is_on == "true") {
+			if (itmData[ukey].is_on == "true") {
 				unit.etm.hide(); unit.etp.show();
 			} else {
 				unit.etp.hide(); unit.etm.show();

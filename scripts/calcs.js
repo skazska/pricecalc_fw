@@ -32,9 +32,9 @@ var Calcs = {
 			if (dat.paspartu.adwork > "0") {
 				dat.paspartu.cost = dat.paspartu.cost + dat.paspartu.cost/100*dat.paspartu.adwork;
 			}
-			if (dat.paspartu.adwork > "0") {dat.paspartu.text += " наценка за сложность "+dat.paspartu.adwork+"%";}
 			dat.paspartu.cost = dat.paspartu.cost.round(2); 
-			dat.paspartu.text = dat.paspartu.thin+"см. "+(dat.paspartu.is_double=="true"?"двойное":""); 
+			dat.paspartu.text = dat.paspartu.thin+"см."+(dat.paspartu.is_double=="true"?", двойное":""); 
+			if (dat.paspartu.adwork > "0") {dat.paspartu.text += ", наценка за сложность "+dat.paspartu.adwork+"%";}
 			//уточняем стоимость
 			dat.base.cost += dat.paspartu.cost;
 		}
@@ -123,9 +123,45 @@ var Calcs = {
 	},
 	
 	bagetInit: function(){
-//		var cat = new Selectable({
-//			options:this.app.units['baget'].
-//		}).insertTo($("bgtCatalog"));
+		//данные приложения по багету
+		var unit = this.app.units['baget'];
+	
+		var dlg = new Dialog();???	
+		new Element('div',{
+			style:"height:100%",
+			onmouseover:function(){ dlg.show(); }
+		});
+//////-------в диалог? vvvvvv		
+		Object.each(unit.data.bgtcat, function(cat,catnm) {
+			//формируем елементы списка категорий
+			var elt = new Element('div',{
+				class:"bgtCategoryItem",
+				onclick:function(){
+					//обработка активации категории
+					unit.data.bgtspr.each(function(bgt){
+						//формируем элементы списка багетов
+						var e = new Element('div',{
+							class:"bgtItem",
+							onclick:function(){
+								//обработка выбора багета
+								Calcs.recalc("baget","bgt",bgt);
+								
+							}
+						});
+						//формируем содержимое элемента
+						
+						//добавим элемент в список
+						$("bgtList").insert(e);
+					});
+				}
+			});
+			//формируем содержимое
+			elt.text(catnm);
+			//добавим категорию в список
+			$("bgtCatalog").insert(elt);
+		});
+		
+		
 	},	
 	
 	glasInit: function(Data){
@@ -146,7 +182,7 @@ var Calcs = {
 			elt.setStyle('display:inline-block;border-right:1px solid #CCCCCC');
 		});
 	},	
-	bagetInit: function(Data){
+	bagetInit1: function(Data){
 		var plate = Data.plates.baget.plate;
 		var spr = Data.data.baget.spr;
 		var defid = Data.plates.baget.menu.selected[0];
