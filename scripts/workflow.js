@@ -59,7 +59,7 @@ var makeElt = function(template, context, datalink){
 			});
 		} else {
 			//шаблон содержит текст
-			elt.text(tplReplace(template.content, context));
+			elt.html(tplReplace(template.content, context));
 			if (template.content.indexOf("#")>-1) {
 				datalink.push({"element":elt,"content":template.content});
 			}
@@ -83,7 +83,13 @@ var deactivateUnit = function(evt, unit, itmData){
 
 var initUI = function(appData, itmData){
 	if (itmData.mode == "calc") {
+
+		//показываем приложение
+		$$('.'+itmData.mode).each('show');	
+
+
 		Calcs.dat = itmData;
+		Calcs.app = appData;
 		//Формируем меню и плашки
 		var mc = $("wsMenu");
 		var pc = $("wsPlates");
@@ -115,7 +121,7 @@ var initUI = function(appData, itmData){
 	 		appData.formTmp = ''; appData.form = ''; 
 	 		//Тело подгрузка и инициация контента плашек
 			getHTMLData(unit.ui.content_url, function(pltData,elt){
-				var e = elt.first(".pltBody").html(pltData).hide();
+				var e = elt.first(".pltBody").html(pltData);//.hide();
 				//обнаружение тела
 				elt.on("mouseover", function(evt, e){
 					var callback = function(e) {
@@ -145,13 +151,12 @@ var initUI = function(appData, itmData){
 				});
 				//Инициализация
 				Calcs[unit.ui.init]();
-				
+				//Скрываем после инициации тк. в скрытом виде ползунок слайдера почемуто не инициализируется
+				e.hide();
 			}.rcurry(unit.etp));
 		});
 
-		//обработка mouseover
-		//показываем приложение
-		$$('.'+itmData.mode).each('show');	
+
 
 	} else {
 	}

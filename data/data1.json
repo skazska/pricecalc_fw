@@ -3,16 +3,16 @@
 	"id":"1",
 	"base":		{
 				"is_on":"true",
-				"height":"10",
-				"width":"10"
+				"height":20,
+				"width":10
 	},
 	"paspartu":	{	
 				"is_on":"true",
-				"thin":"10",
-				"is_double":"false",
-				"adwork":"0",
-				"price":"0.070",
-				"double_pct":"99"				
+				"thin":10,
+				"is_double":"true",
+				"adwork":0,
+				"price":0.070,
+				"double_pct":99				
 	},
 	"baget":		{	
 				"is_on":"true",

@@ -24,7 +24,7 @@
 		{	
 			"id":"base",
 			"ui":{
-				"nm":"Основные",
+				"nm":"Изделие",
 				"is_opt":"false"
 				,"content_url":"data/fwplt/base.htm"
 				,"init":"baseInit"
@@ -35,8 +35,8 @@
 			"ui":{
 				"nm":"Паспарту",
 				"is_opt":"true"
-				,"content_url":"data/fwplt/stub.htm"
-				,"init":"stubInit"
+				,"content_url":"data/fwplt/paspartu.htm"
+				,"init":"paspartuInit"
 			}
 		},
 		{	
@@ -44,13 +44,18 @@
 			"ui":{
 				"nm":"Багет",
 				"is_opt":"true"
-				,"content_url":"data/fwplt/stub.htm"
-				,"init":"stubInit"
+				,"content_url":"data/fwplt/baget.htm"
+				,"init":"bagetInit"
 			},
 			"data":{
-				"mat_spr":[
-					{"id":"1","fas":"008-001.jpg", "profil":"img/gmpc.png","name":"008-001","cost":"100"},
-					{"id":"2","fas":"qwerty.jpg", "profil":"qwerty.gif","name":"qwerty","cost":"200"}
+				"bcat":{
+					"main":"Основной",
+					"other":"Дополнительный"
+				},
+				"bgt_spr":[
+							{"id":"1","cat":"main","fas":"008-001.jpg","profil":"img/gmpc.png","name":"008-001","cost":100}
+							,{"id":"2","cat":"main","fas":"qwerty.jpg","profil":"qwerty.gif","name":"qwerty","cost":200}
+							,{"id":"3","cat":"main","fas":"008-001.jpg","profil":"img/gmpc.png","name":"008-001","cost":100}
 				]
 			}						
 		},
