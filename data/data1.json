@@ -2,38 +2,38 @@
 	"mode":"calc",
 	"id":"1",
 	"base":		{
-				"is_on":"true",
+				"is_on":true,
 				"height":20,
 				"width":10
 	},
 	"paspartu":	{	
-				"is_on":"true",
+				"is_on":true,
 				"thin":10,
-				"is_double":"true",
+				"is_double":true,
 				"adwork":0,
 				"price":0.070,
 				"double_pct":99				
 	},
 	"baget":		{	
-				"is_on":"true",
+				"is_on":true,
 				"bgt":{"id":"1","cat":"main","fas":"008-001.jpg","profil":"img/gmpc.png","name":"008-001","cost":100}
 	},
 	"glas":		{	
-				"is_on":"false"
+				"is_on":false
 	},
 	"furniture":{	
-				"is_on":"false"
+				"is_on":false
 	},
 	"backside":	{	
-				"is_on":"false"
+				"is_on":false
 	},
 	"handwork":	{	
-				"is_on":"false"
+				"is_on":false
 	},
 	"underram":	{	
-				"is_on":"false"
+				"is_on":false
 	},
 	"clean":		{	
-				"is_on":"true"
+				"is_on":true
 	}
 }

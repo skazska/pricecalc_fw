@@ -25,7 +25,7 @@
 			"id":"base",
 			"ui":{
 				"nm":"Изделие",
-				"is_opt":"false"
+				"is_opt":false
 				,"content_url":"data/fwplt/base.htm"
 				,"init":"baseInit"
 			}
@@ -34,7 +34,7 @@
 			"id":"paspartu",
 			"ui":{
 				"nm":"Паспарту",
-				"is_opt":"true"
+				"is_opt":true
 				,"content_url":"data/fwplt/paspartu.htm"
 				,"init":"paspartuInit"
 			}
@@ -43,7 +43,7 @@
 			"id":"baget",
 			"ui":{
 				"nm":"Багет",
-				"is_opt":"true"
+				"is_opt":true
 				,"content_url":"data/fwplt/baget.htm"
 				,"init":"bagetInit"
 			},
@@ -53,9 +53,15 @@
 					"other":"Дополнительный"
 				},
 				"bgtspr":[
-							{"id":"1","cat":"main","fas":"008-001.jpg","profil":"img/gmpc.png","name":"008-001","cost":100}
-							,{"id":"2","cat":"main","fas":"qwerty.jpg","profil":"qwerty.gif","name":"qwerty","cost":200}
-							,{"id":"3","cat":"main","fas":"008-001.jpg","profil":"img/gmpc.png","name":"008-001","cost":100}
+							{"id":"1","cat":"main","fas":"img/100/1/011-1508.jpg","profil":"img/100/1/p_jj3.gif","name":"011-1508","cost":100}
+							,{"id":"2","cat":"main","fas":"img/100/1/011-1513.jpg","profil":"img/100/1/p_jj3.gif","name":"011-1508","cost":100}
+							,{"id":"3","cat":"main","fas":"img/100/2/jj3-01.jpg","profil":"img/100/2/profil_011.gif","name":"011-1513","cost":100}
+							,{"id":"4","cat":"main","fas":"img/100/2/jj3-02.jpg","profil":"img/100/2/profil_011.gif","name":"011-1513","cost":100}
+							,{"id":"5","cat":"main","fas":"img/100/2/jj3-03.jpg","profil":"img/100/2/profil_011.gif","name":"011-1513","cost":100}
+							,{"id":"8","cat":"main","fas":"img/100/2/jj3-06.jpg","profil":"img/100/2/profil_011.gif","name":"011-1513","cost":100}
+							,{"id":"9","cat":"main","fas":"img/100/2/jj3-07.jpg","profil":"img/100/2/profil_011.gif","name":"011-1513","cost":100}
+							,{"id":"10","cat":"main","fas":"img/100/2/jj3-08.jpg","profil":"img/100/2/profil_011.gif","name":"011-1513","cost":100}
+							,{"id":"100","cat":"other","fas":"img/120/1/019-1508.jpg","profil":"img/120/1/profil_019.gif","name":"019-1508","cost":120}
 				]
 			}						
 		},
@@ -63,7 +69,7 @@
 			"id":"glas",
 			"ui":{
 				"nm":"Стекло",
-				"is_opt":"true"
+				"is_opt":true
 				,"content_url":"data/fwplt/stub.htm"
 				,"init":"stubInit"
 			},
@@ -79,7 +85,7 @@
 			"id":"furniture",
 			"ui":{
 				"nm":"Фурнитура",
-				"is_opt":"true"
+				"is_opt":true
 				,"content_url":"data/fwplt/stub.htm"
 				,"init":"stubInit"
 			}
@@ -88,7 +94,7 @@
 			"id":"backside",
 			"ui":{
 				"nm":"Задник",
-				"is_opt":"true"
+				"is_opt":true
 				,"content_url":"data/fwplt/stub.htm"
 				,"init":"stubInit"
 			}
@@ -97,7 +103,7 @@
 			"id":"handwork",
 			"ui":{
 				"nm":"Работа мастера",
-				"is_opt":"true"
+				"is_opt":true
 				,"content_url":"data/fwplt/stub.htm"
 				,"init":"stubInit"
 			}
@@ -106,7 +112,7 @@
 			"id":"underram",
 			"ui":{
 				"nm":"Подрамник",
-				"is_opt":"true"
+				"is_opt":true
 				,"content_url":"data/fwplt/stub.htm"
 				,"init":"stubInit"
 			}
@@ -115,7 +121,7 @@
 			"id":"clean",
 			"ui":{
 				"nm":"Стирка/Глажка",
-				"is_opt":"true"
+				"is_opt":true
 				,"content_url":"data/fwplt/stub.htm"
 				,"init":"stubInit"
 			}

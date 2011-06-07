@@ -70,13 +70,13 @@ var makeElt = function(template, context, datalink){
 //активация плашки
 var activateUnit = function(evt, unit, itmData){
 	unit.etm.hide();
-	itmData[unit.id].is_on = "true";
+	itmData[unit.id].is_on = true;
 	unit.etp.show();
 }
 //активация плашки
 var deactivateUnit = function(evt, unit, itmData){
 	unit.etp.hide();
-	itmData[unit.id].is_on = "false";
+	itmData[unit.id].is_on = false;
 	unit.etm.show();
 	
 }
@@ -106,13 +106,13 @@ var initUI = function(appData, itmData){
 			pc.insert(unit.etp);
 			//актив/инактив
 			//инициализация
-			if (itmData[ukey].is_on == "true") {
+			if (itmData[ukey].is_on == true) {
 				unit.etm.hide(); unit.etp.show();
 			} else {
 				unit.etp.hide(); unit.etm.show();
 			} 
 			//обработка
-			if (unit.ui.is_opt == "true"){
+			if (unit.ui.is_opt == true){
 				unit.etm.onClick(activateUnit, unit, itmData);
 				unit.etp.first('.pltHead').onClick(deactivateUnit, unit, itmData);
 			} else {

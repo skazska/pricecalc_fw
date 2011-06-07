@@ -2,6 +2,7 @@ var Calcs = {
 	datalink:{},
 	dat:{},
 	app:{},
+	url: "///home/ksz/my/work/newcalc/",
 	recalc: function(unit,parnm, value) {
 		//Обновим параметры расчера
 		var dat = this.dat;		
@@ -28,12 +29,12 @@ var Calcs = {
 			dat.base.perimeter = 2*(dat.base.f_width+dat.base.f_height);
 			//паспарту
 			dat.paspartu.cost = dat.paspartu.price * dat.base.square;
-			dat.paspartu.cost = dat.paspartu.is_double=="true"?dat.paspartu.cost/100*dat.paspartu.double_pct:dat.paspartu.cost;
+			dat.paspartu.cost += dat.paspartu.is_double==true?dat.paspartu.cost/100*dat.paspartu.double_pct:0;
 			if (dat.paspartu.adwork > "0") {
-				dat.paspartu.cost = dat.paspartu.cost + dat.paspartu.cost/100*dat.paspartu.adwork;
+				dat.paspartu.cost += dat.paspartu.cost/100*dat.paspartu.adwork;
 			}
 			dat.paspartu.cost = dat.paspartu.cost.round(2); 
-			dat.paspartu.text = dat.paspartu.thin+"см."+(dat.paspartu.is_double=="true"?", двойное":""); 
+			dat.paspartu.text = dat.paspartu.thin+"см."+(dat.paspartu.is_double==true?", двойное":""); 
 			if (dat.paspartu.adwork > "0") {dat.paspartu.text += ", наценка за сложность "+dat.paspartu.adwork+"%";}
 			//уточняем стоимость
 			dat.base.cost += dat.paspartu.cost;
@@ -120,25 +121,29 @@ var Calcs = {
 		as.fire('change');
 		//двойные
 		$("pptDouble").checked(this.dat.paspartu.is_double);
+		$("pptDouble").onChange(function(){
+			Calcs.recalc("paspartu","is_double",this.checked());
+		});
 	},
 	
 	bagetInit: function(){
 		//данные приложения по багету
 		var unit = this.app.units['baget'];
 	
-		var dlg = new Dialog();???	
-		new Element('div',{
-			style:"height:100%",
-			onmouseover:function(){ dlg.show(); }
-		});
+		$("bgtTrigger").on("click", function(){ dlg.show().expand(); });
+
 //////-------в диалог? vvvvvv		
+
 		Object.each(unit.data.bgtcat, function(cat,catnm) {
 			//формируем елементы списка категорий
 			var elt = new Element('div',{
 				class:"bgtCategoryItem",
 				onclick:function(){
 					//обработка активации категории
-					unit.data.bgtspr.each(function(bgt){
+					$("bgtList").clean();
+					unit.data.bgtspr.filter(function(itm, i){
+						return itm.cat == cat;
+					}).each(function(bgt){
 						//формируем элементы списка багетов
 						var e = new Element('div',{
 							class:"bgtItem",
@@ -149,7 +154,8 @@ var Calcs = {
 							}
 						});
 						//формируем содержимое элемента
-						
+						e.setStyle("background-image:url('"+Calcs.url+bgt.fas+"');");
+						e.insert(new Element('img',{src:bgt.profil,style:"position:relative;left:-100px;height:90px;width:90px;"}));
 						//добавим элемент в список
 						$("bgtList").insert(e);
 					});
@@ -161,7 +167,12 @@ var Calcs = {
 			$("bgtCatalog").insert(elt);
 		});
 		
-		
+
+		var dlg = new Dialog({
+			title:"Выбор багета",
+			expandable: true
+		});
+		dlg.html($("bgtContent"));
 	},	
 	
 	glasInit: function(Data){

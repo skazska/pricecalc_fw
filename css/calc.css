@@ -72,6 +72,11 @@ div.cColumn {
 	margin: 				0.2em;
 }
 
+/*Стиль для элемента меню*/	
+.menuItem {
+	cursor: 				pointer; 
+}
+
 /*Стиль для плашки параметров*/	
 .plt {
 	width: 				99%;
@@ -79,6 +84,7 @@ div.cColumn {
 	border:				1px solid;
 	border-radius:		0.4em;
 	margin-top:			0.1em;
+	cursor: 				pointer;
 }
 /*Заголовок пплашки параметров */	
 .pltHead {
@@ -219,3 +225,19 @@ div.cColumn {
 .hidden {
   display: 				none;
 }	
+
+
+
+/*Стили для багета*/
+.bgtCategoryItem{
+	cursor:pointer;
+}
+.bgtItem{
+	cursor:pointer;
+	background-repeat:no-repeat;
+	height: 100px; width: 293px;
+	display: inline-block;
+	margin-left: 103px;
+}
+
+
