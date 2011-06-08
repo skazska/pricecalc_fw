@@ -43,7 +43,9 @@ var Calcs = {
 
 		
 		if ((dat.baget.is_on)) {
-			
+			dat.baget.cost = dat.base.perimeter/100*dat.baget.bgt.cost;
+			dat.base.cost += dat.paspartu.cost;
+			dat.baget.text = "<img height='50' width='50' src='"+dat.baget.bgt.profil+"'><img height='50' src='"+dat.baget.bgt.fas+"'><div style='vertical-align:top;display:inline;'>"+dat.baget.bgt.name+"</div>"; 
 		}
 
 
@@ -129,50 +131,63 @@ var Calcs = {
 	bagetInit: function(){
 		//данные приложения по багету
 		var unit = this.app.units['baget'];
+		//формирование представления выбранного багета
+		var updateSelected = function(){
+					//обработка выбора багета
+					$("bgtSelHead").clean();
+					$("bgtSelHead").insert(new Element('span').insert(
+							new Element('img',{src:dlg.bgt.profil})
+					));
+					$("bgtSelHead").insert(new Element('span').insert(
+							new Element('img',{src:dlg.bgt.fas})
+					));
+					$("bgtSelHead").insert(new Element('span').text(dlg.bgt.name));
+					$("bgtSelHead").insert(new Element('span').text(dlg.bgt.cost+" р."));
+		};
 	
-		$("bgtTrigger").on("click", function(){ dlg.show().expand(); });
-
-//////-------в диалог? vvvvvv		
-
+		var tabs = new Tabs('bgtCategories',{idPrefix:"bgtTabs"});
 		Object.each(unit.data.bgtcat, function(cat,catnm) {
-			//формируем елементы списка категорий
-			var elt = new Element('div',{
-				class:"bgtCategoryItem",
-				onclick:function(){
-					//обработка активации категории
-					$("bgtList").clean();
-					unit.data.bgtspr.filter(function(itm, i){
-						return itm.cat == cat;
-					}).each(function(bgt){
-						//формируем элементы списка багетов
-						var e = new Element('div',{
-							class:"bgtItem",
-							onclick:function(){
-								//обработка выбора багета
-								Calcs.recalc("baget","bgt",bgt);
-								
-							}
-						});
-						//формируем содержимое элемента
-						e.setStyle("background-image:url('"+Calcs.url+bgt.fas+"');");
-						e.insert(new Element('img',{src:bgt.profil,style:"position:relative;left:-100px;height:90px;width:90px;"}));
-						//добавим элемент в список
-						$("bgtList").insert(e);
-					});
-				}
+			var list = new Element('div');
+			unit.data.bgtspr.filter(function(itm, i){
+				return itm.cat == cat;
+			}).each(function(bgt){
+				//формируем элементы списка багетов
+				var e = new Element('div',{
+					class:"bgtItem"
+				});
+				e.on('click', function() {
+					dlg.bgt = bgt;
+					updateSelected(); 
+				});
+				//формируем содержимое элемента
+				e.setStyle("background-image:url('"+Calcs.url+bgt.fas+"');");
+				e.insert(new Element('img',{src:bgt.profil,style:"position:relative;left:-100px;height:90px;width:90px;"}));
+				//добавим элемент в список
+				list.insert(e);
 			});
-			//формируем содержимое
-			elt.text(catnm);
-			//добавим категорию в список
-			$("bgtCatalog").insert(elt);
+			tabs.add(catnm,list);
 		});
 		
-
 		var dlg = new Dialog({
 			title:"Выбор багета",
-			expandable: true
+			expandable: false
+		}).onOk(function(){
+			Calcs.recalc("baget","bgt",dlg.bgt);
+			dlg.hide();
 		});
+
+		tabs.show("1");
+
 		dlg.html($("bgtContent"));
+		//текущий багет
+		dlg.bgt = this.dat.baget.bgt;
+		//функции интерфейса открытие / закрытие конфигурации
+		return {
+			onBodyShow : function() {
+				dlg.show().expand();
+				updateSelected();
+			}
+		};
 	},	
 	
 	glasInit: function(Data){

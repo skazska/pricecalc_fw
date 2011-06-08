@@ -39,6 +39,9 @@ height: 100%;
 width: 100%;
 }
 
+img {
+	margin: 1px;
+}
 
 div.cColumn {
 	top: 130px; /*Set top value to header*/
@@ -101,15 +104,17 @@ div.cColumn {
 	font-style: 		oblique;
 	font-weight: 		bold;
 	color: 				#000B55;
+	vertical-align: 	top;
 }
 /*текст заголовка плашки*/
 .pltHeadText{
 	font-size:			0.8em;
 	margin-top: 		auto;
-	vertical-align: 	bottom;
+	vertical-align: 	top;
 	display:				inline-block;
 	font-style: 		oblique;
 	color: 				#000B55;
+	min-width: 			400px;
 }
 /*стоимость в заголовке плашки*/
 .pltHeadCost{
@@ -117,7 +122,7 @@ div.cColumn {
 	font-size:			1em;
 	width: 				7em;
 	margin: 				auto 0.4em auto 0.1em;
-	vertical-align: 	bottom;
+	vertical-align: 	top;
 	display:				inline-block;
 	text-align: 		right;
 	font-style: 		oblique;
@@ -229,9 +234,37 @@ div.cColumn {
 
 
 /*Стили для багета*/
-.bgtCategoryItem{
-	cursor:pointer;
+#bgtSelHead{
+	height: 				100px;
+	width: 				100%;
 }
+#bgtSelHead span {
+	height: 				100px;
+	vertical-align: 	top;
+	font-size: 			1em;
+	margin: 				5px;
+}
+
+
+#bgtSelImg{
+	height: 				100px;
+	vertical-align: 	middle;
+	display: 			inline-block;
+}
+#bgtSelText{
+	height: 				100px;
+	vertical-align: 	middle;
+	display: 			inline-block;
+	margin-top: 		auto;
+}
+#bgtSelCost{
+	height: 				100px;
+	vertical-align: 	middle;
+	display: 			inline-block;
+	margin-top: 		auto;
+}
+
+
 .bgtItem{
 	cursor:pointer;
 	background-repeat:no-repeat;

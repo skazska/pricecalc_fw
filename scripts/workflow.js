@@ -114,7 +114,7 @@ var initUI = function(appData, itmData){
 			//обработка
 			if (unit.ui.is_opt == true){
 				unit.etm.onClick(activateUnit, unit, itmData);
-				unit.etp.first('.pltHead').onClick(deactivateUnit, unit, itmData);
+				unit.etp.first('.pltHeadTitle').onClick(deactivateUnit, unit, itmData);
 			} else {
 				
 			}
@@ -122,37 +122,48 @@ var initUI = function(appData, itmData){
 	 		//Тело подгрузка и инициация контента плашек
 			getHTMLData(unit.ui.content_url, function(pltData,elt){
 				var e = elt.first(".pltBody").html(pltData);//.hide();
-				//обнаружение тела
-				elt.on("mouseover", function(evt, e){
-					var callback = function(e) {
-						if (e == appData.formTmp) {
-							e.show('slide',{duration:'short'});
-							if ((appData.form != e)&&(appData.form!='')) {
-								appData.form.hide('slide',{duration:'normal'});
-							}
-							appData.form = e;
-						}
-					};
-					appData.formTmp = e;
-					callback.delay(900,e);
-				}, e);
-				//сокрытие тела
-				elt.on("mouseout", function(){
-					var callback = function() {
-						if ((appData.formTmp == '')&&(appData.form != '' )) {
-							appData.form.hide('slide',{duration:'normal'});
-							appData.form = '';
-						}
-					};
-					if (appData.formTmp != '') {
-						appData.formTmp = '';
-						callback.delay(1300);
-					}
-				});
 				//Инициализация
-				Calcs[unit.ui.init]();
+				var pltHooks = Calcs[unit.ui.init]();
+				if (!defined(pltHooks)) {pltHooks = {};}
 				//Скрываем после инициации тк. в скрытом виде ползунок слайдера почемуто не инициализируется
 				e.hide();
+				//обнаружение тела
+				var pltBodyShow = function(e){
+					if (e == appData.formTmp) {
+						if (defined(pltHooks.onBodyShow)) {
+							pltHooks.onBodyShow();
+						}else{
+							e.show('slide',{duration:'short'});
+						}
+						if ((appData.form != e)&&(appData.form!='')) {
+							appData.form.hide('slide',{duration:'normal'});
+						}
+						appData.form = e;
+					}
+				};
+				var pltBodyHide = function(){
+					if ((appData.formTmp == '')&&(appData.form != '' )) {
+						appData.form.hide('slide',{duration:'normal'});
+						appData.form = '';
+					}
+				};
+				//раскрытие тела плашки с задержкой (при наведении мыши)
+				elt.first('.pltHeadText').on("mouseover", function(evt, e) {
+					appData.formTmp = e;	pltBodyShow.delay(900,e);
+				}, e);
+				//чтоб не схлапывался
+				elt.on("mouseover", function(evt, e) {appData.formTmp = e;}, e);
+				//раскрытие тела плашки сразу (клик)
+				elt.first('.pltHeadText').on("click", function(evt, e) {
+					appData.formTmp = e;	pltBodyShow(e);
+				}, e);
+				//сокрытие тела (мышь покинула плашку)
+				elt.on("mouseout", function(){
+					if (appData.formTmp != '') {
+						appData.formTmp = '';
+						pltBodyHide.delay(1300);
+					}
+				});
 			}.rcurry(unit.etp));
 		});
 
