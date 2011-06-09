@@ -37,6 +37,10 @@
 				"is_opt":true
 				,"content_url":"data/fwplt/paspartu.htm"
 				,"init":"paspartuInit"
+			},
+			"data":{
+				"price":0.070,
+				"double_pct":99				
 			}
 		},
 		"baget":{	
@@ -65,19 +69,19 @@
 				]
 			}
 		},
-		"glas":{	
-			"id":"glas",
+		"glass":{	
+			"id":"glass",
 			"ui":{
 				"nm":"Стекло",
 				"is_opt":true
-				,"content_url":"data/fwplt/stub.htm"
-				,"init":"stubInit"
+				,"content_url":"data/fwplt/glass.htm"
+				,"init":"glassInit"
 			},
 			"data":{
-				"mat_spr":[
-					{"id":"1","nm":"Простое","cost":"0.085"},
-					{"id":"2","nm":"Матовое","cost":"0.180"},
-					{"id":"3","nm":"Пластик","cost":"0.060"}
+				"matspr":[
+					{"id":"1","nm":"Простое","cost":0.085},
+					{"id":"2","nm":"Матовое","cost":0.180},
+					{"id":"3","nm":"Пластик","cost":0.060}
 				]
 			}						
 		},
@@ -88,24 +92,30 @@
 				"is_opt":true
 				,"content_url":"data/fwplt/stub.htm"
 				,"init":"stubInit"
+			},
+			"data":{
+				"pricegrid":[
+					{"p":0,"cost":20},
+					{"p":30,"cost":25},
+					{"p":50,"cost":35},
+					{"p":70,"cost":45},
+					{"p":90,"cost":55}
+				]
 			}
 		},
 		"backside":{	
 			"id":"backside",
 			"ui":{
-				"nm":"Задник",
+				"nm":"Натяжка",
 				"is_opt":true
-				,"content_url":"data/fwplt/stub.htm"
-				,"init":"stubInit"
-			}
-		},
-		"handwork":{	
-			"id":"handwork",
-			"ui":{
-				"nm":"Работа мастера",
-				"is_opt":true
-				,"content_url":"data/fwplt/stub.htm"
-				,"init":"stubInit"
+				,"content_url":"data/fwplt/backside.htm"
+				,"init":"backsideInit"
+			},
+			"data":{
+				"matspr":[
+					{"id":"1","nm":"Ручная","cost":0.027},
+					{"id":"2","nm":"Изоплекс","cost":0.040}
+				]
 			}
 		},
 		"underram":{	
@@ -115,6 +125,9 @@
 				"is_opt":true
 				,"content_url":"data/fwplt/stub.htm"
 				,"init":"stubInit"
+			},
+			"data":{
+				"cost":90.000
 			}
 		},
 		"clean":{	
@@ -124,6 +137,21 @@
 				"is_opt":true
 				,"content_url":"data/fwplt/stub.htm"
 				,"init":"stubInit"
+			},
+			"data":{
+				"cost":100
+			}
+		},
+		"handwork":{	
+			"id":"handwork",
+			"ui":{
+				"nm":"Работа мастера",
+				"is_opt":true
+				,"content_url":"data/fwplt/stub.htm"
+				,"init":"stubInit"
+			},
+			"data":{
+				"pct":20.000
 			}
 		}
 	}

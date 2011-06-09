@@ -140,11 +140,7 @@ div.cColumn {
 /*Тело плашки*/
 
 .pltBody {
-/*	width: 				100%;
-	display: 			block; 
-	margin-left: 		100px;  */
 	height: 				110px;
-/*	border:				1px solid;*/
 	display: 			block;
 	margin-left: 		100px; 
 }	
@@ -199,38 +195,21 @@ div.cColumn {
 }
 
 
-/*Багет       */
-.bagetProfil{
-	display: 			inline-block;
-	height: 				100px;
-	width:				100px;
-	vertical-align: 	middle;
-}
-.bagetFas{
-	display: 			inline-block;
-	height: 				100px;
-	width:				300px;
-	vertical-align: 	middle;
-}
-.bagetText{
-	display: 			inline-block;
-	height: 				100px;
-	vertical-align: 	middle;
-}
-
-
-
-
-
 .wide{
 	width: 				100%;
 }	
-
-	
 .hidden {
   display: 				none;
 }	
 
+/*Элемент выбора справочника*/
+.sprItem{
+	display:				inline-block;
+	border:				1px dotted black;
+	border-radius:		0.4em;
+	margin: 				0.4em;
+	padding:				0.4em;
+}
 
 
 /*Стили для багета*/
@@ -241,30 +220,9 @@ div.cColumn {
 #bgtSelHead span {
 	height: 				100px;
 	vertical-align: 	top;
-	font-size: 			1em;
+	font-size: 			1.6em;
 	margin: 				5px;
 }
-
-
-#bgtSelImg{
-	height: 				100px;
-	vertical-align: 	middle;
-	display: 			inline-block;
-}
-#bgtSelText{
-	height: 				100px;
-	vertical-align: 	middle;
-	display: 			inline-block;
-	margin-top: 		auto;
-}
-#bgtSelCost{
-	height: 				100px;
-	vertical-align: 	middle;
-	display: 			inline-block;
-	margin-top: 		auto;
-}
-
-
 .bgtItem{
 	cursor:pointer;
 	background-repeat:no-repeat;

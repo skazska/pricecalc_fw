@@ -5,9 +5,11 @@ var Calcs = {
 	url: "///home/ksz/my/work/newcalc/",
 	recalc: function(unit,parnm, value) {
 		//Обновим параметры расчера
-		var dat = this.dat;		
-		setField(dat[unit],parnm,value);
-	
+		var dat = this.dat;	
+		var un = this.app.units;	
+		if (defined(unit) && defined(parnm)) {
+			setField(dat[unit],parnm,value);
+		}
 		//считаем...
 		//базовые параметры
 		if ((dat.base.width < "1")||(dat.base.height < "1")) {
@@ -20,7 +22,7 @@ var Calcs = {
 		dat.base.square = dat.base.f_width*dat.base.f_height;
 		dat.base.perimeter = 2*(dat.base.f_width+dat.base.f_height);
 		dat.base.cost = 0;
-
+		//паспарту
 		if ((dat.paspartu.is_on)) {
 			//уточняем параметры  
 			dat.base.f_width 	+= 2*dat.paspartu.thin;
@@ -28,8 +30,8 @@ var Calcs = {
 			dat.base.square = dat.base.f_width*dat.base.f_height;
 			dat.base.perimeter = 2*(dat.base.f_width+dat.base.f_height);
 			//паспарту
-			dat.paspartu.cost = dat.paspartu.price * dat.base.square;
-			dat.paspartu.cost += dat.paspartu.is_double==true?dat.paspartu.cost/100*dat.paspartu.double_pct:0;
+			dat.paspartu.cost = un.paspartu.data.price * dat.base.square;
+			dat.paspartu.cost += dat.paspartu.is_double==true?dat.paspartu.cost/100*un.paspartu.data.double_pct:0;
 			if (dat.paspartu.adwork > "0") {
 				dat.paspartu.cost += dat.paspartu.cost/100*dat.paspartu.adwork;
 			}
@@ -40,15 +42,54 @@ var Calcs = {
 			dat.base.cost += dat.paspartu.cost;
 		}
 		dat.base.text += ", изделие:"+(dat.base.width+dat.paspartu.thin).toString()+"Х"+(dat.base.height+dat.paspartu.thin).toString()+"см.";
-
-		
+		//багет
 		if ((dat.baget.is_on)) {
-			dat.baget.cost = dat.base.perimeter/100*dat.baget.bgt.cost;
-			dat.base.cost += dat.paspartu.cost;
+			dat.baget.cost = (dat.base.perimeter*dat.baget.bgt.cost/100).round(2);
+			dat.base.cost += dat.baget.cost;
 			dat.baget.text = "<img height='50' width='50' src='"+dat.baget.bgt.profil+"'><img height='50' src='"+dat.baget.bgt.fas+"'><div style='vertical-align:top;display:inline;'>"+dat.baget.bgt.name+"</div>"; 
 		}
+		//стекло
+		if ((dat.glass.is_on)) {
+			dat.glass.cost = (dat.base.square*dat.glass.gls.cost).round(2);
+			dat.base.cost += dat.glass.cost;
+			dat.glass.text = dat.glass.gls.nm;
+		}
+		//фурнитура
+		if ((dat.furniture.is_on)) {
+			dat.furniture.cost = 0;
+			un.furniture.data.pricegrid.each(function(prc){
+				if (dat.base.perimeter > prc.p) {
+					dat.furniture.cost = (prc.cost).round(2);
+				}
+			});
+			dat.base.cost += dat.glass.cost;
 
+//			dat.furniture.text = ""			
+		}
+		//натяжка
+		if ((dat.backside.is_on)) {
+			dat.backside.cost = (dat.base.square*dat.backside.bsd.cost).round(2);
+			dat.base.cost += dat.backside.cost;
+			dat.backside.text = dat.backside.bsd.nm;
+		}
+		//подрамник
+		if ((dat.underram.is_on)) {
+			dat.underram.cost = (dat.base.perimeter*un.underram.data.cost/100).round(2);
+			dat.base.cost += dat.underram.cost;
+		}
+		//чистка
+		if ((dat.clean.is_on)) {
+			dat.clean.cost = (un.clean.data.cost).round(2);
+			dat.base.cost += dat.clean.cost;
+		}
+		//работа
+		if (dat.handwork.is_on) {
+			dat.handwork.cost = (dat.base.cost/100*un.handwork.data.pct).round(2);
+			dat.base.cost += dat.handwork.cost;
+		}
 
+		//стоимость изделия
+		dat.base.cost = dat.base.cost.round(2);
 		//Обновим информацию на экране
 		Object.each(this.datalink,function(key, value){
 			value.each(function(elt){
@@ -190,50 +231,30 @@ var Calcs = {
 		};
 	},	
 	
-	glasInit: function(Data){
-		var plate = Data.plates.glas.plate;		
-		Data.plates.glas.selMat = new Selectable({
-			options:Data.plates.glas.menu.options,
-			selected:Data.plates.glas.menu.selected,
-			onSelect:function(evt){
-				var sel = this;				
-				sel.items().each(function(item){
-					if (item != evt.item ) {
-						sel.unselect(item);
-					}
-				});
-			}
-		}).insertTo(plate.first('#pltGlasMatSel'));
-		plate.find('li').each(function(elt){
-			elt.setStyle('display:inline-block;border-right:1px solid #CCCCCC');
+	glassInit: function(){
+		//данные приложения по стеклу
+		var unit = this.app.units['glass'];
+		unit.data.matspr.each(function(itm){
+			var e = new Element('div', {class:"sprItem", html:itm.nm});
+			e.on("click",function(){
+				Calcs.recalc("glass","gls",itm);
+			});
+			$("glsCont").insert(e);
 		});
-	},	
-	bagetInit1: function(Data){
-		var plate = Data.plates.baget.plate;
-		var spr = Data.data.baget.spr;
-		var defid = Data.plates.baget.menu.selected[0];
-		Data.plates.baget.selBaget = new Selectable({
-			options:Data.plates.baget.menu.options,
-			selected:Data.plates.baget.menu.selected,
-			multiple:false
-		}).insertTo(plate.first('#pltBagetSel' ));
-		plate.first('div .rui-selectable-container').setStyle({'height':'100px'});
-		plate.find('li').each(function(elt){
-			var id = defined(elt._value)?elt._value:defid;
-			var div = new Element('div', {'class':'bagetProfil'}).insertTo(elt);
-			new Element(
-				'img',
-				{'src':spr[id].profil,'alt':spr[id].profil,'height':100,'width':100}
-			).insertTo(div);
-			var div = new Element('div',{'class':'bagetFas'}).insertTo(elt);
-			new Element(
-				'img',
-				{'src':spr[id].fas,'alt':spr[id].fas,'height':100,'width':300}
-			).insertTo(div);
-			var div = new Element('div', {'class':'bagetText'}).insertTo(elt);
-			div.text(spr[id].name+' - '+spr[id].cost+'р.');
+	},
+	
+	backsideInit: function(){
+		//данные приложения по стеклу
+		var unit = this.app.units.backside;
+		unit.data.matspr.each(function(itm){
+			var e = new Element('div', {class:"sprItem", html:itm.nm});
+			e.on("click",function(){
+				Calcs.recalc("backside","bsd",itm);
+			});
+			$("bsdCont").insert(e);
 		});
-	}	
+	}
+	
 	
 }
 

@@ -72,14 +72,15 @@ var activateUnit = function(evt, unit, itmData){
 	unit.etm.hide();
 	itmData[unit.id].is_on = true;
 	unit.etp.show();
-}
+	Calcs.recalc();
+};
 //активация плашки
 var deactivateUnit = function(evt, unit, itmData){
 	unit.etp.hide();
 	itmData[unit.id].is_on = false;
 	unit.etm.show();
-	
-}
+	Calcs.recalc();
+};
 
 var initUI = function(appData, itmData){
 	if (itmData.mode == "calc") {
@@ -105,12 +106,12 @@ var initUI = function(appData, itmData){
 			unit.etp = makeElt(appData.templates.plate,unit,Calcs.datalink[ukey]);
 			pc.insert(unit.etp);
 			//актив/инактив
-			//инициализация
-			if (itmData[ukey].is_on == true) {
+			//для инициации включаем все плашки 
+			if (itmData[ukey].is_on) {
 				unit.etm.hide(); unit.etp.show();
 			} else {
 				unit.etp.hide(); unit.etm.show();
-			} 
+			}
 			//обработка
 			if (unit.ui.is_opt == true){
 				unit.etm.onClick(activateUnit, unit, itmData);
