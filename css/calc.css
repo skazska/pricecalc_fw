@@ -54,14 +54,14 @@ div.cColumn {
 
 
 #wsMenu {
-	width: 250px;
+	width: 200px;
 	right: 0px;
 	
 }
 	
 #wsPlates {
 	left: 0px;
-	right: 260px;
+	right: 210px;
 	
 }
 
@@ -94,7 +94,11 @@ div.cColumn {
 	width: 				99%;
 	display: 			block;  
 
-}	
+}
+/*контейнер*/
+.pltHeadCont{
+	display: 			inline-block;
+}
 /*Подпись текста заголовка плашки*/
 .pltHeadTitle{
 	font-size:			1em;

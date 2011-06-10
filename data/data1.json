@@ -7,7 +7,7 @@
 				"width":10
 	},
 	"paspartu":	{	
-				"is_on":true,
+				"is_on":false,
 				"thin":10,
 				"is_double":true,
 				"adwork":0
@@ -17,15 +17,19 @@
 				"bgt":{"id":"1","cat":"main","fas":"img/100/2/jj3-07.jpg","profil":"img/100/2/profil_011.gif","name":"008-001","cost":200}
 	},
 	"glass":		{	
-				"is_on":false,
+				"is_on":true,
 				"gls":{"id":"1","nm":"Простое","cost":0.085}
 	},
 	"furniture":{	
 				"is_on":false
 	},
+	"stretch":	{	
+				"is_on":false,
+				"str":{"id":"1","nm":"Ручная","cost":0.020}
+	},
 	"backside":	{	
 				"is_on":false,
-				"bsd":{"id":"1","nm":"Ручная","cost":0.027}
+				"bsd":{"id":"1","nm":"Картон","cost":0.040}
 	},
 	"handwork":	{	
 				"is_on":false

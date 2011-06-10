@@ -105,13 +105,8 @@ var initUI = function(appData, itmData){
 			//плашка
 			unit.etp = makeElt(appData.templates.plate,unit,Calcs.datalink[ukey]);
 			pc.insert(unit.etp);
-			//актив/инактив
-			//для инициации включаем все плашки 
-			if (itmData[ukey].is_on) {
-				unit.etm.hide(); unit.etp.show();
-			} else {
-				unit.etp.hide(); unit.etm.show();
-			}
+			//высота тела
+			unit.etp.first('.pltBody').setHeight(unit.ui.height);
 			//обработка
 			if (unit.ui.is_opt == true){
 				unit.etm.onClick(activateUnit, unit, itmData);
@@ -165,6 +160,12 @@ var initUI = function(appData, itmData){
 						pltBodyHide.delay(1300);
 					}
 				});
+				//актив/инактив
+				if (itmData[ukey].is_on) {
+					unit.etm.hide(); unit.etp.show();
+				} else {
+					unit.etp.hide(); unit.etm.show();
+				}
 			}.rcurry(unit.etp));
 		});
 

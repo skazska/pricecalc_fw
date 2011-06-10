@@ -63,10 +63,14 @@ var Calcs = {
 				}
 			});
 			dat.base.cost += dat.glass.cost;
-
-//			dat.furniture.text = ""			
 		}
 		//натяжка
+		if ((dat.stretch.is_on)) {
+			dat.stretch.cost = (dat.base.width*dat.base.height*dat.stretch.str.cost).round(2);
+			dat.base.cost += dat.stretch.cost;
+			dat.stretch.text = dat.stretch.str.nm;
+		}
+		//задник
 		if ((dat.backside.is_on)) {
 			dat.backside.cost = (dat.base.square*dat.backside.bsd.cost).round(2);
 			dat.base.cost += dat.backside.cost;
@@ -222,6 +226,10 @@ var Calcs = {
 		dlg.html($("bgtContent"));
 		//текущий багет
 		dlg.bgt = this.dat.baget.bgt;
+		//
+//		dlg.on("resize", function(evt){
+//			tabs.setHeight(this.size.y - 100);
+//		});
 		//функции интерфейса открытие / закрытие конфигурации
 		return {
 			onBodyShow : function() {
@@ -243,6 +251,18 @@ var Calcs = {
 		});
 	},
 	
+	stretchInit: function(){
+		//данные приложения по стеклу
+		var unit = this.app.units.stretch;
+		unit.data.matspr.each(function(itm){
+			var e = new Element('div', {class:"sprItem", html:itm.nm});
+			e.on("click",function(){
+				Calcs.recalc("stretch","str",itm);
+			});
+			$("strCont").insert(e);
+		});
+	},
+
 	backsideInit: function(){
 		//данные приложения по стеклу
 		var unit = this.app.units.backside;
