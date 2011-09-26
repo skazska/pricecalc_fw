@@ -3,7 +3,12 @@
 (require (prefix-in sqlite: (planet jaymccarthy/sqlite))
          )
 
-(provide DEFAULT_APP)
+(provide DEFAULT_APP DB_PATH
+         calc init-calc! calc-apps
+         (struct-out app) new-app! app-units app-add-unit!
+         (struct-out unit) unit-data 
+         unitdata unit-data-spr)
+
 (define DB_PATH (build-path (current-directory)
                 "calcdb1.sqlite"))
 (define DEFAULT_APP 0)
@@ -72,9 +77,12 @@
 ; limit : integer?  = 100
 ; offset : integer? = 0
 (define (calc-apps a-calc #:limit [limit 100] #:offset [offset 0])
-    (map (lambda (x) (vector->app a-calc x))
-         (rest (sqlite:select (calc-db a-calc) GET_APPS_SQL 
-                              limit offset))))
+  (let ([rows (sqlite:select (calc-db a-calc) GET_APPS_SQL 
+                              limit offset)])  
+    (if (empty? rows)
+        '()
+        (map (lambda (x) (vector->app a-calc x))
+             (rest rows)))))
 
 ;;New application: insert data into app with given name 
 ;(new-app! a-calc nm) -> app?
@@ -100,15 +108,18 @@
 ; limit : integer?
 ; offset: integer?
 (define (app-units an-app #:limit [limit 100] #:offset [offset 0])
-  (map (lambda (x) (vector->unit an-app x))
-       (rest (sqlite:select 
+  (let ([rows (sqlite:select 
               (calc-db (app-calc an-app)) GET_APP_UNITS_SQL 
-              (app-id an-app) limit offset))))
+              (app-id an-app) limit offset)]) 
+  (map (lambda (x) (vector->unit an-app x))
+       (rest rows))))
 
 ;;Add unit: insert data into unit with given field vals for given app 
-;(add-app! a-calc nm) -> app?
-;a-calc : calc?
-;nm : string?
+;(add-app! calc? string? string? [#:is_opt #:height #:content #:init]) -> app?
+; is_opt : boolean?
+; height : integer?
+; content: string?
+; init   : string?
 (define (app-add-unit! an-app nm descr #:is_opt [is_opt #t] #:height [height 100] 
                        #:content [content ""] #:init [init ""])
   (unit (sqlite:insert (calc-db (app-calc an-app)) INS_UNIT_SQL 
@@ -129,9 +140,10 @@
 
 ;;Each unit has content-data
 (define (unit-data a-unit #:limit [limit 100] #:offset [offset 0])
+  (let ([rows (sqlite:select (unit-db) GET_APP_UNITDATA_SQL 
+                            (unit-id a-unit) limit offset)])
   (map (lambda (x) (vector->unitdata a-unit x))
-       (rest (sqlite:select (unit-db) GET_APP_UNITDATA_SQL 
-                            (unit-id a-unit) limit offset))))
+       (rest rows))))
 
 ;;unfold unit's db
 ;(unit-db unit?) -> sqlite:db?
