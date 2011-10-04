@@ -5,9 +5,10 @@
 
 (provide DEFAULT_APP DB_PATH
          calc init-calc! calc-apps
-         (struct-out app) new-app! app-units app-add-unit!
+         (struct-out app) set-app! app-units set-unit!
          (struct-out unit) unit-data 
-         unitdata unit-data-spr)
+         unitdata unit-data-spr
+         map_rest)
 
 (define DB_PATH (build-path (current-directory)
                 "calcdb1.sqlite"))
@@ -28,11 +29,15 @@
   "SELECT id, nm FROM app LIMIT ? OFFSET ?")
 (define INS_APP_SQL
   "INSERT INTO app(nm) VALUES (?)")
+(define UPD_APP_SQL
+  "UPDATE app SET nm = ? WHERE id = ?")
 ;;Work with unit
 (define GET_APP_UNITS_SQL
   "SELECT id, nm, descr, is_opt, height, content, init FROM unit WHERE appid = ? LIMIT ? OFFSET ?")
 (define INS_UNIT_SQL
-  "INSERT INTO unit(appid, nm, descr, is_opt, height, content, init) VALUES (?, ?, ?, ?, ?, ?, ?)")
+  "INSERT INTO unit (appid, nm, descr, is_opt, height, content, init) VALUES (?, ?, ?, ?, ?, ?, ?)")
+(define UPD_UNIT_SQL
+  "UPDATE unit SET nm = ?, descr = ?, is_opt = ?, height = ?, content = ?, init = ? WHERE id = ?")
 
 ;;Work with unitdata
 (define GET_APP_UNITDATA_SQL
@@ -44,7 +49,11 @@
 (define INS_UNITDATA_SPR_SQL
   "INSERT INTO unit(unitid, tp, spr) VALUES (?, 'SPR', ?)")
 
-
+;;map including empty list
+(define-syntax-rule (map_rest f l)
+  (if (empty? l)
+        '()
+        (map f (rest l))))
 
 ;;Calculator - an abstract db container 
 (struct calc (db))
@@ -79,24 +88,24 @@
 (define (calc-apps a-calc #:limit [limit 100] #:offset [offset 0])
   (let ([rows (sqlite:select (calc-db a-calc) GET_APPS_SQL 
                               limit offset)])  
-    (if (empty? rows)
-        '()
-        (map (lambda (x) (vector->app a-calc x))
-             (rest rows)))))
+    (map_rest (lambda (x) (vector->app a-calc x)) rows)))
 
-;;New application: insert data into app with given name 
-;(new-app! a-calc nm) -> app?
-;a-calc : calc?
-;nm : string?
-(define (new-app! a-calc nm)
-  (app a-calc (sqlite:insert (calc-db a-calc) INS_APP_SQL nm) nm))
-                   
 ;;Application - the root of hierarchy
 ;; distinguish logicaly consistent and independent calculators.
 (struct app (calc id nm))
 ; calc : calc?
 ; id   : integer?
 ; nm   : string?
+
+;;Modify application: insert/update data into app with given name 
+;(set-app! a-calc id nm) -> app?
+;a-calc : calc?
+;id : integer?
+;nm : string?
+(define (set-app! a-calc id nm)
+  (cond [(< id 0) (app a-calc (sqlite:insert (calc-db a-calc) INS_APP_SQL nm) nm)]
+        [else (sqlite:exec/ignore (calc-db a-calc) UPD_APP_SQL nm id)
+              (app a-calc id nm)]))
 
 ;;returns app structure from given calc and vector of field vals
 ;(vector->app calc? vector?) -> app?
@@ -111,31 +120,36 @@
   (let ([rows (sqlite:select 
               (calc-db (app-calc an-app)) GET_APP_UNITS_SQL 
               (app-id an-app) limit offset)]) 
-  (map (lambda (x) (vector->unit an-app x))
-       (rest rows))))
+    (map_rest (lambda (x) (vector->unit an-app x)) rows)))
 
-;;Add unit: insert data into unit with given field vals for given app 
+
+;;Application consist of units - units of calculation
+;; each unit has same structure but different content
+(struct unit (app id nm descr is_opt height content init))
+; id : integer? app : app? nm : string? descr : sctring? is_opt : boolean? height : integer? content : string? init : string?
+
+;;Modify unit: insert/update data into unit with given field vals for given app 
 ;(add-app! calc? string? string? [#:is_opt #:height #:content #:init]) -> app?
 ; is_opt : boolean?
 ; height : integer?
 ; content: string?
 ; init   : string?
-(define (app-add-unit! an-app nm descr #:is_opt [is_opt #t] #:height [height 100] 
+(define (set-unit! an-app id nm descr #:is_opt [is_opt #t] #:height [height 100] 
                        #:content [content ""] #:init [init ""])
-  (unit (sqlite:insert (calc-db (app-calc an-app)) INS_UNIT_SQL 
-                       (app-id an-app) nm descr (if is_opt 1 0) height content init) 
-        an-app nm descr is_opt height content init))
 
-
-;;Application consist of units - units of calculation
-;; each unit has same structure but different content
-(struct unit (id app nm descr is_opt height content init))
-; id : integer? app : app? nm : string? descr : sctring? is_opt : boolean? height : integer? content : string? init : string?
-
+  (cond [(< id 0) 
+         (unit an-app 
+               (sqlite:insert (calc-db (app-calc an-app)) INS_UNIT_SQL 
+                              (app-id an-app) nm descr (if is_opt 1 0) 
+                              height content init) 
+               nm descr is_opt height content init)]
+        [else (sqlite:exec/ignore (calc-db (app-calc an-app)) UPD_UNIT_SQL 
+                              nm descr (if is_opt 1 0) height content init id) 
+              (unit an-app id nm descr is_opt height content init)]))
 ;;returns unit structure from given app and vector of field vals
 ;(vector->unit app? vector?) -> unit?
 (define (vector->unit an-app x)
-  (unit (vector-ref x 0) an-app (vector-ref x 1) (vector-ref x 2) 
+  (unit an-app (vector-ref x 0) (vector-ref x 1) (vector-ref x 2) 
         (not(eqv? (vector-ref x 3) 0)) (vector-ref x 4) (vector-ref x 5) (vector-ref x 6)))
 
 ;;Each unit has content-data
@@ -151,14 +165,14 @@
   (calc-db (app-calc (unit-app a-unit))))
 
 ;;unit-data structure
-(struct unitdata (id unit tp val))
+(struct unitdata (unit id tp val))
 ; id : integer? unit : unit? type : string? value : any/c?
 
 ;;returns unitdata structure from given unit and vector of field vals
 ;; value field assigned depending on type (tp)
 ;(vector->unitdata unit? vector?) -> unitdata?
 (define (vector->unitdata a-unit x)
-  (unitdata (vector-ref x 0) a-unit (vector-ref x 1)
+  (unitdata a-unit  (vector-ref x 0) (vector-ref x 1)
             (cond [(eqv? (vector-ref x 1) "NUM")  (vector-ref x 2)]
                   [(eqv? (vector-ref x 1) "TEXT")  (vector-ref x 3)]
                   [(eqv? (vector-ref x 1) "SPR")  (unit-data-spr 
