@@ -155,7 +155,7 @@
               (span ,@(formlet-display (app-formlet an-app) ))
               (span (input ([type "submit"][value "Сохранить"]))))));)
   
-;;;Units
+;;;Unitsf
 ;;Rendering Unit page, consisting of unit's params edit form and list of data items
 ;(render-unit-page request? unit?) -> xexpr?
 (define/page (render-unit-page a-unit)

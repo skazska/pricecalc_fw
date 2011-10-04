@@ -136,7 +136,6 @@
 ; init   : string?
 (define (set-unit! an-app id nm descr #:is_opt [is_opt #t] #:height [height 100] 
                        #:content [content ""] #:init [init ""])
-
   (cond [(< id 0) 
          (unit an-app 
                (sqlite:insert (calc-db (app-calc an-app)) INS_UNIT_SQL 

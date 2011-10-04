@@ -24,7 +24,7 @@
 
 (define-syntax-rule (boolean-f-cb f)
   (to-boolean
-   (default #"off" (checkbox #"on" f))))  
+   (default #"off" (checkbox #"on" f))))   
 
 (define-syntax-rule (item-f a-formlet a-caption a-class)
   `(div ([class ,a-class]) (span ([class "caption"]) ,a-caption)
