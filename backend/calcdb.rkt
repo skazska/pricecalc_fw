@@ -5,13 +5,14 @@
 
 (provide DEFAULT_APP DB_PATH
          calc init-calc! calc-apps
-         (struct-out app) set-app! app-units set-unit!
-         (struct-out unit) unit-data 
-         unitdata unit-data-spr
+         (struct-out app) set-app! app-tpls app-units 
+         (struct-out unit) set-unit! unit-data
+         (struct-out tpl) set-tpl!
+         (struct-out unitdata) unit-data-spr
          map_rest)
 
 (define DB_PATH (build-path (current-directory)
-                "calcdb1.sqlite"))
+                "calcdb.sqlite"))
 (define DEFAULT_APP 0)
 ;;;SQLs
 
@@ -21,9 +22,9 @@
 (define CREATE_UNIT_SQL 
   "CREATE TABLE unit(id INTEGER PRIMARY KEY, appid INTEGER, nm TEXT, descr TEXT, is_opt INTEGER, height INTEGER, content TEXT, init TEXT)")
 (define CREATE_UNIT_DATA_SQL
-  "CREATE TABLE unit_data(id INTEGER PRIMARY KEY, unitid INTEGER, tp INTEGER, numval NUMERIC, textval TEXT, spr TEXT)")
+  "CREATE TABLE unit_data(id INTEGER PRIMARY KEY, unitid INTEGER, nm TEXT, tp INTEGER, numval NUMERIC, textval TEXT, spr TEXT)")
 (define CREATE_TPL_SQL
-  "CREATE TABLE tpl(id INTEGER PRIMARY KEY, appid INTEGER, content TEXT)")
+  "CREATE TABLE tpl(id INTEGER PRIMARY KEY, appid INTEGER, nm TEXT, content TEXT)")
 ;;Work with app
 (define GET_APPS_SQL
   "SELECT id, nm FROM app LIMIT ? OFFSET ?")
@@ -31,6 +32,13 @@
   "INSERT INTO app(nm) VALUES (?)")
 (define UPD_APP_SQL
   "UPDATE app SET nm = ? WHERE id = ?")
+;;Work with tpl
+(define GET_APP_TPLS_SQL
+  "SELECT id, nm, content FROM tpl WHERE appid = ? LIMIT ? OFFSET ?")
+(define INS_TPL_SQL
+  "INSERT INTO tpl (appid, nm, content) VALUES (?, ?, ?)")
+(define UPD_TPL_SQL
+  "UPDATE tpl SET nm = ?, content = ? WHERE id = ?")
 ;;Work with unit
 (define GET_APP_UNITS_SQL
   "SELECT id, nm, descr, is_opt, height, content, init FROM unit WHERE appid = ? LIMIT ? OFFSET ?")
@@ -41,13 +49,19 @@
 
 ;;Work with unitdata
 (define GET_APP_UNITDATA_SQL
-  "SELECT id, tp, numval, textval, spr FROM unit_data WHERE unitid = ? LIMIT ? OFFSET ?")
+  "SELECT id, nm, tp, numval, textval, spr FROM unit_data WHERE unitid = ? LIMIT ? OFFSET ?")
 (define INS_UNITDATA_NUM_SQL
-  "INSERT INTO unit(unitid, tp, numval) VALUES (?, 'NUM', ?)")
+  "INSERT INTO unit_data (unitid, nm, tp, numval) VALUES (?, ?, 'NUM', ?)")
+(define UPD_UNITDATA_NUM_SQL
+  "UPDATE unit_data SET nm = ?, numval = ? WHERE id = ?")
 (define INS_UNITDATA_TEXT_SQL
-  "INSERT INTO unit(unitid, tp, textval) VALUES (?, 'TEXT', ?)")
+  "INSERT INTO unit_data (unitid, nm, tp, textval) VALUES (?, ?, 'TEXT', ?)")
+(define UPD_UNITDATA_TEXT_SQL
+  "UPDATE unit_data SET nm = ?, textval = ? WHERE id = ?")
 (define INS_UNITDATA_SPR_SQL
-  "INSERT INTO unit(unitid, tp, spr) VALUES (?, 'SPR', ?)")
+  "INSERT INTO unit_data (unitid, nm, tp, spr) VALUES (?, ?, 'SPR', ?)")
+(define UPD_UNITDATA_SPR_SQL
+  "UPDATE unit_data SET nm = ? WHERE id = ?")
 
 ;;map including empty list
 (define-syntax-rule (map_rest f l)
@@ -112,15 +126,44 @@
 (define (vector->app a-calc x)
   (app a-calc (vector-ref x 0) (vector-ref x 1)))
 
-;;returns list of unit structure from given app
-;(app-units app? [#:limit #:offset]) -> (listof unit?)
+;;Templates represents GUI elements of app
+;; template has a name identifiyng it for gui and 
+;; content - a JSON expression representing a html 
+;; with placers
+(struct tpl (app id nm content))
+;app : app? - app ref
+;id : integer? - db id
+;nm : string? - name
+;content : string? - template
+
+;;Modify template: insert/update data into tpl with given name and content 
+;(set-tpl! an-app id nm content) -> tpl?
+;an-app : app?
+;id : integer?
+;nm : string?
+;content : string?
+(define (set-tpl! an-app id nm content)
+  (cond [(< id 0) (tpl an-app 
+                       (sqlite:insert (calc-db (app-calc an-app)) INS_TPL_SQL 
+                                      (app-id an-app) nm content) 
+                       nm content)]
+        [else (sqlite:exec/ignore (calc-db (app-calc an-app)) UPD_TPL_SQL nm content id)
+              (tpl an-app id nm content)]))
+
+;;returns app structure from given calc and vector of field vals
+;(vector->app calc? vector?) -> app?
+(define (vector->tpl an-app x)
+  (tpl an-app (vector-ref x 0) (vector-ref x 1) (vector-ref x 2)))
+
+;;returns list of tpl structure from given app
+;(app-tpls app? [#:limit #:offset]) -> (listof tpl?)
 ; limit : integer?
 ; offset: integer?
-(define (app-units an-app #:limit [limit 100] #:offset [offset 0])
+(define (app-tpls an-app #:limit [limit 100] #:offset [offset 0])
   (let ([rows (sqlite:select 
-              (calc-db (app-calc an-app)) GET_APP_UNITS_SQL 
+              (calc-db (app-calc an-app)) GET_APP_TPLS_SQL 
               (app-id an-app) limit offset)]) 
-    (map_rest (lambda (x) (vector->unit an-app x)) rows)))
+    (map_rest (lambda (x) (vector->tpl an-app x)) rows)))
 
 
 ;;Application consist of units - units of calculation
@@ -129,7 +172,7 @@
 ; id : integer? app : app? nm : string? descr : sctring? is_opt : boolean? height : integer? content : string? init : string?
 
 ;;Modify unit: insert/update data into unit with given field vals for given app 
-;(add-app! calc? string? string? [#:is_opt #:height #:content #:init]) -> app?
+;(set-unit! app? integer? string? string? [#:is_opt #:height #:content #:init]) -> unit?
 ; is_opt : boolean?
 ; height : integer?
 ; content: string?
@@ -151,12 +194,22 @@
   (unit an-app (vector-ref x 0) (vector-ref x 1) (vector-ref x 2) 
         (not(eqv? (vector-ref x 3) 0)) (vector-ref x 4) (vector-ref x 5) (vector-ref x 6)))
 
+;;returns list of unit structure from given app
+;(app-units app? [#:limit #:offset]) -> (listof unit?)
+; limit : integer?
+; offset: integer?
+(define (app-units an-app #:limit [limit 100] #:offset [offset 0])
+  (let ([rows (sqlite:select 
+              (calc-db (app-calc an-app)) GET_APP_UNITS_SQL 
+              (app-id an-app) limit offset)]) 
+    (map_rest (lambda (x) (vector->unit an-app x)) rows)))
+
+
 ;;Each unit has content-data
 (define (unit-data a-unit #:limit [limit 100] #:offset [offset 0])
   (let ([rows (sqlite:select (unit-db) GET_APP_UNITDATA_SQL 
                             (unit-id a-unit) limit offset)])
-  (map (lambda (x) (vector->unitdata a-unit x))
-       (rest rows))))
+  (map_rest (lambda (x) (vector->unitdata a-unit x)) rows)))
 
 ;;unfold unit's db
 ;(unit-db unit?) -> sqlite:db?
@@ -164,23 +217,52 @@
   (calc-db (app-calc (unit-app a-unit))))
 
 ;;unit-data structure
-(struct unitdata (unit id tp val))
+(struct unitdata (unit id nm tp value))
 ; id : integer? unit : unit? type : string? value : any/c?
+
+;;Modify unitdata: insert/update data into  with given name and content 
+;(set-unitdata! a-unit id nm tp val) -> ?
+;an-app : app?
+;id : integer?
+;nm : string?
+;content : string?
+(define (set-unitdata! a-unit id nm tp value)
+  (cond [(< id 0) 
+         (unitdata a-unit
+                   (cond [(eqv? tp "NUM") 
+                          (sqlite:insert (unit-db a-unit) INS_UNITDATA_NUM_SQL 
+                                         (unit-id a-unit) nm value)]
+                         [(eqv? tp "TEXT") 
+                          (sqlite:insert (unit-db a-unit) INS_UNITDATA_TEXT_SQL 
+                                         (unit-id a-unit) nm value)]
+                         [(eqv? tp "SPR") 
+                          (sqlite:insert (unit-db a-unit) INS_UNITDATA_SPR_SQL 
+                                         (unit-id a-unit) nm value)])
+                   nm tp val)]
+        [else 
+         (cond [(eqv? tp "NUM")
+                (sqlite:exec/ignore (unit-db a-unit) UPD_UNITDATA_NUM_SQL nm value id)]
+               [(eqv? tp "TEXT")
+                (sqlite:exec/ignore (unit-db a-unit) UPD_UNITDATA_TEXT_SQL nm value id)]
+               [(eqv? tp "SPR")
+                (sqlite:exec/ignore (unit-db a-unit) UPD_UNITDATA_SPR_SQL nm id)])
+              (unitdata a-unit id nm tp value)]))
+
 
 ;;returns unitdata structure from given unit and vector of field vals
 ;; value field assigned depending on type (tp)
 ;(vector->unitdata unit? vector?) -> unitdata?
 (define (vector->unitdata a-unit x)
-  (unitdata a-unit  (vector-ref x 0) (vector-ref x 1)
-            (cond [(eqv? (vector-ref x 1) "NUM")  (vector-ref x 2)]
-                  [(eqv? (vector-ref x 1) "TEXT")  (vector-ref x 3)]
+  (unitdata a-unit  (vector-ref x 0) (vector-ref x 1) (vector-ref x 2)
+            (cond [(eqv? (vector-ref x 1) "NUM")  (vector-ref x 3)]
+                  [(eqv? (vector-ref x 1) "TEXT")  (vector-ref x 4)]
                   [(eqv? (vector-ref x 1) "SPR")  (unit-data-spr 
-                                                   a-unit (vector-ref x 3))])))
+                                                   a-unit (vector-ref x 5))])))
   
 ;;returns data list of unitdata
 ;(unitdata-spr unit? string?) -> (listof hashtable?)
 (define (unit-data-spr a-unit spr-name)
-  (local [;;returns list if pairs each of which have car from keylist 
+  (local [;;returns list of pairs each of which have car from keylist 
           ;; and cdr from value list at same position
           ;(pairlist (listof datum/c?) (listof datum/c?)) -> (listof pair?)
           (define (pairlist keylist vallist)
