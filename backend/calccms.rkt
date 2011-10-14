@@ -164,100 +164,6 @@
         (form ([action ,(embed/url save-handler)][method "POST"])
               (span ,@(formlet-display (app-formlet an-app) ))
               (span (input ([type "submit"][value "Сохранить"]))))));)
-  
-;;;Units
-;;Rendering Unit page, consisting of unit's params edit form and list of data items
-;(render-unit-page request? unit?) -> xexpr?
-(define/page (render-unit-page a-unit)
-  (local [
-          ;handlers
-          (define (save-handler req)
-            (define-values (id nm descr is_opt height content init) 
-              (formlet-process (unit-formlet a-unit) req))              
-            (render-unit-page (redirect/get) 
-                              (set-unit! (unit-app a-unit) (car id) (car nm)
-                                         (car descr) #:is_opt (car is_opt) 
-                                         #:height (car height) #:content (car content)
-                                         #:init (car init))))
-          (define (go-app-handler req)
-            (render-app-page req (unit-app a-unit)))
-          (define (new-num-data-handler req)
-            (render-unitdata-page 
-             req (unitdata a-unit -1 "data id" "NUM" 0)))
-          (define (new-txt-data-handler req)
-            (render-unitdata-page 
-             req (unitdata a-unit -1 "data id" "TEXT" "")))
-          (define (new-num-data-handler req)
-            (render-unitdata-page 
-             req (unitdata a-unit -1 "data id" "SPR" "")))
-          ;blocks
-          (define (form-block embed/url)
-            (render-unit-form embed/url a-unit save-handler))
-          (define (panel-block embed/url)
-            (render-action-panel embed/url 
-                                 (list (action go-app-handler "Назад к Приложению"))))
-          (define (data-list-panel embed/url)
-            (render-action-panel embed/url 
-                                 (list (action new-num-data-handler "Новое число")
-                                       (action new-txt-data-handler "Новый текст")
-                                       (action new-spr-data-handler "Новый справочник"))))
-          (define (data-list-block embed/url)
-            (render-item-list embed/url (unit-data a-unit) unitdata-descr
-                              (list (action render-unitdata-page "Открыть"))))            
-          ]
-  (render-page embed/url 
-               (string-append "Настройка калькулятора Модуль " 
-                              (unit-nm a-unit) " Приложения " 
-                              (app-nm (unit-app a-unit)))
-               (list panel-block form-block data-list-panel data-list-block 
-                     ;list-block
-                     ) 
-               )))
-  
-;;Rendering unit edit form with fields [id nm descr is_opt height content init]
-;(render-unit-form embed/url unit?) -> xexpr?
-(define (render-unit-form embed/url a-unit post-handler)
-  `(div ([class "form"]) 
-        (form ([action ,(embed/url post-handler)][method "POST"])
-              ,@(formlet-display (unit-formlet a-unit))
-              (input ([type "submit"][value "Сохранить"])))))
-
-
-;;UnitData 
-(define/page (render-unitdata-page a-data)
-  (local [
-          ;handlers
-          (define (save-handler req)
-            (define-values (id nm value)
-              (cond [(eqv? (data-tp a-data) "NUM")
-                     (formlet-process (unitdata-num-formlet a-tpl) req)]
-                    [(eqv? (data-tp a-data) "TEXT")
-                     (formlet-process (unitdata-txt-formlet a-tpl) req)]
-                    [(eqv? (data-tp a-data) "SPR")
-                     (formlet-process (unitdata-spr-formlet a-tpl) req)]))              
-            (render-unitdata-page (redirect/get) 
-                              (set-unitdata! (unitdata-unit a-data) (car id) (car nm)
-                                             (car value))))
-          (define (go-app-handler req)
-            (render-app-page req (tpl-app a-tpl)))
-          
-          ;blocks
-          (define (form-block embed/url)
-            (render-tpl-form embed/url a-tpl save-handler))
-          (define (panel-block embed/url)
-            (render-action-panel embed/url 
-                                 (list (action go-app-handler "Назад к Приложению"))))
-          ]
-  (render-page embed/url 
-               (string-append "Настройка калькулятора Шаблон " 
-                              (tpl-nm a-tpl) " Приложения " 
-                              (app-nm (tpl-app a-tpl)))
-               (list panel-block form-block 
-                     ;list-block
-                     ) 
-               )))
-          
-
 
 ;;Templates
 ;;Rendering template page consisitng of data form representing template
@@ -295,7 +201,191 @@
         (form ([action ,(embed/url post-handler)][method "POST"])
               ,@(formlet-display (tpl-formlet a-tpl))
               (input ([type "submit"][value "Сохранить"])))))
+
+
+;;;Units
+;;Rendering Unit page, consisting of unit's params edit form and list of data items
+;(render-unit-page request? unit?) -> xexpr?
+(define/page (render-unit-page a-unit)
+  (local [
+          ;handlers
+          (define (save-handler req)
+            (define-values (id nm descr is_opt height content init) 
+              (formlet-process (unit-formlet a-unit) req))              
+            (render-unit-page (redirect/get) 
+                              (set-unit! (unit-app a-unit) (car id) (car nm)
+                                         (car descr) #:is_opt (car is_opt) 
+                                         #:height (car height) #:content (car content)
+                                         #:init (car init))))
+          (define (go-app-handler req)
+            (render-app-page req (unit-app a-unit)))
+          (define (new-num-data-handler req)
+            (render-unitdata-page 
+             req (unitdata a-unit -1 "data id" UD_NUM 0)))
+          (define (new-txt-data-handler req)
+            (render-unitdata-page 
+             req (unitdata a-unit -1 "data id" UD_TXT "")))
+          (define (new-spr-data-handler req)
+            (render-unitdata-page 
+             req (unitdata a-unit -1 "data id" UD_SPR "NOTAB_0")))
+          ;blocks
+          (define (form-block embed/url)
+            (render-unit-form embed/url a-unit save-handler))
+          (define (panel-block embed/url)
+            (render-action-panel embed/url 
+                                 (list (action go-app-handler "Назад к Приложению"))))
+          (define (data-list-panel embed/url)
+            (render-action-panel embed/url 
+                                 (list (action new-num-data-handler "Новое число")
+                                       (action new-txt-data-handler "Новый текст")
+                                       (action new-spr-data-handler "Новый справочник"))))
+          (define (data-list-block embed/url)
+            (render-item-list embed/url (unit-data a-unit) unitdata-descr
+                              (list (action render-unitdata-page "Открыть"))))            
+          ]
+  (render-page embed/url 
+               (string-append "Настройка калькулятора Модуль " 
+                              (unit-nm a-unit) " Приложения " 
+                              (app-nm (unit-app a-unit)))
+               (list panel-block form-block data-list-panel data-list-block 
+                     ;list-block
+                     ) 
+               )))
   
+;;Rendering unit edit form with fields [id nm descr is_opt height content init]
+;(render-unit-form embed/url unit?) -> xexpr?
+(define (render-unit-form embed/url a-unit post-handler)
+  `(div ([class "form"]) 
+        (form ([action ,(embed/url post-handler)][method "POST"])
+              ,@(formlet-display (unit-formlet a-unit))
+              (input ([type "submit"][value "Сохранить"])))))
+
+
+;;UnitData 
+(define (unitdata-formlet a-data)
+  (cond [(eqv? (unitdata-tp a-data) UD_NUM) unitdata-num-formlet]
+        [(eqv? (unitdata-tp a-data) UD_TXT) unitdata-txt-formlet]
+        [(eqv? (unitdata-tp a-data) UD_SPR) unitdata-spr-formlet]))
+(define/page (render-unitdata-page a-data)
+  (local [
+          ;handlers
+          ;;unitdata
+          (define (save-handler req)
+            (define-values (id nm value)
+              (formlet-process ((unitdata-formlet a-data) a-data) req))
+            (render-unitdata-page (redirect/get) 
+                              (set-unitdata! (unitdata-unit a-data) (car id) (car nm)
+                                             (unitdata-tp a-data) (car value))))
+          (define (go-unit-handler req)
+            (render-unit-page req (unitdata-unit a-data)))
+          ;coldef
+          (define (new-col-handler req)
+            (render-coldef-page 
+             req (coldef a-data -1 "col name" UD_NUM)))
+          (define (gen-tab-handler req)
+            (render-gen-tab-page req a-data))
+          ;tab
+          
+          ;;blocks
+          ;unitdata 
+          (define (form-block embed/url)
+            (render-unitdata-form embed/url a-data save-handler))
+          (define (panel-block embed/url)
+            (render-action-panel embed/url 
+                                 (list (action go-unit-handler "Назад к Модулю"))))
+          ;coldef
+          (define (cols-panel embed/url)
+            (render-action-panel embed/url 
+                                 (list (action new-col-handler "Новое поле")
+                                       (action gen-tab-handler "Сгенерировать таблицу"))))
+          (define (cols-block embed/url)
+            (render-item-list embed/url (unitdata-coldefs a-data ) coldef-descr
+                              (list (action render-coldef-page "Открыть"))))            
+          ;tab
+          ]
+  (render-page embed/url 
+               (string-append "Настройка калькулятора ПараметрМодуля " 
+                              (unit-nm (unitdata-unit a-data)) "->" 
+                              (unitdata-descr a-data) " Приложения " 
+                              (app-nm (unit-app (unitdata-unit a-data))))
+               (list panel-block form-block cols-panel cols-block 
+                     ;list-block
+                     ) 
+               )))
+          
+;;Rendering unitdata edit form with fields [id nm tp]
+;(render-unitdata-form embed/url coldef?) -> xexpr?
+(define (render-unitdata-form embed/url a-data post-handler)
+  `(div ([class "form"]) 
+        (form ([action ,(embed/url post-handler)][method "POST"])
+              ,@(formlet-display ((unitdata-formlet a-data) a-data))            
+              (input ([type "submit"][value "Сохранить"])))))
+;;Rendering table generation confirmation page
+(define/page (render-gen-tab-page a-data)
+  (local [
+          ;handlers
+          (define (gen-handler req)
+            (render-unitdata-page (redirect/get) (unitdata-gen-tab a-data)))
+          (define (cancel-handler req)
+            (render-unitdata-page req a-data))
+          
+          ;blocks
+          (define (info-block embed/url)
+            `(div ([class "infoblock"]) (unitdata-gen-tab-sql a-data)))
+          (define (panel-block embed/url)
+            (render-action-panel embed/url 
+                                 (list (action gen-handler "Сгенерировать")
+                                       (action cancel-handler "Назад к параметру"))))
+          ]
+  (render-page embed/url 
+               (string-append "Настройка калькулятора ПараметрМодуля " 
+                              (unit-nm (unitdata-unit a-data)) "->" 
+                              (unitdata-descr a-data) " Приложения " 
+                              (app-nm (unit-app (unitdata-unit a-data))))
+               (list panel-block info-block 
+                     ;list-block
+                     ) 
+               )))
+;;Coldefs
+;;Rendering template page consisitng of data form representing template
+;; with fields: template id and template text
+(define/page (render-coldef-page a-coldef)
+  (local [
+          ;handlers
+          (define (save-handler req)
+            (define-values (id nm tp) 
+              (formlet-process (coldef-formlet a-coldef) req))              
+            (render-coldef-page (redirect/get) 
+                              (set-coldef! (coldef-unitdata a-coldef) 
+                                           (car id) (car nm) (car tp))))
+          (define (go-unitdata-handler req)
+            (render-unitdata-page req (coldef-unitdata a-coldef)))
+          
+          ;blocks
+          (define (form-block embed/url)
+            (render-coldef-form embed/url a-coldef save-handler))
+          (define (panel-block embed/url)
+            (render-action-panel embed/url 
+                                 (list (action go-unitdata-handler "Назад к параметру"))))
+          ]
+  (render-page embed/url 
+               (string-append "Настройка калькулятора ПараметрМодуля " 
+                              (unit-nm (unitdata-unit (coldef-unitdata a-coldef))) "->" 
+                              (unitdata-descr (coldef-unitdata a-coldef)) " Приложения " 
+                              (app-nm (unit-app (unitdata-unit (coldef-unitdata a-coldef)))))
+               (list panel-block form-block 
+                     ;list-block
+                     ) 
+               )))
+;;Rendering coldef edit form with fields [id nm tp]
+;(render-coldef-form embed/url coldef?) -> xexpr?
+(define (render-coldef-form embed/url a-coldef post-handler)
+  `(div ([class "form"]) 
+        (form ([action ,(embed/url post-handler)][method "POST"])
+              ,@(formlet-display (coldef-formlet a-coldef))
+              (input ([type "submit"][value "Сохранить"])))))
+
+ 
 
 
 (require web-server/servlet-env)

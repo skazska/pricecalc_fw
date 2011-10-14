@@ -6,9 +6,11 @@
 (provide DEFAULT_APP DB_PATH
          calc init-calc! calc-apps
          (struct-out app) set-app! app-tpls app-units 
-         (struct-out unit) set-unit! unit-data
+         (struct-out unit) set-unit! unit-data UD_NUM UD_TXT UD_SPR
          (struct-out tpl) set-tpl!
-         (struct-out unitdata) unit-data-spr
+         (struct-out unitdata) set-unitdata! unitdata-coldefs unitdata-descr
+         unitdata-gen-tab unitdata-gen-tab-sql
+         (struct-out coldef) set-coldef! coldef-descr
          map_rest)
 
 (define DB_PATH (build-path (current-directory)
@@ -25,6 +27,8 @@
   "CREATE TABLE unit_data(id INTEGER PRIMARY KEY, unitid INTEGER, nm TEXT, tp INTEGER, numval NUMERIC, textval TEXT, spr TEXT)")
 (define CREATE_TPL_SQL
   "CREATE TABLE tpl(id INTEGER PRIMARY KEY, appid INTEGER, nm TEXT, content TEXT)")
+(define CREATE_COLDEF_SQL
+  "CREATE TABLE coldef(id INTEGER PRIMARY KEY, unitdataid INTEGER, nm TEXT, tp TEXT)")
 ;;Work with app
 (define GET_APPS_SQL
   "SELECT id, nm FROM app LIMIT ? OFFSET ?")
@@ -48,20 +52,29 @@
   "UPDATE unit SET nm = ?, descr = ?, is_opt = ?, height = ?, content = ?, init = ? WHERE id = ?")
 
 ;;Work with unitdata
+(define UD_NUM 0) (define UD_TXT 1) (define UD_SPR 2) 
 (define GET_APP_UNITDATA_SQL
   "SELECT id, nm, tp, numval, textval, spr FROM unit_data WHERE unitid = ? LIMIT ? OFFSET ?")
 (define INS_UNITDATA_NUM_SQL
-  "INSERT INTO unit_data (unitid, nm, tp, numval) VALUES (?, ?, 'NUM', ?)")
+  "INSERT INTO unit_data (unitid, nm, tp, numval) VALUES (?, ?, ?, ?)")
+(define INS_UNITDATA_TEXT_SQL
+  "INSERT INTO unit_data (unitid, nm, tp, textval) VALUES (?, ?, ?, ?)")
+(define INS_UNITDATA_SPR_SQL
+  "INSERT INTO unit_data (unitid, nm, tp, spr) VALUES (?, ?, ?, ?)")
 (define UPD_UNITDATA_NUM_SQL
   "UPDATE unit_data SET nm = ?, numval = ? WHERE id = ?")
-(define INS_UNITDATA_TEXT_SQL
-  "INSERT INTO unit_data (unitid, nm, tp, textval) VALUES (?, ?, 'TEXT', ?)")
 (define UPD_UNITDATA_TEXT_SQL
   "UPDATE unit_data SET nm = ?, textval = ? WHERE id = ?")
-(define INS_UNITDATA_SPR_SQL
-  "INSERT INTO unit_data (unitid, nm, tp, spr) VALUES (?, ?, 'SPR', ?)")
 (define UPD_UNITDATA_SPR_SQL
-  "UPDATE unit_data SET nm = ? WHERE id = ?")
+  "UPDATE unit_data SET nm = ? spr = ? WHERE id = ?")
+
+;;Work with COLDEF
+(define GET_UNITDATA_COLDEF_SQL
+  "SELECT id, nm, tp FROM coldef WHERE unitdataid = ? LIMIT ? OFFSET ?")
+(define INS_COLDEF_SQL
+  "INSERT INTO coldef (unitdataid, nm, tp) VALUES (?, ?, ?)")
+(define UPD_COLDEF_SQL
+  "UPDATE coldef SET nm = ?, tp = ? WHERE id = ?")
 
 ;;map including empty list
 (define-syntax-rule (map_rest f l)
@@ -88,6 +101,8 @@
     ;;Unit Data : tp - data type: 0-NUMERIC,1-TEXT,2-TABLE, numval/textval - vaue fields, 
     ;; spr - table name
     (sqlite:exec/ignore db CREATE_UNIT_DATA_SQL)
+    ;;Column definition : nm - column name, tp - data type: 0-NUMERIC,1-TEXT
+    (sqlite:exec/ignore db CREATE_COLDEF_SQL)
     ;;Templates : content - template content in JSON format 
     (sqlite:exec/ignore db CREATE_TPL_SQL)
     )
@@ -150,8 +165,8 @@
         [else (sqlite:exec/ignore (calc-db (app-calc an-app)) UPD_TPL_SQL nm content id)
               (tpl an-app id nm content)]))
 
-;;returns app structure from given calc and vector of field vals
-;(vector->app calc? vector?) -> app?
+;;returns tpl structure from given calc and vector of field vals
+;(vector->tpl app? vector?) -> tpl?
 (define (vector->tpl an-app x)
   (tpl an-app (vector-ref x 0) (vector-ref x 1) (vector-ref x 2)))
 
@@ -204,21 +219,28 @@
               (app-id an-app) limit offset)]) 
     (map_rest (lambda (x) (vector->unit an-app x)) rows)))
 
-
-;;Each unit has content-data
-(define (unit-data a-unit #:limit [limit 100] #:offset [offset 0])
-  (let ([rows (sqlite:select (unit-db) GET_APP_UNITDATA_SQL 
-                            (unit-id a-unit) limit offset)])
-  (map_rest (lambda (x) (vector->unitdata a-unit x)) rows)))
-
 ;;unfold unit's db
 ;(unit-db unit?) -> sqlite:db?
 (define (unit-db a-unit)
   (calc-db (app-calc (unit-app a-unit))))
 
+
 ;;unit-data structure
 (struct unitdata (unit id nm tp value))
-; id : integer? unit : unit? type : string? value : any/c?
+; unit : unit?  id : integer? nm : string? tp : string? value : any/c?
+
+;;short description of unitdata element
+;(unitdata-descr unitdata?) -> string?
+(define (unitdata-descr a-data)
+  (string-append (unitdata-nm a-data) 
+                 (cond [(eqv? (unitdata-tp a-data) UD_NUM) " (Чисо)"]
+                       [(eqv? (unitdata-tp a-data) UD_TXT) " (Строка)"]
+                       [(eqv? (unitdata-tp a-data) UD_SPR) " (Справочник)"])))
+
+;;unfold unitdata's db
+;(unitdata-db unitdata?) -> sqlite:db?
+(define (unitdata-db a-data)
+  (calc-db (app-calc (unit-app (unitdata-unit a-data)))))
 
 ;;Modify unitdata: insert/update data into  with given name and content 
 ;(set-unitdata! a-unit id nm tp val) -> ?
@@ -229,23 +251,23 @@
 (define (set-unitdata! a-unit id nm tp value)
   (cond [(< id 0) 
          (unitdata a-unit
-                   (cond [(eqv? tp "NUM") 
+                   (cond [(eqv? tp UD_NUM) 
                           (sqlite:insert (unit-db a-unit) INS_UNITDATA_NUM_SQL 
-                                         (unit-id a-unit) nm value)]
-                         [(eqv? tp "TEXT") 
+                                         (unit-id a-unit) nm UD_NUM value)]
+                         [(eqv? tp UD_TXT) 
                           (sqlite:insert (unit-db a-unit) INS_UNITDATA_TEXT_SQL 
-                                         (unit-id a-unit) nm value)]
-                         [(eqv? tp "SPR") 
+                                         (unit-id a-unit) nm UD_TXT value)]
+                         [(eqv? tp UD_SPR) 
                           (sqlite:insert (unit-db a-unit) INS_UNITDATA_SPR_SQL 
-                                         (unit-id a-unit) nm value)])
-                   nm tp val)]
+                                         (unit-id a-unit) nm UD_SPR value)])
+                   nm tp value)]
         [else 
-         (cond [(eqv? tp "NUM")
+         (cond [(eqv? tp UD_NUM)
                 (sqlite:exec/ignore (unit-db a-unit) UPD_UNITDATA_NUM_SQL nm value id)]
-               [(eqv? tp "TEXT")
+               [(eqv? tp UD_TXT)
                 (sqlite:exec/ignore (unit-db a-unit) UPD_UNITDATA_TEXT_SQL nm value id)]
-               [(eqv? tp "SPR")
-                (sqlite:exec/ignore (unit-db a-unit) UPD_UNITDATA_SPR_SQL nm id)])
+               [(eqv? tp UD_SPR)
+                (sqlite:exec/ignore (unit-db a-unit) UPD_UNITDATA_SPR_SQL nm value id)])
               (unitdata a-unit id nm tp value)]))
 
 
@@ -254,11 +276,77 @@
 ;(vector->unitdata unit? vector?) -> unitdata?
 (define (vector->unitdata a-unit x)
   (unitdata a-unit  (vector-ref x 0) (vector-ref x 1) (vector-ref x 2)
-            (cond [(eqv? (vector-ref x 1) "NUM")  (vector-ref x 3)]
-                  [(eqv? (vector-ref x 1) "TEXT")  (vector-ref x 4)]
-                  [(eqv? (vector-ref x 1) "SPR")  (unit-data-spr 
-                                                   a-unit (vector-ref x 5))])))
-  
+            (cond [(eqv? (vector-ref x 2) UD_NUM)  (vector-ref x 3)]
+                  [(eqv? (vector-ref x 2) UD_TXT)  (vector-ref x 4)]
+                  [(eqv? (vector-ref x 2) UD_SPR)  (vector-ref x 5)])))
+
+;;Each unit has content-data
+(define (unit-data a-unit #:limit [limit 100] #:offset [offset 0])
+  (let ([rows (sqlite:select (unit-db a-unit) GET_APP_UNITDATA_SQL 
+                            (unit-id a-unit) limit offset)])
+  (map_rest (lambda (x) (vector->unitdata a-unit x)) rows)))
+
+;;
+(define (coldef->string a-coldef [a-delim " "])
+    (string-append (coldef-nm a-coldef) a-delim 
+                   (cond [(eqv? (coldef-tp a-coldef) UD_NUM) "NUMERIC"]
+                         [(eqv? (coldef-tp a-coldef) UD_TXT) "TEXT"]))) 
+
+
+;;table unitdata db table generation 
+;;function creates new table with name like udt[unitdataid]_[vernum] 
+;; with fields depending on coldefs 
+;(unitdata-gen-tab unitdata?) -> unitdata? 
+(define (unitdata-gen-tab a-data)
+  (sqlite:exec/ignore (unitdata-gen-tab-sql a-data)))
+
+(define (unitdata-gen-tab-sql a-data) 
+  (define version (+ 1 (car (cdr (regexp-split #rx"_+" (unitdata-value a-data))))))
+  (string-append "CREATE TABLE udt" (number->string (unitdata-id a-data)) "_"
+                 (number->string version) "( ID INTEGER PRIMARY KEY, "
+                 (string-join (map coldef->string (unitdata-coldefs a-data)) ",")
+                 ")"))
+
+
+;;;column definition of unit's spr data
+(struct coldef (unitdata id nm tp))
+; unitdata : unitdata? id : integer? nm : string? tp : string?
+
+;;description of column definition
+(define (coldef-descr a-coldef)
+  (coldef->string a-coldef " : ")) 
+
+;;Modify coldef: insert/update data into coldef with given name and content 
+;(set-coldef! unitdata? integer? string? integer?) -> coldef?
+(define (set-coldef! a-data id nm tp)
+  (cond [(< id 0) (coldef a-data 
+                       (sqlite:insert (unitdata-db a-data) INS_COLDEF_SQL 
+                                      (unitdata-id a-data) nm tp) 
+                       nm tp)]
+        [else (sqlite:exec/ignore (unitdata-db a-data) UPD_COLDEF_SQL nm tp id)
+              (coldef a-data id nm tp)]))
+;;returns tpl structure from given calc and vector of field vals
+;(vector->coldef unitdata? vector?) -> coldef?
+(define (vector->coldef a-data x)
+  (coldef a-data (vector-ref x 0) (vector-ref x 1) (vector-ref x 2)))
+;;list of uditdata's spr column definitions....
+;(unitdata-spr-cols unitdata?) -> (listof coldef?)
+(define (unitdata-coldefs a-data  #:limit [limit 100] #:offset [offset 0])
+  (let ([rows (sqlite:select (unitdata-db a-data) GET_UNITDATA_COLDEF_SQL 
+                            (unitdata-id a-data) limit offset)])
+  (map_rest (lambda (x) (vector->coldef a-data x)) rows)))
+
+
+
+
+
+
+
+
+
+
+
+
 ;;returns data list of unitdata
 ;(unitdata-spr unit? string?) -> (listof hashtable?)
 (define (unit-data-spr a-unit spr-name)
