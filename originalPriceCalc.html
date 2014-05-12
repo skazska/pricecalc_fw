@@ -1,0 +1,2038 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Прайс калькулятор</title>
+<meta name="generator" content="Bluefish 2.2.4" >
+<meta name="author" content="Said Karimov" >
+<meta name="date" content="2013-04-25T11:43:02+0600" >
+<meta name="copyright" content="">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+<meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8">
+<meta http-equiv="content-style-type" content="text/css">
+<meta http-equiv="expires" content="Tue, 20 Aug 1900 14:25:27 GMT">
+<!--<meta http-equiv="refresh" content="5; URL=http://">-->
+<script language="javascript">
+
+var fnSz = new Array();
+var fnPrc = new Array();
+var zdnPrc = new Array();
+var zdnTxt = new Array();
+var glsPrc = new Array();
+var glsTxt = new Array();
+var bgPrc = new Array();
+var bgImg = new Array();
+var bgPrf = new Array();
+var bgTxt = new Array();
+var bgUrl = 'C:/работа/Сайт/багет/';
+var logoImg = 'logo1.jpg';
+
+// Паспарту 
+	//цена за см2
+//var pptPrc = 0.080;
+	//процент наценки за двойное
+//var pptDblPct = 100;
+var pptTpPrc = new Array();
+var pptTpTxt = new Array();
+var pptTpCnt = 7; //количество
+var pptTpIdx = 0; //index
+//цена				   //название
+pptTpPrc[0] = 0.080;   pptTpTxt[0] = "1 сл"
+pptTpPrc[1] = 0.160;   pptTpTxt[1] = "2 сл."
+pptTpPrc[2] = 0.240;   pptTpTxt[2] = "3 сл."
+pptTpPrc[3] = 0.320;   pptTpTxt[3] = "4 сл."
+pptTpPrc[4] = 0.400;   pptTpTxt[4] = "5 сл."
+pptTpPrc[5] = 0.300;   pptTpTxt[5] = "1 сл. бархат"
+pptTpPrc[6] = 0.400;   pptTpTxt[6] = "2 сл. бархат и простое"
+// печать на паспарту
+var pptPrnTxt = new Array();
+var pptPrnPrc = new Array();
+var pptPrnH = new Array();
+var pptPrnW = new Array();
+//название              цена                    высота              ширина
+pptPrnTxt[0] = "A4";    pptPrnPrc[0] = 100;    pptPrnH[0] = 30;     pptPrnW[0] = 20;
+pptPrnTxt[1] = "A3";    pptPrnPrc[1] = 250;    pptPrnH[1] = 40;     pptPrnW[1] = 30;
+pptPrnTxt[2] = "A2";    pptPrnPrc[2] = 350;    pptPrnH[2] = 60;     pptPrnW[2] = 40;
+pptPrnTxt[3] = "А1";   pptPrnPrc[3] = 550;      pptPrnH[3] = 80;      pptPrnW[3] = 60;
+pptPrnTxt[4] = "А0";   pptPrnPrc[4] = 750;      pptPrnH[4] = 100;      pptPrnW[4] = 80;
+pptPrnTxt[5] = "Н/Ф";   pptPrnPrc[5] = 950;      pptPrnH[5] = 120;      pptPrnW[5] = 100;
+
+// Стекло
+	//цена за см2
+var glsCnt = 4; //количество
+var glsIdx = 0; //index
+	//цена				   //название	
+	glsPrc[0] = 0.065;   glsTxt[0] = "пластик"
+	glsPrc[1] = 0.085;   glsTxt[1] = "простое"
+	glsPrc[2] = 0.165;   glsTxt[2] = "матовое"
+	glsPrc[3] = 0.700;   glsTxt[3] = "музейное"
+
+
+//Задник
+	//процент наценки по типам материала...
+var zdnCnt = 4; //количество
+var zdnIdx = 0; //index
+	//процент				//название
+	zdnPrc[0] = 0.050;   zdnTxt[0] = "картон"
+	zdnPrc[1] = 0.100;   zdnTxt[1] = "пенокартон"
+    zdnPrc[2] = 0.150;   zdnTxt[2] = "ДВП"
+    zdnPrc[3] = 0.200;   zdnTxt[3] = "пластик"
+
+//Багет
+var bgtPrc = 0.000;
+
+// Роспись/резьба
+//цена ориентировочная
+var drwPrc = new Array();
+var drwTxt = new Array();
+var drwCnt = 3; //количество
+var drwIdx = 0; //index
+//цена				   //название
+drwPrc[0] = 400;   drwTxt[0] = "на паспарту"
+drwPrc[1] = 700;   drwTxt[1] = "на багете"
+drwPrc[2] = 1000;   drwTxt[2] = "полная зарисовка пасп"
+
+
+//Работа
+	//процент наценки
+var workPct = 43.000;
+    //множители работы
+var workCnt = 4; //количество
+var workIdx = 0; //index
+var workMult = new Array();
+var workTxt  = new Array();
+    //множитель				//название
+    workMult[0] = 1;   workTxt[0] = "X1";
+    workMult[1] = 2;   workTxt[1] = "X2";
+    workMult[2] = 3;   workTxt[2] = "X3";
+    workMult[3] = 4;   workTxt[3] = "X4";
+
+//Натяжка
+    //ручная на скотч
+var stchManPrc = new Array();
+var stchManTxt = new Array();
+var stchManH = new Array();
+var stchManW = new Array();
+
+stchManTxt[0] = "1";    stchManPrc[0] = 100;    stchManH[0] = 30;     stchManW[0] = 21;
+stchManTxt[1] = "2";    stchManPrc[1] = 150;    stchManH[1] = 42;     stchManW[1] = 30;
+stchManTxt[2] = "3";    stchManPrc[2] = 200;    stchManH[2] = 70;     stchManW[2] = 50;
+stchManTxt[3] = "Н/Ф";   stchManPrc[3] = 250;      stchManH[3] = 120;      stchManW[3] = 100;
+
+//ручная на скотч
+var stchLacPrc = new Array();
+var stchLacTxt = new Array();
+var stchLacH = new Array();
+var stchLacW = new Array();
+
+stchLacTxt[0] = "1";    stchLacPrc[0] = 200;    stchLacH[0] = 30;     stchLacW[0] = 21;
+stchLacTxt[1] = "2";    stchLacPrc[1] = 300;    stchLacH[1] = 40;     stchLacW[1] = 30;
+stchLacTxt[2] = "3";    stchLacPrc[2] = 400;    stchLacH[2] = 60;     stchLacW[2] = 40;
+stchLacTxt[3] = "Н/Ф";   stchLacPrc[3] = 500;      stchLacH[3] = 120;      stchLacW[3] = 100;
+
+    //пресс за 1м2
+var stchPrsPrc = 720.000;
+var stchIdx = 0;
+
+//Подрамник
+	//стоимость
+var subPrc = 200.000;
+
+//Кант
+	//стоимость
+var kantPrc = 110;
+
+//Дистанция
+	//стоимость за ПМ
+var distPrc = 50;
+
+//Стирка/отпаривание
+var cleanPrc = 100;
+
+// количество
+var totCnt = 1.000;
+
+// скидка процент
+var discPct = 10.000;
+
+
+
+//расценки на фурнитуру
+//размер       стоимость
+fnSz[0] = 0; fnPrc[0] = 35;
+fnSz[1] = 30; fnPrc[1] = 45;
+fnSz[2] = 50; fnPrc[2] = 65;
+fnSz[3] = 70; fnPrc[3] = 75;
+fnSz[4] = 90; fnPrc[4] = 80;
+
+
+//ножка
+legPrc = 50;
+
+var bgtIdx;
+//bgImg[0] = 'image';
+//bgPrf[0] = 'profile';
+//bgPrc[0] = 'cost';
+
+
+bgImg[0] = '008-001.jpg';
+bgPrf[0] = 'profil_008.gif';
+bgPrc[0] = '100';
+bgTxt[0] = '';
+
+bgImg[1] = '008-001.jpg';
+bgPrf[1] = 'profil_008.gif';
+bgPrc[1] = '120';
+bgTxt[1] = '';
+
+bgImg[10] = 'K1414GD-S.gif';
+bgPrf[10] = 'bk1.gif';
+bgPrc[10] = '130';
+bgTxt[10] = '';
+
+bgImg[11] = 'K1414SL-S.gif';
+bgPrf[11] = 'bk1.gif';
+bgPrc[11] = '140';
+bgTxt[11] = '';
+
+bgImg[20] = '204.OAC.481.jpg';
+bgPrf[20] = 'profil_008.gif';
+bgPrc[20] = '150';
+bgTxt[20] = '';
+
+bgImg[21] = 'K1417BD-S.gif';
+bgPrf[21] = 'p_jj3.gif';
+bgPrc[21] = '160';
+bgTxt[21] = '';
+
+bgImg[22] = 'K1417BK-S.gif';
+bgPrf[22] = 'p_jj3.gif';
+bgPrc[22] = '170';
+bgTxt[22] = '';
+
+bgImg[23] = 'K1417BZ-S.gif';
+bgPrf[23] = 'p_jj3.gif';
+bgPrc[23] = '180';
+bgTxt[23] = '';
+
+bgImg[24] = 'K1417DR-S.gif';
+bgPrf[24] = 'p_jj3.gif';
+bgPrc[24] = '190';
+bgTxt[24] = '';
+
+bgImg[25] = 'K1417GD-S.gif';
+bgPrf[25] = 'p_jj3.gif';
+bgPrc[25] = '200';
+bgTxt[25] = '';
+
+bgImg[26] = 'K1417LB-S.gif';
+bgPrf[26] = 'p_jj3.gif';
+bgPrc[26] = '210';
+bgTxt[26] = '';
+
+bgImg[27] = 'K1417LG-S.gif';
+bgPrf[27] = 'p_jj3.gif';
+bgPrc[27] = '220';
+bgTxt[27] = '';
+
+bgImg[28] = 'K1417OR-S.gif';
+bgPrf[28] = 'p_jj3.gif';
+bgPrc[28] = '230';
+bgTxt[28] = '';
+
+bgImg[29] = 'K1417RG-S.gif';
+bgPrf[29] = 'p_jj3.gif';
+bgPrc[29] = '240';
+bgTxt[29] = '';
+
+bgImg[30] = 'K1417SL-S.gif';
+bgPrf[30] = 'p_jj3.gif';
+bgPrc[30] = '250';
+bgTxt[30] = '';
+
+bgImg[31] = 'K1417WT-S.gif';
+bgPrf[31] = 'p_jj3.gif';
+bgPrc[31] = '260';
+bgTxt[31] = '';
+
+bgImg[32] = 'K1417RM-S.gif';
+bgPrf[32] = 'p_jj3.gif';
+bgPrc[32] = '270';
+bgTxt[32] = '';
+
+bgImg[33] = 'br_ah06.jpg';
+bgPrf[33] = 'p_ah.gif';
+bgPrc[33] = '280';
+bgTxt[33] = '';
+
+bgImg[50] = 'br_ah10.jpg';
+bgPrf[50] = 'p_ah.gif';
+bgPrc[50] = '290';
+bgTxt[50] = '';
+
+bgImg[70] = 'b-w851311.jpg';
+bgPrf[70] = 'p_b-w.gif';
+bgPrc[70] = '300';
+bgTxt[70] = '';
+
+bgImg[80] = 'b-w851314.jpg';
+bgPrf[80] = 'p_b-w.gif';
+bgPrc[80] = '310';
+bgTxt[80] = '';
+
+bgImg[81] = 'b1-02.jpg';
+bgPrf[81] = 'p_b-w.gif';
+bgPrc[81] = '320';
+bgTxt[81] = '';
+
+bgImg[82] = 'b1-10.jpg';
+bgPrf[82] = 'p_b-w.gif';
+bgPrc[82] = '330';
+bgTxt[82] = '';
+
+bgImg[83] = 'K1714GD.gif';
+bgPrf[83] = 'p_b-w.gif';
+bgPrc[83] = '340';
+bgTxt[83] = '';
+
+bgImg[84] = 'K1714BS.gif';
+bgPrf[84] = 'p_b-w.gif';
+bgPrc[84] = '350';
+bgTxt[84] = '';
+
+bgImg[85] = 'K1714BY-S.gif';
+bgPrf[85] = 'p_b-w.gif';
+bgPrc[85] = '360';
+bgTxt[85] = '';
+
+bgImg[86] = 'K1714WD-S.gif';
+bgPrf[86] = 'p_b-w.gif';
+bgPrc[86] = '370';
+bgTxt[86] = '';
+
+bgImg[87] = 'K1417MH-S.gif';
+bgPrf[87] = 'p_b-w.gif';
+bgPrc[87] = '380';
+bgTxt[87] = '';
+
+bgImg[88] = 'K1917SL-S.gif';
+bgPrf[88] = 'p_b-w.gif';
+bgPrc[88] = '390';
+bgTxt[88] = '';
+
+bgImg[89] = 'K1917SO.gif';
+bgPrf[89] = 'p_b-w.gif';
+bgPrc[89] = '400';
+bgTxt[89] = '';
+
+bgImg[90] = 'K1917GR-S.gif';
+bgPrf[90] = 'p_b-w.gif';
+bgPrc[90] = '410';
+bgTxt[90] = '';
+
+bgImg[91] = 'K1917DO-S.gif';
+bgPrf[91] = 'p_b-w.gif';
+bgPrc[91] = '420';
+bgTxt[91] = '';
+
+bgImg[92] = 'K1917BL.gif';
+bgPrf[92] = 'p_b-w.gif';
+bgPrc[92] = '430';
+bgTxt[92] = '';
+
+bgImg[93] = 'K1917WT-S.gif';
+bgPrf[93] = 'p_b-w.gif';
+bgPrc[93] = '440';
+bgTxt[93] = '';
+
+bgImg[94] = 'K2416BL.gif';
+bgPrf[94] = 'ah3.gif';
+bgPrc[94] = '450';
+bgTxt[94] = '';
+
+bgImg[95] = 'K2416CR-S.gif';
+bgPrf[95] = 'ah3.gif';
+bgPrc[95] = '460';
+bgTxt[95] = '';
+
+bgImg[96] = 'K2416BY-S.gif';
+bgPrf[96] = 'ah3.gif';
+bgPrc[96] = '470';
+bgTxt[96] = '';
+
+bgImg[97] = 'K2416WD-S.gif';
+bgPrf[97] = 'ah3.gif';
+bgPrc[97] = '480';
+bgTxt[97] = '';
+
+bgImg[98] = 'K2416NT-S.gif';
+bgPrf[98] = 'ah3.gif';
+bgPrc[98] = '490';
+bgTxt[98] = '';
+
+bgImg[99] = 'K2416YL-S.gif';
+bgPrf[99] = 'ah3.gif';
+bgPrc[99] = '500';
+bgTxt[99] = '';
+
+bgImg[100] = 'K2416SL-S.gif';
+bgPrf[100] = 'ah3.gif';
+bgPrc[100] = '510';
+bgTxt[100] = '';
+
+bgImg[101] = 'K2416RD-S.gif';
+bgPrf[101] = 'ah3.gif';
+bgPrc[101] = '520';
+bgTxt[101] = '';
+
+bgImg[102] = 'K2416GR-S.gif';
+bgPrf[102] = 'ah3.gif';
+bgPrc[102] = '530';
+bgTxt[102] = '';
+
+bgImg[103] = 'K2416GD-S.gif';
+bgPrf[103] = 'ah3.gif';
+bgPrc[103] = '540';
+bgTxt[103] = '';
+
+bgImg[104] = 'K2416BL-S.gif';
+bgPrf[104] = 'ah3.gif';
+bgPrc[104] = '550';
+bgTxt[104] = '';
+
+bgImg[105] = 'K2416DO-S.gif';
+bgPrf[105] = 'ah3.gif';
+bgPrc[105] = '560';
+bgTxt[105] = '';
+
+bgImg[106] = 'K2416OK-S.gif';
+bgPrf[106] = 'ah3.gif';
+bgPrc[106] = '570';
+bgTxt[106] = '';
+
+bgImg[107] = 'K2416WT-S.gif';
+bgPrf[107] = 'ah3.gif';
+bgPrc[107] = '580';
+bgTxt[107] = '';
+
+bgImg[110] = 'br808-08.jpg';
+bgPrf[110] = 'p_808.gif';
+bgPrc[110] = '590';
+bgTxt[110] = '';
+
+bgImg[111] = 'K3116BZ-S.gif';
+bgPrf[111] = 'p_811.gif';
+bgPrc[111] = '600';
+bgTxt[111] = '';
+
+bgImg[112] = 'K3116YL-S.gif';
+bgPrf[112] = 'p_811.gif';
+bgPrc[112] = '610';
+bgTxt[112] = '';
+
+bgImg[120] = 'c1-ku44g.jpg';
+bgPrf[120] = 'c1.gif';
+bgPrc[120] = '620';
+bgTxt[120] = '';
+
+bgImg[125] = 'c1-wb2.jpg';
+bgPrf[125] = 'c1.gif';
+bgPrc[125] = '630';
+bgTxt[125] = '';
+
+bgImg[130] = 'c1-u.jpg';
+bgPrf[130] = 'c1.gif';
+bgPrc[130] = '640';
+bgTxt[130] = '';
+
+bgImg[140] = '341-03.jpg';
+bgPrf[140] = 'p_341.gif';
+bgPrc[140] = '650';
+bgTxt[140] = '';
+
+bgImg[141] = '341-04.jpg';
+bgPrf[141] = 'p_341.gif';
+bgPrc[141] = '660';
+bgTxt[141] = '';
+
+bgImg[150] = '341-05.jpg';
+bgPrf[150] = 'p_341.gif';
+bgPrc[150] = '670';
+bgTxt[150] = '';
+
+bgImg[160] = '341-06.jpg';
+bgPrf[160] = 'p_341.gif';
+bgPrc[160] = '680';
+bgTxt[160] = '';
+
+bgImg[161] = '341-07.jpg';
+bgPrf[161] = 'p_341.gif';
+bgPrc[161] = '690';
+bgTxt[161] = '';
+
+bgImg[170] = '341-09.jpg';
+bgPrf[170] = 'p_341.gif';
+bgPrc[170] = '700';
+bgTxt[170] = '';
+
+bgImg[180] = '135.OAC.502.jpg';
+bgPrf[180] = 'bk1.gif';
+bgPrc[180] = '710';
+bgTxt[180] = '';
+
+bgImg[181] = 'K3117WT-S.gif';
+bgPrf[181] = 'p_am.gif';
+bgPrc[181] = '720';
+bgTxt[181] = '';
+
+bgImg[182] = 'K3121GD-S.gif';
+bgPrf[182] = 'p_533.gif';
+bgPrc[182] = '730';
+bgTxt[182] = '';
+
+bgImg[190] = 'bk1-ts1121.jpg';
+bgPrf[190] = 'bk1.gif';
+bgPrc[190] = '740';
+bgTxt[190] = '';
+
+bgImg[191] = 'K2723GD-S.gif';
+bgPrf[191] = 'bp3.gif';
+bgPrc[191] = '750';
+bgTxt[191] = '';
+
+bgImg[192] = 'K2723RD-S.gif';
+bgPrf[192] = 'bp3.gif';
+bgPrc[192] = '760';
+bgTxt[192] = '';
+
+bgImg[193] = 'K2822GL-S.gif';
+bgPrf[193] = 'bp3.gif';
+bgPrc[193] = '770';
+bgTxt[193] = '';
+
+bgImg[194] = 'K2822OK-S.gif';
+bgPrf[194] = 'bp3.gif';
+bgPrc[194] = '780';
+bgTxt[194] = '';
+
+bgImg[195] = 'K2922PG-S.gif';
+bgPrf[195] = 'bp3.gif';
+bgPrc[195] = '790';
+bgTxt[195] = '';
+
+bgImg[196] = 'K2922SO-S.gif';
+bgPrf[196] = 'bp3.gif';
+bgPrc[196] = '800';
+bgTxt[196] = '';
+
+bgImg[240] = '811-07.jpg';
+bgPrf[240] = 'p_811.gif';
+bgPrc[240] = '810';
+bgTxt[240] = '';
+
+bgImg[250] = '350-10.jpg';
+bgPrf[250] = 'p_350.gif';
+bgPrc[250] = '820';
+bgTxt[250] = '';
+
+bgImg[260] = '350-20.jpg';
+bgPrf[260] = 'p_350.gif';
+bgPrc[260] = '830';
+bgTxt[260] = '';
+
+bgImg[261] = 'K4222YL-S.gif';
+bgPrf[261] = 'p_br1405g.gif';
+bgPrc[261] = '840';
+bgTxt[261] = '';
+
+bgImg[262] = '826-F0113.jpg';
+bgPrf[262] = 'p_284-827.gif';
+bgPrc[262] = '850';
+bgTxt[262] = '';
+
+bgImg[263] = '825-04.jpg';
+bgPrf[263] = 'p_284-827.gif';
+bgPrc[263] = '860';
+bgTxt[263] = '';
+
+bgImg[280] = 'br3-ts1121.jpg';
+bgPrf[280] = 'bp3.gif';
+bgPrc[280] = '870';
+bgTxt[280] = '';
+
+bgImg[290] = 'br3-a39101.jpg';
+bgPrf[290] = 'bp3.gif';
+bgPrc[290] = '880';
+bgTxt[290] = '';
+
+bgImg[300] = 'br3-a503215.jpg';
+bgPrf[300] = 'bp3.gif';
+bgPrc[300] = '890';
+bgTxt[300] = '';
+
+bgImg[310] = 'br3-glb.jpg';
+bgPrf[310] = 'bp3.gif';
+bgPrc[310] = '900';
+bgTxt[310] = '';
+
+bgImg[320] = '02-12-05.jpg';
+bgPrf[320] = 'p_br0-12.gif';
+bgPrc[320] = '910';
+bgTxt[320] = '';
+
+bgImg[330] = 'br-02-07-09.jpg ';
+bgPrf[330] = 'p_br02-07.gif';
+bgPrc[330] = '920';
+bgTxt[330] = '';
+
+bgImg[340] = '213-50.jpg';
+bgPrf[340] = 'p_533.gif';
+bgPrc[340] = '930';
+bgTxt[340] = '';
+
+bgImg[350] = '213-gold.jpg';
+bgPrf[350] = 'p_533.gif';
+bgPrc[350] = '940';
+bgTxt[350] = '';
+
+bgImg[360] = 'mt28-bvg.jpg';
+bgPrf[360] = 'p_533.gif';
+bgPrc[360] = '950';
+bgTxt[360] = '';
+
+bgImg[370] = 'mt28-gg.jpg';
+bgPrf[370] = 'p_533.gif';
+bgPrc[370] = '960';
+bgTxt[370] = '';
+
+bgImg[380] = '142-20.jpg';
+bgPrf[380] = 'p_142.gif';
+bgPrc[380] = '970';
+bgTxt[380] = '';
+
+bgImg[390] = '142-30.jpg';
+bgPrf[390] = 'p_142.gif';
+bgPrc[390] = '980';
+bgTxt[390] = '';
+
+bgImg[391] = '142-08.jpg';
+bgPrf[391] = 'p_142.gif';
+bgPrc[391] = '990';
+bgTxt[391] = '';
+
+bgImg[392] = '142-10.jpg';
+bgPrf[392] = 'p_142.gif';
+bgPrc[392] = '1000';
+bgTxt[392] = '';
+
+bgImg[393] = 'K4917BZ-S.gif';
+bgPrf[393] = 'p_K5236BZ.gif';
+bgPrc[393] = '1010';
+bgTxt[393] = '';
+
+bgImg[411] = 'K5236BZ-S.gif';
+bgPrf[411] = 'p_K5236BZ.gif';
+bgPrc[411] = '1020';
+bgTxt[411] = '';
+
+bgImg[412] = 'K5236GD-S.gif';
+bgPrf[412] = 'p_K5236BZ.gif';
+bgPrc[412] = '1030';
+bgTxt[412] = '';
+
+bgImg[413] = 'K5236SL-S.gif';
+bgPrf[413] = 'p_K5236BZ.gif';
+bgPrc[413] = '1050';
+bgTxt[413] = '';
+
+bgImg[412] = 'K5236GD-S.gif';
+bgPrf[412] = 'p_K5236BZ.gif';
+bgPrc[412] = '1095';
+bgTxt[412] = '';
+
+bgImg[412] = 'K5236GD-S.gif';
+bgPrf[412] = 'p_K5236BZ.gif';
+bgPrc[412] = '1100';
+bgTxt[412] = '';
+
+bgImg[413] = 'K5236SL-S.gif';
+bgPrf[413] = 'p_K5236BZ.gif';
+bgPrc[413] = '1200';
+bgTxt[413] = '';
+
+bgImg[413] = 'K5236SL-S 222.gif';
+bgPrf[413] = 'p_K5236BZ.gif';
+bgPrc[413] = '1150';
+bgTxt[413] = '';
+
+bgImg[415] = 'K5728PB-S.gif';
+bgPrf[415] = 'p_K5728PB.gif';
+bgPrc[415] = '1270';
+bgTxt[415] = '';
+
+bgImg[414] = 'K6330WT-S.gif';
+bgPrf[414] = 'p_K6330WT.gif';
+bgPrc[414] = '1350';
+bgTxt[414] = '';
+
+bgImg[415] = 'K6330WT-S.gif';
+bgPrf[415] = 'p_K6330WT.gif';
+bgPrc[415] = '1450';
+bgTxt[415] = '';
+
+bgImg[420] = '822-70.jpg';
+bgPrf[420] = 'p_822.gif';
+bgPrc[420] = '1300';
+bgTxt[420] = '';
+
+bgImg[421] = '822-70.jpg';
+bgPrf[421] = 'p_822.gif';
+bgPrc[421] = '1750';
+bgTxt[421] = '';
+
+bgImg[421] = '822-71.jpg';
+bgPrf[421] = 'p_822.gif';
+bgPrc[421] = '1820';
+bgTxt[421] = '';
+
+bgImg[425] = '822-70.jpg';
+bgPrf[425] = 'p_822.gif';
+bgPrc[425] = '1850';
+bgTxt[425] = '';
+
+bgImg[426] = '822-70.jpg';
+bgPrf[426] = 'p_822.gif';
+bgPrc[426] = '1230';
+bgTxt[426] = '';
+
+bgImg[426] = '822-70.jpg';
+bgPrf[426] = 'p_822.gif';
+bgPrc[426] = '1310';
+bgTxt[426] = '';
+
+var bgtList;
+var wa, dtEd, dt, edt;
+var pptOk, drwOk, glsOk, frnOk, legOk, zdnOk, bgtOk, pptPrnOk, distOk, cleanOk;
+var h=0; var w=0; var ppt=0; 
+var bgtDscr = '';
+var zdnDscr = '';
+var glsDscr = '';
+
+var drwCost = 0;
+
+    function calculate(preset) {
+		if (preset == null) preset = {nopresets:null};
+        var elt;
+		var s;
+		var bgtCost = 0;
+		var pptCost = 0;
+        var pptPrnCost = 0;
+//        var drwCost = 0;
+		var glsCost = 0;
+		var frnCost = 0;
+		var legCost = 0;
+
+		var distCost = 0;
+		var cleanCost = 0;
+
+		var zdnCost = 0;
+		var subCost = 0;
+		var workCost = 0;
+		var discCost = 0;
+		var stchCost = 0;
+		var kantCost = 0;		
+		var pptDscr = '';
+        var pptPrnDscr = "";
+        var drwDscr = "";
+		var frnDscr = '';
+		var subDscr = '';
+		var workDscr = '';
+		var discDscr = '';
+		var stchDscr = '';
+		var kantDscr = '';
+
+		var legDscr = '';
+		var distDscr = '';
+		var cleanDscr = '';
+
+		var totCost = '---';
+		var totDscr = '';
+		
+		checkStates();
+		
+		//Периметр
+		var p = ((w+2*ppt)+(h+2*ppt))*2;
+		//площадь
+		var s = (w+2*ppt)*(h+2*ppt);
+
+		//Багет
+		if (bgtOk == true) {
+			if (bgtPrc != 0) {
+				if (w*h > 1) {
+					bgtCost = Math.round(p/100*bgtPrc);
+//					bgtDscr = '';
+					totDscr = 'Багет ';
+				} else {
+					bgtCost = 0;
+//					bgtDscr = 'Выберите...';
+				}
+			} else {
+				bgtCost = 0;
+				bgtDscr = 'выбрать...';
+			}
+		} else {
+			bgtDscr = 'выбрать...';
+		}
+
+        //Кант
+        if (kantOk==true) {
+            if (w*h > 1) {
+                kantCost = Math.round(p/100*kantPrc);
+                totDscr = 'Кант ';
+            } else {
+                kantCost = 0;
+            }
+        }
+
+        //Дистанция
+        if (distOk==true) {
+            if (w*h > 1) {
+                distCost = Math.round(p/100*distPrc);
+                totDscr = 'Дистанция ';
+            } else {
+                distCost = 0;
+            }
+        }
+
+
+        //Роспись/резьба
+        if (preset.drwIdx != undefined) {
+            drwIdx = preset.drwIdx;
+            drwCost = drwPrc[drwIdx];
+        }
+        if (drwCost == 0) drwCost = drwPrc[drwIdx];
+        drwDscr = drwTxt[drwIdx];
+        if ((drwOk==false)||(w*h < 1)) {
+            drwCost = 0;
+        } else {
+            totDscr = totDscr + 'Роспись/резьба:' + drwDscr + ' ';
+        }
+
+        //стекло
+		if (glsOk==true) {
+			glsDscr = glsTxt[glsIdx];
+			if (w*h > 1) {
+				glsCost = Math.round(s*glsPrc[glsIdx]);
+				totDscr = totDscr + 'Стекло:' + glsDscr + ' ';
+			//	if (glsMatOk==true) {
+			//		glsCost = glsCost + Math.round(glsCost/100*glsMatPct);
+			//		totDscr = totDscr + 'антиблик ';
+			//	}
+			} else {
+				glsCost = 0;
+//				glsDscr = '';
+			}
+		}
+		//фурнитура
+		if (frnOk==true) {
+			if (w*h > 1) {
+				for (var x= 0; x<fnSz.length; x++) {
+					if (Math.max((w+2*ppt),(h+2*ppt)) > fnSz[x]) {
+						frnCost = fnPrc[x];
+						frnDscr = '';
+					}
+				}
+				totDscr = totDscr + 'Фурнитура ';
+			} else {
+				frnCost = 0;
+				frnDscr = '';
+			}
+		}
+		//Ножка
+		if (legOk==true) {
+			legCost = legPrc;
+			legDscr = '';
+			totDscr = totDscr + 'Ножка ';
+		}
+		//Стирка/отпаривание
+		if (cleanOk==true) {
+			cleanCost = cleanPrc;
+			cleanDscr = '';
+			totDscr = totDscr + 'Стика/отпар. ';
+		}
+		
+		
+		//Задник
+		if (zdnOk==true) {
+			zdnDscr = zdnTxt[zdnIdx];
+			if (w*h > 1) {
+				zdnCost = Math.round(s*zdnPrc[zdnIdx]);
+				totDscr = totDscr + 'Задник:' + zdnDscr + ' ';
+			} else {
+				zdnCost = 0;
+//				zdnDscr = '';
+			}
+		}
+		//Паспарту
+        pptTpDscr = pptTpTxt[pptTpIdx];
+        if (pptOk==true) {
+			if ((w*h > 1) && (ppt>0)) {
+				pptCost = Math.round(s*pptTpPrc[pptTpIdx]);
+				pptDscr = '';
+				totDscr = totDscr + 'Паспарту ';
+				if (pptTpIdx == 1) {
+					totDscr = totDscr + 'х2 ';
+				} else if (pptTpIdx == 2) {
+                    totDscr = totDscr + 'х3 ';
+                }
+			} else {
+				pptCost = 0;
+				pptDscr = '';
+			}
+		}
+
+        //печать на паспарту
+        if (pptOk==true && pptPrnOk==true) {
+            if ((w*h > 1) && (ppt>0)) {
+                var pptPrnIdx = 0;
+                if (w > h) { xxx = h; h = w; w = xxx;}
+                while (pptPrnIdx < pptPrnTxt.length){
+                    if (((h+2*ppt) < pptPrnH[pptPrnIdx]) && ((w+2*ppt) < pptPrnW[pptPrnIdx])) {
+                        break;
+                    }
+                    pptPrnIdx++;
+                }
+                totDscr = totDscr + 'Печать' + pptPrnDscr;
+	            pptPrnDscr = pptPrnTxt[pptPrnIdx];
+   	         pptPrnCost = pptPrnPrc[pptPrnIdx];
+            } else {
+	            pptPrnDscr = "Нет";
+   	         pptPrnCost = 0;
+                pptPrnIdx = - 1;
+            }
+        }
+
+        //Подрамник
+		if (subOk==true) {
+			if ((w*h > 1)) {
+				subCost = Math.round(p*subPrc/100);
+				subDscr = '';
+				totDscr = totDscr + 'Подрамник ';
+			} else {
+				subCost = 0;
+				subDscr = '';
+			}
+		}
+
+		//Натяжка
+		if (stchOk==true) {
+			if (stchIdx == 0){
+
+                if (w*h > 1) {
+                    var stchManIdx = 0;
+                    if (w > h) { xxx = h; h = w; w = xxx;}
+                    while (stchManIdx < stchManTxt.length){
+                        if (((h+2*ppt) < stchManH[stchManIdx]) && ((w+2*ppt) < stchManW[stchManIdx])) {
+                            break;
+                        }
+                        stchManIdx++;
+                    }
+//                    pptPrnDscr = pptPrnTxt[pptPrnIdx];
+                    stchCost = stchManPrc[stchManIdx];
+                }
+//				stchCost = stchManPrc;
+				stchDscr = 'ручная'
+
+			} else if (stchIdx == 1){
+				stchCost = Math.round(stchPrsPrc*s/10000) ;
+				stchDscr = 'пресс'
+			} else if (stchIdx == 2) {
+                if (w*h > 1) {
+                    var stchLacIdx = 0;
+                    if (w > h) { xxx = h; h = w; w = xxx;}
+                    while (stchLacIdx < stchLacTxt.length){
+                        if (((h+2*ppt) < stchLacH[stchLacIdx]) && ((w+2*ppt) < stchLacW[stchLacIdx])) {
+                            break;
+                        }
+                        stchLacIdx++;
+                    }
+//                    pptPrnDscr = pptPrnTxt[pptPrnIdx];
+                    stchCost = stchLacPrc[stchLacIdx];
+                }
+//				stchCost = stchLacPrc;
+                stchDscr = 'обшивание'
+                
+            }
+			totDscr = totDscr + 'Натяжка '; //+stchDscr;
+		}
+
+
+		//Общая стоимость материалов
+		totCost = ( bgtCost + pptCost + glsCost + frnCost + zdnCost + subCost + stchCost + kantCost + legCost + distCost );
+
+
+		//Работа
+		if (workOk==true) {
+				workCost = Math.round(totCost / 100 * workPct) * workMult[workIdx];
+				workDscr = workTxt[workIdx];
+				totDscr = totDscr + 'Работа ';
+		}
+		
+		
+		//Общая стоимость с работой		
+		totCost = (totCost + workCost + pptPrnCost + drwCost + cleanCost)
+		
+		if (totCnt != 1) {
+			totDscr = totDscr + '('+totCost+'*'+totCnt;
+			totCost = totCost * totCnt;
+			totDscr = totDscr +'='+totCost+') '
+		}
+		
+		//скидка
+		if (discOk==true) {
+				discCost = Math.round(totCost / 100 * discPct);
+				discDscr = discPct+'%';
+				totDscr = totDscr + 'Скидка ';
+		}
+		
+		//итог
+		totCost = totCost - discCost;
+		
+		if (totCost <= 0) {
+			totCost = '---';
+		}
+		
+		elt = document.getElementById('heightDescr');
+		elt.innerHTML = h + 'см.';
+		elt = document.getElementById('widthDescr');
+		elt.innerHTML = w + 'см.';
+		elt = document.getElementById('pptDescr');
+		elt.innerHTML = ppt + 'см.';
+
+		
+		elt = document.getElementById('bgtCost');
+		elt.innerHTML = bgtCost + ' руб.';
+		elt = document.getElementById('bgtDescr');
+		elt.innerHTML = bgtDscr;
+		
+		elt = document.getElementById('pptCost');
+		elt.innerHTML = pptCost + ' руб.';
+        elt = document.getElementById('pptTpDescr');
+        elt.innerHTML = pptTpDscr;
+
+        elt = document.getElementById('pptPrnCost');
+        elt.innerHTML = pptPrnCost + ' руб.';
+        elt = document.getElementById('pptPrnDescr');
+        elt.innerHTML = pptPrnDscr;
+
+        elt = document.getElementById('drwCost');
+        elt.innerHTML = drwCost + ' руб.';
+        elt = document.getElementById('drwDescr');
+        elt.innerHTML = drwDscr;
+
+        elt = document.getElementById('glsCost');
+		elt.innerHTML = glsCost + ' руб.';
+		elt = document.getElementById('glsDescr');
+		elt.innerHTML = glsDscr;
+
+		elt = document.getElementById('frnCost');
+		elt.innerHTML = frnCost + ' руб.';
+
+		elt = document.getElementById('legCost');
+		elt.innerHTML = legCost + ' руб.';
+
+		elt = document.getElementById('distCost');
+		elt.innerHTML = distCost + ' руб.';
+
+		elt = document.getElementById('cleanCost');
+		elt.innerHTML = cleanCost + ' руб.';
+
+		elt = document.getElementById('zdnCost');
+		elt.innerHTML = zdnCost + ' руб.';
+		elt = document.getElementById('zdnDescr');
+		elt.innerHTML = zdnDscr;
+
+		elt = document.getElementById('subCost');
+		elt.innerHTML = subCost + ' руб.';
+
+		elt = document.getElementById('workCost');
+		elt.innerHTML = workCost + ' руб.';
+        elt = document.getElementById('workDescr');
+        elt.innerHTML = workDscr;
+
+		elt = document.getElementById('discCost');
+		elt.innerHTML = discCost + ' руб.';
+		elt = document.getElementById('discDescr');
+		elt.innerHTML = discDscr;
+
+		elt = document.getElementById('stchCost');
+		elt.innerHTML = stchCost + ' руб.';
+		elt = document.getElementById('stchDescr');
+		elt.innerHTML = stchDscr;
+
+		elt = document.getElementById('kantCost');
+		elt.innerHTML = kantCost + ' руб.';
+		
+		elt = document.getElementById('totCost');
+		elt.innerHTML = totCost + ' руб.';
+		elt = document.getElementById('totDscr');
+		elt.innerHTML = totDscr;
+		
+		elt = document.getElementById('wacopy');
+		elt.innerHTML = document.getElementById('wa').innerHTML;
+		
+		
+	}
+	
+	function blockVisible (b, bVisible) {
+
+		if (b.style.display != bVisible) {
+			b.style.display = bVisible;
+		}
+
+		
+	}
+	
+	function checkStates () {
+		var item;
+		item = document.getElementById('chBgt');
+		bgtOk = item.checked;
+		item = document.getElementById('chPpt');
+		pptOk = item.checked;
+//		item = document.getElementById('chPptDbl');
+//		pptDblOk = item.checked;
+        item = document.getElementById('chPptPrn');
+        pptPrnOk = item.checked;
+        item = document.getElementById('chDrw');
+        drwOk = item.checked;
+        item = document.getElementById('chGls');
+		glsOk = item.checked;
+//		item = document.getElementById('chGlsMat');
+//		glsMatOk = item.checked;
+		item = document.getElementById('chFrn');
+		frnOk = item.checked;
+		item = document.getElementById('chLeg');
+		legOk = item.checked;
+
+		item = document.getElementById('chDist');
+		distOk = item.checked;
+		item = document.getElementById('chClean');
+		cleanOk = item.checked;
+
+		item = document.getElementById('chZdn');
+		zdnOk = item.checked;
+		item = document.getElementById('chWork');
+		workOk = item.checked;
+		item = document.getElementById('chSub');
+		subOk = item.checked;
+		item = document.getElementById('chDisc');
+		discOk = item.checked;
+		item = document.getElementById('chStch');
+		stchOk = item.checked;
+		item = document.getElementById('chKant');
+		kantOk = item.checked;
+	}
+
+	function start(){
+		wa = document.getElementById('wa');
+
+        var limg = document.getElementById('logoImg');
+        limg.setAttribute('src',bgUrl+logoImg);
+        dt = document.getElementById('dt');
+        edt = document.getElementById('edt');
+        today = new Date();
+        dt.innerHTML = today.getDate()+'.'+(today.getMonth()+1)+'.'+today.getFullYear();
+        edt.innerHTML = today.getDate()+'.'+(today.getMonth()+1)+'.'+today.getFullYear();
+
+        calculate();
+	}
+
+	function showHeight() {
+		blockVisible(document.getElementById('heightContSel'), 'block');
+	}
+	function hideHeight(v) {
+		blockVisible(document.getElementById('heightContSel'), 'none');
+		if (v!=undefined) {
+			h = parseFloat(String(v).replace(",","."));
+			calculate();
+		}
+	}
+	function showWidth() {
+		blockVisible(document.getElementById('widthContSel'), 'block');
+	}
+	function hideWidth(v) {
+		blockVisible(document.getElementById('widthContSel'), 'none');
+		if (v!=undefined) {
+			w = parseFloat(String(v).replace(",","."));
+			calculate();
+		}
+	}
+	function showPpt() {
+		blockVisible(document.getElementById('pptContSel'), 'block');
+	}
+	function hidePpt(v) {
+		blockVisible(document.getElementById('pptContSel'), 'none');
+		if (v!=undefined) {
+			ppt = parseFloat(String(v).replace(",","."));
+			calculate();
+		}
+	}
+
+    function showPptTp() {
+        blockVisible(document.getElementById('pptTpContSel'), 'block');
+    }
+    function hidePptTp(idx) {
+        blockVisible(document.getElementById('pptTpContSel'), 'none');
+        if (idx!=undefined) {
+            pptTpIdx = idx;
+            calculate();
+        }
+    }
+
+
+function showBgt() {
+//		blockVisible(document.getElementById('bgtCont'), 'none');
+		blockVisible(document.getElementById('bgtContSel'), 'block');
+	}
+	function hideBgt(idx) {
+		blockVisible(document.getElementById('bgtContSel'), 'none');
+//		blockVisible(document.getElementById('bgtCont'), 'block');
+		if (idx!=undefined) {
+			bgtPrc = bgPrc[idx];
+			bgtDscr = bgTxt[idx]+" ("+bgPrc[idx]+"р.)";
+			calculate();
+		}
+	}
+
+	function showStch(evt) {
+		var e = document.getElementById('stchContSel');
+		blockVisible(e, 'block');
+	}
+	function hideStch(idx) {
+		blockVisible(document.getElementById('stchContSel'), 'none');
+		if (idx!=undefined) {
+			stchIdx = idx;
+			calculate();
+		}
+	}
+
+	function stchCheck() {
+		var item = document.getElementById('chStch');
+		if (item.checked==true) {
+			showStch();
+		}
+		calculate();
+	}
+
+	function showZdn() {
+		blockVisible(document.getElementById('zdnContSel'), 'block');
+	}
+	function hideZdn(idx) {
+		blockVisible(document.getElementById('zdnContSel'), 'none');
+		if (idx!=undefined) {
+			zdnIdx = idx;
+			calculate();
+		}
+	}
+	function zdnCheck() {
+		var item = document.getElementById('chZdn');
+		if (item.checked==true) {
+			showZdn();
+		}
+		calculate();
+	}
+
+    function showWork() {
+        blockVisible(document.getElementById('workContSel'), 'block');
+    }
+    function hideWork(idx) {
+        blockVisible(document.getElementById('workContSel'), 'none');
+        if (idx!=undefined) {
+            workIdx = idx;
+            calculate();
+        }
+    }
+    function workCheck() {
+        var item = document.getElementById('chWork');
+        if (item.checked==true) {
+            showWork();
+        }
+        calculate();
+    }
+
+
+	function showGls() {
+		blockVisible(document.getElementById('glsContSel'), 'block');
+	}
+	function hideGls(idx) {
+		blockVisible(document.getElementById('glsContSel'), 'none');
+		if (idx!=undefined) {
+			glsIdx = idx;
+			calculate();
+		}
+	}
+	function glsCheck() {
+		var item = document.getElementById('chGls');
+		if (item.checked==true) {
+			showGls();
+		}
+		calculate();
+	}
+    function showDrw() {
+        blockVisible(document.getElementById('drwContSel'), 'block');
+    }
+    function hideDrw(idx) {
+        blockVisible(document.getElementById('drwContSel'), 'none');
+        if (idx!=undefined) {
+//            drwIdx = idx;
+            calculate({drwIdx:idx});
+            showDrwEd();
+        }
+    }
+    function drwCheck() {
+        var item = document.getElementById('chDrw');
+        if (item.checked==true) {
+            showDrw();
+        }
+        calculate();
+    }
+
+    function showDrwEd() {
+        blockVisible(document.getElementById('drwCont'), 'none');
+        blockVisible(document.getElementById('drwEdCont'), 'block');
+        var cntEd = document.getElementById('drwEd');
+        var drwCost = document.getElementById('drwCost');
+        cntEd.value = parseInt(drwCost.innerHTML);
+        cntEd.focus();
+    }
+    function hideDrwEd() {
+        blockVisible(document.getElementById('drwEdCont'), 'none');
+        blockVisible(document.getElementById('drwCont'), 'block');
+        var drwEd = document.getElementById('drwEd');
+        var val = parseInt(drwEd.value);
+
+        var drwEl = document.getElementById('drwEd');
+        drwEl.innerHTML = val + ' руб.'; //drwEd.value + ' руб';
+        drwCost = val;
+        calculate();
+    }
+
+    function showDt() {
+		blockVisible(document.getElementById('dtCont'), 'none');
+		blockVisible(document.getElementById('dtEdCont'), 'block');
+		var dtEd = document.getElementById('dtEd');
+		dtEd.value = dt.innerHTML;
+		dtEd.focus();
+	}
+	function hideDt() {
+		blockVisible(document.getElementById('dtEdCont'), 'none');
+		blockVisible(document.getElementById('dtCont'), 'block');
+		var dtEd = document.getElementById('dtEd');
+		dt.innerHTML = dtEd.value;
+
+        calculate();
+
+    }
+	function showEdt() {
+		blockVisible(document.getElementById('edtCont'), 'none');
+		blockVisible(document.getElementById('edtEdCont'), 'block');
+		var dtEd = document.getElementById('edtEd');
+		dtEd.value = edt.innerHTML;
+		dtEd.focus();
+	}
+	function hideEdt() {
+		blockVisible(document.getElementById('edtEdCont'), 'none');
+		blockVisible(document.getElementById('edtCont'), 'block');
+		var dtEd = document.getElementById('edtEd');
+		edt.innerHTML = dtEd.value;
+
+        calculate();
+
+    }
+
+	function showCnt() {
+		blockVisible(document.getElementById('cntCont'), 'none');
+		blockVisible(document.getElementById('cntEdCont'), 'block');
+		var cntEd = document.getElementById('cntEd');
+		cntEd.value = totCnt;
+		cntEd.focus();
+	}
+	function hideCnt() {
+		blockVisible(document.getElementById('cntEdCont'), 'none');
+		blockVisible(document.getElementById('cntCont'), 'block');
+		var cntEd = document.getElementById('cntEd');
+		totCnt = parseInt(cntEd.value);
+
+		var cntEl = document.getElementById('totCnt');
+		cntEl.innerHTML = cntEd.value + ' шт.';
+		calculate();
+	}
+
+	function showDisc() {
+		blockVisible(document.getElementById('discCont'), 'none');
+		blockVisible(document.getElementById('discEdCont'), 'block');
+		var discEd = document.getElementById('discEd');
+		discEd.value = discPct;
+		discEd.focus();
+	}
+	function hideDisc() {
+		blockVisible(document.getElementById('discEdCont'), 'none');
+		blockVisible(document.getElementById('discCont'), 'block');
+		var discEd = document.getElementById('discEd');
+		discPct = parseInt(discEd.value);
+		calculate();
+	}
+
+	function discCheck() {
+		var item = document.getElementById('chDisc');
+		if (item.checked==true) {
+			showDisc();
+		}
+		calculate();
+	}
+
+    //Returns true if it is a DOM node
+    function isNode(o){
+        return (
+            typeof Node === "object" ? o instanceof Node :
+                    o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName==="string"
+            );
+    }
+
+    //Returns true if it is a DOM element
+    function isElement(o){
+        return (
+            typeof HTMLElement === "object" ? o instanceof HTMLElement : //DOM2
+                    o && typeof o === "object" && o.nodeType === 1 && typeof o.nodeName==="string"
+            );
+    }
+
+    function changeDt(elt, d, dtp) {
+        var item;
+        if ( isElement(elt)) {
+            item = elt;
+        } else if (typeof(elt) === "string") {
+            item = document.getElementById(elt);
+        }
+        var dp = item.value.split(".");
+        var dt = new Date(dp[2],dp[1],dp[0]);
+        dt.setDate(dt.getDate()+d);
+        item.value = dt.getDate()+'.'+(dt.getMonth())+'.'+dt.getFullYear();
+    }
+	function edtAjt(d) {
+        showEdt();
+        changeDt('edtEd', d, 'day');
+        hideEdt();
+    }
+    function dtAjt(d) {
+        showDt();
+        changeDt('dtEd', d, 'day');
+        hideDt();
+    }
+</script>
+<style type="text/css"><!--
+	div{
+		color:#1111CC;
+		border-color:black;
+	}
+	
+	#wa {
+		width:620px; height:370px;
+		font-family: arial, helvetica, sans-serif;
+	}
+	#wacopy {
+		width:620px; height:370px;
+		font-family: arial, helvetica, sans-serif;
+	}
+	#bgtList {
+		width:620px; height:420px; margin-top:1em;
+	}
+	#bgtListCont {
+		width:620px; height:420px; overflow:scroll;
+	}
+	.container {
+		display:block; 
+		border-width:1px; 
+		border-style:solid; 
+		padding:5px;
+	}
+	.block {
+		display:block; 
+		float:left;
+		border-style:dotted; 
+		border-width:1px;
+		padding:3px;
+		margin:2px;
+	}
+	
+	.otl_Block {
+		display:block; 
+		height:100px;
+		width:571px;
+		border-style:dotted; 
+		border-width:1px;
+		padding:3px;
+		margin:2px;
+	}
+	
+	.field_cb {
+		display:block;
+		float:left;
+		width:25px;
+		font-size: 1em;
+		font-weight: normal;
+		font-family: arial, helvetica, sans-serif;
+	}
+	.field_nm {
+		display:block;
+		float:left;
+		width:190px;
+		font-size: 1em;
+		font-weight: normal;
+		font-family: arial, helvetica, sans-serif;
+	}
+    .nm {
+        display: inline-block;
+        min-width: 80px;
+    }
+	.field {
+		display:block;
+		float:left;
+		width:216px;
+		font-size: 1em;
+		font-weight: normal;
+		font-family: arial, helvetica, sans-serif;
+	}
+	.field1 {
+		display:block;
+		float:left;
+		width: 320px;
+		font-size: 1em;
+		font-weight: normal;
+		font-family: arial, helvetica, sans-serif;
+	}
+	.field2 {
+		display:block;
+		float:right;
+		width: 80px;
+        text-align:right;
+		font-size: 1em;
+		font-weight: normal;
+		font-family: arial, helvetica, sans-serif;
+	}
+    .field_add1 {
+        display:block;
+        float:left;
+        /*width:124px;*/
+        width:128px;
+        font-size: 1em;
+        font-weight: normal;
+        font-family: arial, helvetica, sans-serif;
+    }
+    .field3 {
+		display:block;
+		float:right;
+		width: 100px;
+        text-align:right;
+        font-size: 1em;
+		font-weight: normal;
+		font-family: arial, helvetica, sans-serif;
+	}
+	.header {
+		vertical-align:middle;
+		margin-top:4px;
+		text-align:center;
+		display:block;
+		font-size: 1em;
+		font-weight: bold;
+		font-family: arial, helvetica, sans-serif;
+	}
+	.txt {
+		display:block;
+		border-width:0px;
+		padding:0%;
+		margin:0%;
+	}
+
+--></style>
+</head>
+<body onload="start()">
+	<table align="center" style="display:block; width:620px;">
+		<tr><TD>
+		
+		<div id="wa" class="container">
+    <!--Шапка-->
+    <div class="block" style="width:25px; height:25px;">
+        <img id="logoImg" src="#" width="25px" height="25px" alt=""  />
+    </div>
+
+    <div class="block" style="width:568px; height:25px;">
+                    <span class="header">
+                        Калькулятор
+                    </span>
+    </div>
+    <!--Изображение-->
+    <div class="block" style="width:297px; height:20px;"> <!--style="width:532px; height:25px;"> -->
+        <!-- <span class="field" style="width:110px;">Изображение: </span> -->
+        <span class="field_cb">
+            <INPUT type="checkbox" readonly="" name="chImg" id="chImg" checked=""> 
+        </span>
+        <span class="field_add1">
+            <a href="#" onclick="javascript:showWidth()">Ширина:</a>
+            <span id="widthDescr"></span>
+            <div id="widthContSel" class="field1" style="display:none; position:relative;background:gray; width:24em;">
+                <div style="width:100%; background:aqua;">
+                    <a href="#" onclick="ascript:hideWidth()" style="float:right"><u>Закрыть</u></a>
+                    <input id="widthEd" onchange="javascript:hideWidth(event.target.value)"></input>
+                </div>
+                <script type="text/javascript" >
+                    function widthNumberClick(v){
+                        document.getElementById('widthEd').value=v;
+                        hideWidth(v);
+                    }
+                    for (var i=0; i<10; i++){
+                        document.write("<div>");
+                        for (var j=0; j<10; j++) {
+                            document.write("<span onClick='javascript:widthNumberClick(",i*10+j
+                                    ,")' style='display:inline-block;width:2em;border:1px solid;padding:0.1em;cursor:pointer;'>"
+                                    ,i*10+j,"</span>");
+                        }
+                        document.write("</div>");
+                    }
+                </script>
+            </div>
+        </span>
+        <span class="field_add1">
+            <a href="#" onclick="javascript:showHeight()">Высота:</a>
+            <span id="heightDescr"></span>
+            <div id="heightContSel" class="field1" style="display:none; position:relative;background:gray; width:24em;" onblur="javascript:hideHeight()">
+                <div style="width:100%; background:aqua;">
+                    <a href="#" onclick="ascript:hideHeight()" style=""><u>Закрыть</u></a>
+                    <input id="heightEd" onchange="javascript:hideHeight(event.target.value)"></input>
+                </div>
+                <script type="text/javascript" >
+                    function heightNumberClick(v){
+                        document.getElementById('heightEd').value=v;
+                        hideHeight(v);
+                    }
+                    for (var i=0; i<10; i++){
+                        document.write("<div>");
+                        for (var j=0; j<10; j++) {
+                            document.write("<span onClick='javascript:heightNumberClick(",i*10+j
+                                    ,")' style='display:inline-block;width:2em;border:1px solid;padding:0.1em;cursor:pointer;'>"
+                                    ,i*10+j,"</span>");
+                        }
+                        document.write("</div>");
+                    }
+                </script>
+            </div>
+        </span>
+<!--        <span class="field_add1">
+            <a href="#" onclick="javascript:showPpt()">Паспарту:</a>
+            <span id="pptDescr"></span>
+            <div id="pptContSel" class="field1" style="display:none; position:relative;background:gray; width:24em;" onblur="javascript:hidePpt()">
+                <div style="width:100%; background:aqua;">
+                    <a href="#" onclick="ascript:hidePpt()" style=""><u>Закрыть</u></a>
+                    <input id="pptEd" onchange="javascript:hidePpt(event.target.value)"></input>
+                </div>
+                <script type="text/javascript" >
+                    function pptNumberClick(v){
+                        document.getElementById('pptEd').value=v;
+                        hidePpt(v);
+                    }
+                    for (var i=0; i<10; i++){
+                        document.write("<div>");
+                        for (var j=0; j<10; j++) {
+                            document.write("<span onClick='javascript:pptNumberClick(",i*10+j
+                                    ,")' style='display:inline-block;width:2em;border:1px solid;padding:0.1em;cursor:pointer'>"
+                                    ,i*10+j,"</span>");
+                        }
+                        document.write("</div>");
+                    }
+                </script>
+            </div>
+        </span> -->
+    </div>
+    <!--паспарту-->
+    <div class="block" style="width:297px; height:20px;">
+        <span class="field_cb">
+            <INPUT type="checkbox" name="chPpt" onclick="javascript:calculate()" id="chPpt">
+        </span>
+        <span class="field_nm">
+<!--            <span class="nm">Паспарту</span> -->
+				<span class="field_add1">
+            <a href="#" onclick="javascript:showPpt()">Паспарту:</a>
+            <span id="pptDescr"></span>
+            <div id="pptContSel" class="field1" style="display:none; position:relative;background:gray; width:24em;" onblur="javascript:hidePpt()">
+                <div style="width:100%; background:aqua;">
+                    <a href="#" onclick="ascript:hidePpt()" style=""><u>Закрыть</u></a>
+                    <input id="pptEd" onchange="javascript:hidePpt(event.target.value)"></input>
+                </div>
+                <script type="text/javascript" >
+                    function pptNumberClick(v){
+                        document.getElementById('pptEd').value=v;
+                        hidePpt(v);
+                    }
+                    for (var i=0; i<10; i++){
+                        document.write("<div>");
+                        for (var j=0; j<10; j++) {
+                            document.write("<span onClick='javascript:pptNumberClick(",i*10+j
+                                    ,")' style='display:inline-block;width:2em;border:1px solid;padding:0.1em;cursor:pointer'>"
+                                    ,i*10+j,"</span>");
+                        }
+                        document.write("</div>");
+                    }
+                </script>
+            </div>
+				</span>
+
+            <a href="#" id="pptTpDescr" onclick="javascript:showPptTp()">одинарное</a>
+            <div id="pptTpContSel" class="field1" style="display:none; position:relative;background:gray; width:8em;" onblur="javascript:hidePptTp()">
+                <div style="width:100%; background:aqua;"><a href="#" onclick="ascript:hidePptTp()" style=""><u>Закрыть</u></a></div>
+                <script type="text/javascript" >
+                    for (var i = 0; i < pptTpCnt; i++) {
+                        document.write("<div onClick='javascript:hidePptTp(",i
+                                ,")'><span style='display:inline-block;width:6em;cursor:pointer;'>"
+                                ,pptTpTxt[i],"</span></div>");
+                    }
+                </script>
+            </div>
+        </span>
+        <span id="pptCost" class="field2">
+            сумма
+        </span>
+    </div>
+
+<!--Багет-->
+    <div class="block" style="width:297px; height:20px;" >
+        <span class="field_cb">
+            <INPUT type="checkbox" name="chBgt" onclick="javascript:calculate()" id="chBgt" >
+        </span>
+        <span class="field_nm">
+            <span class="nm">Багет</span>
+            <a href="#" id="bgtDescr" onclick="javascript:showBgt()">выбрать...	</a>
+        </span>
+        <span id="bgtCost" class="field2">
+            сумма
+        </span>
+
+    </div>
+
+<!--печать-->
+    <div class="block" style="width:297px; height:20px;">
+        <span class="field_cb">
+            <INPUT type="checkbox" name="chPptPrn" onclick="javascript:calculate()" id="chPptPrn"  >
+        </span>
+        <span class="field_nm">
+            <span class="nm">Печать на пасп.</span>
+            <span id="pptPrnDescr"></span>
+        </span>
+		<span id="pptPrnCost" class="field2">
+			сумма
+		</span>
+    </div>
+
+<!--Кант-->
+   <div class="block" style="width:297px; float:left; height:20px;">
+		<span class="field">
+			<INPUT type="checkbox" name="chKant" onclick="javascript:calculate()" id="chKant"> Кант
+		</span>
+		<span id="kantCost" class="field2">
+			сумма
+		</span>
+   </div>
+
+<!--Роспись/резьба-->
+    <div class="block" style="width:297px; float:left; height:20px;">
+        <span class="field_cb">
+            <INPUT type="checkbox" name="chDrw" onclick="javascript:calculate()" id="chDrw">
+        </span>
+        <span class="field_nm">
+            Роспись/резьба
+            <a href="#" id="drwDescr" onclick="javascript:showDrw()">одинарное</a>
+            <div id="drwContSel" class="field1" style="display:none; position:relative;background:gray; width:8em;" onblur="javascript:hideDrw()">
+                <div style="width:100%; background:aqua;"><a href="#" onclick="javascript:hideDrw()" style=""><u>Закрыть</u></a></div>
+                <script type="text/javascript" >
+                    for (var i = 0; i < drwCnt; i++) {
+                        document.write("<div onClick='javascript:hideDrw(",i
+                                ,")'><span style='display:inline-block;width:6em;cursor:pointer;'>"
+                                ,drwTxt[i],"</span></div>");
+                    }
+                </script>
+            </div>
+        </span>
+        <div  class="field2" id="drwCont" style="display:block;">
+            <a id="drwCost" href="#" onclick="javascript:showDrwEd()">сумма</a>
+        </div>
+        <div class="field2" id="drwEdCont" style="display:none;" >
+            <INPUT type="text" name="drwEd" onclick="javascript:calculate()" onblur="javascript:hideDrwEd()" id="drwEd" size="3" style="margin-top:-2px">
+        </div>
+    </div>
+
+<!--Стекло-->
+			
+			<div class="block" style="width:297px; float:left; height:20px;">
+				<span class="field_cb">
+					<INPUT type="checkbox" name="chGls" onclick="javascript:calculate()" id="chGls">
+				</span>				
+				<span class="field_nm" id="glsCont" >
+					<span class="nm">Стекло</span>
+					<a href="#" id="glsDescr" onclick="javascript:showGls()"> ручная</a>
+					<div id="glsContSel" class="field1" style="display:none; position:relative;background:gray; width:8em;" onblur="javascript:hideGls()">
+						<div style="width:100%; background:aqua;"><a href="#" onclick="ascript:hideGls()" style=""><u>Закрыть</u></a></div>
+						<script type="text/javascript" >
+							for (var i = 0; i < glsCnt; i++) {
+								document.write("<div onClick='javascript:hideGls(",i
+									,")'><span style='display:inline-block;width:6em;cursor:pointer;'>"
+									,glsTxt[i],"</span></div>");	
+							}						
+						</script>
+					</div>
+				</span>
+				<span id="glsCost" class="field2">
+					сумма
+				</span>
+			</div>
+		
+<!--Натяжка-->
+
+			<div class="block" style="width:297px; float:left; height:20px;">
+				<span class="field_cb">
+					<INPUT type="checkbox" name="chStch" onclick="javascript:discCheck()" id="chStch"> 
+				</span> 
+
+				<div id="stchCont" class="field_nm">
+					<span class="nm">Натяжка</span>
+					<a href="#" id="stchDescr" onclick="javascript:showStch()"> ручная</a>
+					<div id="stchContSel" class="field1" style="display:none; position:relative;background:gray; width:8em;" onblur="javascript:hideStch()">
+						<div style="width:100%; background:aqua;"><a href="#" onclick="javascript:hideStch()" style=""><u>Закрыть</u></a></div>
+						<script type="text/javascript" >
+							document.write("<div onClick='javascript:hideStch(",0
+								,")'><span style='display:inline-block;width:6em;cursor:pointer;'>Ручная</span></div>");
+							document.write("<div onClick='javascript:hideStch(",1
+								,")'><span style='display:inline-block;width:6em;cursor:pointer;'>Пресс</span></div>");
+                            document.write("<div onClick='javascript:hideStch(",2
+                                ,")'><span style='display:inline-block;width:6em;cursor:pointer;'>Обшивание</span></div>");
+						</script>
+					</div>
+
+				</div>
+				<span id="stchCost" class="field2">
+					сумма
+				</span>
+			</div>
+
+<!--Фурнитура-->
+			
+			<div class="block" style="width:297px; float:left; height:20px;">
+				<span class="field">
+					<INPUT type="checkbox" name="chFrn" onclick="javascript:calculate()" id="chFrn"> Фурнитура
+				</span>
+				<span id="frnCost" class="field2">
+					сумма
+				</span>
+			</div>
+			
+<!--Ножка-->
+			
+			<div class="block" style="width:297px; float:left; height:20px;">
+				<span class="field">
+					<INPUT type="checkbox" name="chLeg" onclick="javascript:calculate()" id="chLeg"> Ножка
+				</span>
+				<span id="legCost" class="field2">
+					сумма
+				</span>
+			</div>
+
+<!--Дистанция-->
+   <div class="block" style="width:297px; float:left; height:20px;">
+		<span class="field">
+			<INPUT type="checkbox" name="chDist" onclick="javascript:calculate()" id="chDist"> Дистанция
+		</span>
+		<span id="distCost" class="field2">
+			сумма
+		</span>
+   </div>
+
+
+<!--Стирка/отпаривание-->
+   <div class="block" style="width:297px; float:left; height:20px;">
+		<span class="field">
+			<INPUT type="checkbox" name="chClean" onclick="javascript:calculate()" id="chClean"> Стирка/отпаривание
+		</span>
+		<span id="cleanCost" class="field2">
+			сумма
+		</span>
+   </div>
+
+<!--Задник-->
+			
+			<div class="block" style="width:297px; float:left; height:20px;">
+				<span class="field_cb" >
+					<INPUT type="checkbox" name="chZdn" onclick="javascript:calculate()" id="chZdn"> 
+				</span>
+				<span class="field_nm" id="zdnCont" >
+					<span class="nm">Задник</span>
+					<a href="#" id="zdnDescr" onclick="javascript:showZdn()"> zdnTxt[zdnIdx] </a>
+					<div id="zdnContSel" class="field1" style="display:none; position:relative;background:gray; width:8em;" onblur="javascript:hideZdn()">
+						<div style="width:100%; background:aqua;"><a href="#" onclick="ascript:hideZdn()" style=""><u>Закрыть</u></a></div>
+						<script type="text/javascript" >
+							for (var i = 0; i < zdnCnt; i++) {
+								document.write("<div onClick='javascript:hideZdn(",i
+									,")'><span style='display:inline-block;width:6em;cursor:pointer;'>"
+									,zdnTxt[i],"</span></div>");	
+							}						
+						</script>
+					</div>
+				</span>
+
+				<span id="zdnCost" class="field2">
+					сумма
+				</span>
+			</div>
+			
+<!--Работа-->
+			
+			<div class="block" style="width:297px; float:left; height:20px;">
+				<span class="field_cb" >
+					<INPUT type="checkbox" name="chWork" onclick="javascript:calculate()" id="chWork">
+				</span>
+				<span class="field_nm" id="workCont" >
+					<span class="nm">Работа мастера</span>
+
+   					<a href="#" id="workDescr" onclick="javascript:showWork()"> workTxt[workIdx] </a>
+					<div id="workContSel" class="field1" style="display:none; position:relative;background:gray; width:8em;" onblur="javascript:hideWork()">
+                        <div style="width:100%; background:aqua;"><a href="#" onclick="ascript:hideWork()" style=""><u>Закрыть</u></a></div>
+                        <script type="text/javascript" >
+                            for (var i = 0; i < workCnt; i++) {
+                                document.write("<div onClick='javascript:hideWork(",i
+                                        ,")'><span style='display:inline-block;width:6em;cursor:pointer;'>"
+                                        ,workTxt[i],"</span></div>");
+                            }
+                        </script>
+                    </div>
+
+                </span>
+				<span id="workCost" class="field2">
+					сумма
+				</span>
+			</div>
+
+			
+			<div class="block" style="width:297px; float:left; height:20px;">
+				<span class="field">
+					<INPUT type="checkbox" name="chSub" onclick="javascript:calculate()" id="chSub"> Подрамник
+				</span>
+				<span id="subCost" class="field2">
+					сумма
+				</span>
+			</div>
+
+			<div class="block" style="width:297px; float:left; height:20px;">
+                <div class="field" >
+                    <span style="display:inline-block;width:20px;"></span>
+					 Количество
+				</div>
+				<div  class="field2" id="cntCont" style="display:block;">
+					<a id="totCnt" href="#" onclick="javascript:showCnt()">1 шт.</a>
+				</div>
+				<div class="field2" id="cntEdCont" style="display:none;" >
+					<INPUT type="text" name="cntEd" onclick="javascript:calculate()" onblur="javascript:hideCnt()" id="cntEd" size="3" style="margin-top:-2px">
+				</div>
+			</div>
+
+			
+			<div class="block" style="width:297px; float:left; height:20px;">
+				<span class="field">
+					<INPUT type="checkbox" name="chDisc" onclick="javascript:discCheck()" id="chDisc"><b> Скидка
+					<span id="discDescr"></span></b>
+				</span>
+				<div id="discCont" class="field2" style="display:block;"><b>
+					<a id="discCost" href="#" onclick="javascript:showDisc()">сумма</a></b>
+				</div>
+				<div class="field2" id="discEdCont" style="display:none;" >
+					<INPUT type="text" name="discEd" onclick="javascript:calculate()" onblur="javascript:hideDisc()" id="discEd" size="3" style="margin-top:-2px">
+				</div>
+			</div>
+			
+			
+			<div class="block" style="width:297px; height:20px;">
+				<span class="field_nm" style=" font-weight:bold;">
+                    <span style="display:inline-block;width:20px;"></span>
+					ИТОГО:
+				</span>
+-				<span id="totDscr" class="field1" style="display:none; font-weight:bold; font-size:0.6em">
+					описание
+				</span>
+				<span class="field2" id="totCost" style=" font-weight:bold;">
+					сумма
+				</span>
+			</div>
+			
+			<div class="block" style="width:297px; height:20px;">
+				<span class="field_nm">
+                    <span style="display:inline-block;width:20px;"></span>
+					дата:
+				</span>
+				<div class="field3" id = "dtCont" style="display:block;" >
+                    <a href="#"  onclick="javascript:dtAjt(-1)">&lt;</a>
+                    <a id="dt" href="#" onclick="javascript:showDt()"></a>
+                    <a href="#"  onclick="javascript:dtAjt(1)">&gt;</a>
+                </div>
+				<div class="field3" id="dtEdCont" style="display:none;" >
+					<input id="dtEd" type="text" onblur="javascript:hideDt()" size="10" style="margin-top:-2px"/>
+				</div>
+			</div>
+			
+			<div class="block" style="width:297px; height:20px;">
+				<span class="field_nm">
+                    <span style="display:inline-block;width:20px;"></span>
+					готово:
+				</span>
+				<div class="field3" id = "edtCont" style="display:block;" >
+                    <a href="#"  onclick="javascript:edtAjt(-1)">&lt;</a>
+                    <a id="edt" href="#" onclick="javascript:showEdt()"></a>
+                    <a href="#"  onclick="javascript:edtAjt(1)">&gt;</a>
+                </div>
+				<div class="field3" id="edtEdCont" style="display:none;" >
+					<input id="edtEd" type="text" onblur="javascript:hideEdt()" size="10" style="margin-top:-2px"/>
+				</div>
+			</div>
+		</div>
+
+			<div class="block" style="width:620px; text-align:center; font-size:1.0em; border-style:solid;padding:5px; margin:2px 0px 5px 0px;float:none">
+				<span class="txt">РАМОЧНАЯ МАСТЕРСКАЯ "У Надежды"</span>
+				<span class="txt">Тюмень, ул. Первомайская, 11 (вход с ул.Ленина), тел. 8 912 926 14 98</span>
+				<span class="txt">Часы работы: пн-сб: 10.00-20.00, вс. - 10.00-18.00</span>
+				<span class="txt">Эксклюзивная роспись багета и паспарту. Фигурная компьютерная резка паспарту.</span>
+				<span class="txt">Стирка и отпаривание вышивок. Доставка готовых работ. Срочное изготовление.</span>
+			</div>
+		
+		<div style="font-size:0.8em; font-family: arial, helvetica, sans-serif;">
+	</div>
+	<hr width="100%" size="1px" >
+	<div id="wacopy" class="container">
+	
+	</div>
+
+
+
+		</TD></tr>
+	</table>
+
+				<div id="bgtContSel" class="field1" style="display:none; position:fixed; top:30px; bottom: 30px; overflow:scroll;background:gray; width:14em" onblur="javascript:hideBgt()">
+					<div style="width:100%; background:aqua;"><a href="#" onclick="ascript:hideBgt()" style=""><u>Закрыть</u></a></div>
+					<script type="text/javascript" >
+							for (var bgti in bgPrc) {
+								document.write("<div onClick='javascript:hideBgt(",bgti
+									,")'><span style='display:inline-block;width:10em;cursor:pointer'>"
+									,bgTxt[bgti],"</span><span style='display:inline-block;width:3em;'>",bgPrc[bgti],"р.</span></div>");							
+							}
+					</script>
+				</div>
+
+
+
+</body>
+</html>
